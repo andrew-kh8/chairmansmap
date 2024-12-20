@@ -10,12 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_23_100125) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_27_135931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
 
   create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
+  create_table "hunter_locations", force: :cascade do |t|
+    t.geometry "location", limit: {:srid=>28406, :type=>"st_point"}, null: false
+    t.datetime "date", null: false
+    t.text "description"
+    t.boolean "license"
+    t.boolean "dog"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "owners", force: :cascade do |t|
