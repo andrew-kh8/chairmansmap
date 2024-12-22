@@ -11,4 +11,5 @@ class Plot < ApplicationRecord
 
   validates :gid, :area, :perimeter, :number, presence: true
   validates :number, numericality: true
+  validates :geom, presence: true
 end
