@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_27_135931) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_22_133940) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -69,7 +69,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_27_135931) do
     t.float "area", null: false
     t.float "perimetr", null: false
     t.integer "number", null: false
-    t.geometry "geom", limit: {:srid=>4326, :type=>"multi_polygon"}
+    t.geometry "geom", limit: {:srid=>4326, :type=>"multi_polygon"}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["number"], name: "index_plots_on_number", unique: true
   end
 
