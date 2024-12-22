@@ -7,6 +7,8 @@ class Plot < ApplicationRecord
   has_many :persons, through: :owners
   has_one :person, through: :owner
 
+
   validates :gid, :area, :perimetr, :number, presence: true
   validates :number, numericality: true
+  validates :geom, presence: true
 end
