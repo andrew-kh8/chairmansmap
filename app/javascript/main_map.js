@@ -155,7 +155,7 @@ $(document).ready(function () {
   wfs_hunter_layer.addTo(map);
 
 
-  L.control.layers(null, {"Plots": wfs_plots_layer, "Hunters": wfs_hunter_layer}).addTo(map);
+  L.control.layers(null, {"Участки": wfs_plots_layer, "Охотники": wfs_hunter_layer}).addTo(map);
 
   // print coordinates in console
   // map.addEventListener('mousemove', (event) => {
