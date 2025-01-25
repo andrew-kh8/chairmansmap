@@ -19,7 +19,6 @@ class PersonController < ApplicationController
     redirect_to person_index_path
   end
 
-
   private
 
   def person_params
