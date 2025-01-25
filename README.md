@@ -25,6 +25,7 @@ chrome for testing link: https://googlechromelabs.github.io/chrome-for-testing/#
 Install Chromedriver Ubuntu 20.04 link: https://skolo.online/documents/webscrapping/
 chrome webdriver 131.0.6778.139 link: https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.139/linux64/chromedriver-linux64.zip
 
+To prepare test plots run `bin/prepare_test_plots`
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
