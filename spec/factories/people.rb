@@ -7,5 +7,9 @@ FactoryBot.define do
     address { "#{FFaker::AddressRU.province}, #{FFaker::AddressRU.city}, #{FFaker::AddressRU.street_address}" }
     birth { FFaker::Date.birthday }
     member_from { FFaker::Date.backward }
+
+    trait :discarded do
+      discarded_at { DateTime.current.in_time_zone("UTC") }
+    end
   end
 end
