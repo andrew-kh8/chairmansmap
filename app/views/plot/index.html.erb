@@ -72,7 +72,7 @@
                 <%= form_for(:plot , method: :patch, remote: true, html: {class: "h-full flex flex-col", id: "update_form"}) do |f| %>
                     <div class="flex-auto">
                         <div class="mb-4">
-                            <label for="owner" class="block leading-7 text-sm">Владелец участка</label>
+                            <label for="form_person_id" class="block leading-7 text-sm">Владелец участка</label>
                             <select name="owner[person_id]" id="form_person_id">
                                 <%=options_for_select(@people.map { ["#{_1.surname} #{_1.first_name} #{_1.middle_name}", _1.id] }) %>
                             </select>
