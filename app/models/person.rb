@@ -2,11 +2,10 @@ class Person < ApplicationRecord
   include Discard::Model
 
   has_many :owners
-  has_one :owner, -> { where(active_to: nil) }
   has_many :plots, through: :owners
 
   def full_name
-    "#{surname} #{first_name} #{middle_name}"
+    [surname, first_name, middle_name].join(" ")
   end
 
   def member

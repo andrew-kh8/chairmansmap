@@ -8,4 +8,5 @@ class Plot < ApplicationRecord
   has_one :person, through: :owner
 
   validates :gid, :area, :perimetr, :number, presence: true
+  validates :number, numericality: true
 end
