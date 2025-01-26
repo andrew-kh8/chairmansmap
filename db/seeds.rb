@@ -12,8 +12,8 @@ Plot.all.each do |plot|
 
   PlotDatum.create(
     plot_id: plot.number,
-    sale_status: ["не продается", "продается"].sample,
-    owner_type: ["личная собственность", "государственная собственность"].sample,
-    kadastr_number: rand(100000..9999999)
+    sale_status: ['не продается', 'продается'].sample,
+    owner_type: ['личная собственность', 'государственная собственность'].sample,
+    kadastr_number: rand(100_000..9_999_999)
   )
 end

@@ -16,9 +16,9 @@ class PlotController < ApplicationController
     plot = PlotUpdater.new.call(params.require(:id), owner_params[:person_id].to_i, plot_data_params)
 
     if plot.success?
-      render json: PlotSerializer.new.serialize_to_json(plot.success), status: 200
+      render json: PlotSerializer.new.serialize_to_json(plot.success), status: :ok
     else
-      render json: {message: plot.failure}, status: 400
+      render json: { message: plot.failure }, status: :bad_request
     end
   end
 

@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
 
   def not_implemented
     render json: {
-             message: "the method not implemented"
+             message: 'the method not implemented'
            },
-      status: 501
+           status: :not_implemented
   end
 end
