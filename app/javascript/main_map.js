@@ -79,7 +79,7 @@ function set_plot_data(data) {
 
   $("#form_person_id").val(data.number).change();
   $("#open_form_button").removeAttr("disabled");
-  $("#update_form").attr("action", "plot/"+data.number);
+  $("#update_form").attr("action", "/api/plots/" + data.number);
 
   $("#form_sale_status option:contains(" + data.plot_datum.sale_status + ")").prop('selected', true);
   $("#form_person_id option:contains(" + full_name(data.person) + ")").prop('selected', true);
@@ -134,7 +134,7 @@ $(document).ready(function () {
         layer.setStyle(get_defaultStyle(layer));
       });
       layer.on("click", function () {
-        $.get("/plot/" + plot_id(feature),
+        $.get("/api/plots/" + plot_id(feature),
           {},
           function(data){
             set_plot_data(data)
@@ -170,7 +170,7 @@ $(document).ready(function () {
   });
 
   $("#filters").click(function(){
-    $.get("/plot/filter",
+    $.get("/api/plots/filter",
       {
         sale_status: $("#filter_sale_status").val(),
         owner_type: $("#filter_owner_type").val()

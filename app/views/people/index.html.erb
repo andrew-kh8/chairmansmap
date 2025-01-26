@@ -5,21 +5,21 @@
     <div class="-mx-1">
         <ul class="flex w-full flex-wrap items-center h-10">
             <li class="block relative">
-                <input class="peer sr-only" type="radio" value="kept" name="members" id="i1" checked/>
-                <label for="i1" class="people_filter flex justify-center cursor-pointer border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out">
+                <input class="peer sr-only" type="radio" name="members" id="i1" checked/>
+                <label for="i1" class="active_people_filter flex justify-center cursor-pointer border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out">
                     Активные участники (<%=@people.kept.count%>)
                 </label>
             </li>
 
             <li class="block relative mx-2">
-                <input class="peer sr-only" type="radio" value="discarded" name="members" id="i2"/>
-                <label for="i2" class="people_filter flex justify-center cursor-pointer border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out">
+                <input class="peer sr-only" type="radio" name="members" id="i2"/>
+                <label for="i2" class="archive_people_filter flex justify-center cursor-pointer border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out">
                     Бывшие участники (<%=@people.discarded.count%>)
                 </label>
             </li>
 
             <li class="block relative">
-                <input class="peer sr-only" type="radio" value="all" name="members" id="i3"/>
+                <input class="peer sr-only" type="radio" name="members" id="i3"/>
                 <label for="i3" class="people_filter flex justify-center cursor-pointer border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out">
                     Все участники (<%=@people.count%>)
                 </label>

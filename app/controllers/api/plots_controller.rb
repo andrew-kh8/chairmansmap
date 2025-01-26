@@ -1,17 +1,10 @@
-class PlotController < ApplicationController
+class Api::PlotsController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 
-  # GET /
-  def index
-    @people = Person.all.order(:surname)
-  end
-
-  # GET /plot/1 or /plot/1.json
   def show
     render json: PlotSerializer.new.serialize_to_json(Plot.find(params[:id]))
   end
 
-  # PATCH/PUT /plot/1 or /plot/1.json
   def update
     plot = PlotUpdater.new.call(params.require(:id), owner_params[:person_id].to_i, plot_data_params)
 

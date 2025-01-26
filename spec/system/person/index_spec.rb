@@ -5,7 +5,7 @@ RSpec.describe 'people', type: :system do
 
   context 'when there is one active person' do
     it 'shows one person' do
-      visit person_index_path
+      visit people_path
 
       expect(page).to have_content('Активные участники (1)')
       expect(page).to have_content('Бывшие участники (0)')
@@ -26,7 +26,7 @@ RSpec.describe 'people', type: :system do
     let!(:former_person) { create(:person, :discarded) }
 
     it 'shows a former participant in second tab' do
-      visit person_index_path
+      visit people_path
 
       expect(page).to have_content('Активные участники (1)')
       expect(page).to have_content('Бывшие участники (1)')

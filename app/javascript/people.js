@@ -51,11 +51,38 @@ function hide_spinner(){
 // ------------
 
 $(document).ready(function () {
+    $(".active_people_filter").click(function(){
+        $("tbody").html("");
+        show_spinner();
+        $.get("/api/active_people",
+            function(result){
+                hide_spinner();
+                $("tbody").html("");
+                result.forEach(element => {
+                    add_person_to_table(element);
+                });
+            }
+        );
+    });
+
+    $(".archive_people_filter").click(function(){
+        $("tbody").html("");
+        show_spinner();
+        $.get("/api/archive_people",
+            function(result){
+                hide_spinner();
+                $("tbody").html("");
+                result.forEach(element => {
+                    add_person_to_table(element);
+                });
+            }
+        );
+    });
+
     $(".people_filter").click(function(){
         $("tbody").html("");
         show_spinner();
-        $.get("/person.json",
-            {type: $("#" + $(this).attr("for")).val()},
+        $.get("/api/people",
             function(result){
                 hide_spinner();
                 $("tbody").html("");
