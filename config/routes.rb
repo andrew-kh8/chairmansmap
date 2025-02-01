@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root 'main_map#index'
 
   resources :people, only: %i[index edit update]
+  resources :plots, only: %i[index show]
 
   namespace :api do
     resources :plots, only: %i[show update] do
