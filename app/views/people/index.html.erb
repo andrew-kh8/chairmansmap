@@ -49,44 +49,38 @@
                     <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         Количество участков
                     </th>
-                    <th
-                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    </th>
                 </tr>
             </thead>
 
             <tbody>
                 <%@people.each do |person| %>
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm flex items-center ml-3">
-                        <p class="text-gray-900 whitespace-no-wrap">
-                            <%=person.full_name%>
-                        </p>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">
-                            <%=person.tel%>
-                        </p>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">
-                            <%=person.address%>
-                        </p>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">
-                            <%=person.member%>
-                        </p>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">
-                            <%=person.owners.map(&:plot).count%>
-                        </p>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <%= link_to "Редактировать", edit_person_path(person) %>
-                    </td>
-                </tr>
+                    <tr class="clickable-row cursor-pointer" data-href=<%=person_path(person)%>>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm flex items-center ml-3">
+                            <p class="text-gray-900 whitespace-no-wrap">
+                                <%=person.full_name%>
+                            </p>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p class="text-gray-900 whitespace-no-wrap">
+                                <%=person.tel%>
+                            </p>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p class="text-gray-900 whitespace-no-wrap">
+                                <%=person.address%>
+                            </p>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p class="text-gray-900 whitespace-no-wrap">
+                                <%=person.member%>
+                            </p>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p class="text-gray-900 whitespace-no-wrap">
+                                <%=person.owners.map(&:plot).count%>
+                            </p>
+                        </td>
+                    </tr>
                 <%end%>
             </tbody>
         </table>

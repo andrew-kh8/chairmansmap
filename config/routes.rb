@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root 'plots#index'
 
-  resources :people, only: %i[index edit update]
+  resources :people, only: %i[index show edit update]
 
   namespace :api do
     resources :plots, only: %i[show update] do
