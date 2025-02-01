@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  root "plots#index"
+
+  root "main_map#index"
   get "plots/plots", to: "plots#plots"
   get "plots/hunters", to: "plots#hunters"
 
