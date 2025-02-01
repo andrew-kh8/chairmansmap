@@ -15,6 +15,8 @@ var coord = {
 
 var wfs_endpoint = "http://0.0.0.0:8080/geoserver/wfs"
 
+var chosen_layer = null;
+
 // var local_wms = "https://5781-31-28-228-221.ngrok-free.app/geoserver/wms"
 // const pkk = "https://pkk.rosreestr.ru/arcgis/rest/services/PKK6/CadastreObjects/MapServer/export?layers=show%3A21&format=PNG32&bbox={bbox}&bboxSR=102100&imageSR=102100&size=1024%2C1024&transparent=true&f=image"
 
@@ -134,6 +136,13 @@ $(document).ready(function () {
         layer.setStyle(get_defaultStyle(layer));
       });
       layer.on("click", function () {
+        if (chosen_layer != null) {
+          set_defaultStyle(chosen_layer);
+          chosen_layer.setStyle(get_defaultStyle(chosen_layer));
+        }
+        chosen_layer = layer;
+        set_defaultStyle(chosen_layer, "red");
+        chosen_layer.setStyle({fillColor: "red", fillOpacity: 0.5});
         $.get("/api/plots/" + plot_id(feature),
           {},
           function(data){

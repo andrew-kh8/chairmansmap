@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
   def index
-    @people = Person.all.order(:surname).includes(:owners)
+    @people = Person.all.order(:surname).includes(owners: :plot)
   end
 
   def edit
