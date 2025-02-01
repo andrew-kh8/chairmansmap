@@ -1,4 +1,4 @@
-class PlotsController < ApplicationController
+class MainMapController < ApplicationController
   def index
     @people = Person.all.order(:surname)
   end

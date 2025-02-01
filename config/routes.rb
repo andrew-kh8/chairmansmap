@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'plots#index'
+  root 'main_map#index'
 
   resources :people, only: %i[index edit update]
 
