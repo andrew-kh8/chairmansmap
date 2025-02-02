@@ -1,6 +1,9 @@
 class Api::PlotsFilterController < ApplicationController
   NO_MATTER = 'не важно'
 
+  api! "get plot's ids by filters"
+  param :owner_type, String, "owner's type"
+  param :sale_status, String, 'sale status'
   def index
     query = create_query
 
