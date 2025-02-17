@@ -15,6 +15,8 @@ var coord = {
 
 var wfs_endpoint = "http://0.0.0.0:8080/geoserver/wfs"
 
+var chosen_layer = null;
+
 // var local_wms = "https://5781-31-28-228-221.ngrok-free.app/geoserver/wms"
 // const pkk = "https://pkk.rosreestr.ru/arcgis/rest/services/PKK6/CadastreObjects/MapServer/export?layers=show%3A21&format=PNG32&bbox={bbox}&bboxSR=102100&imageSR=102100&size=1024%2C1024&transparent=true&f=image"
 
@@ -79,7 +81,7 @@ function set_plot_data(data) {
 
   $("#form_person_id").val(data.number).change();
   $("#open_form_button").removeAttr("disabled");
-  $("#update_form").attr("action", "plot/"+data.number);
+  $("#update_form").attr("action", "/api/plots/" + data.number);
 
   $("#form_sale_status option:contains(" + data.plot_datum.sale_status + ")").prop('selected', true);
   $("#form_person_id option:contains(" + full_name(data.person) + ")").prop('selected', true);
@@ -134,7 +136,14 @@ $(document).ready(function () {
         layer.setStyle(get_defaultStyle(layer));
       });
       layer.on("click", function () {
-        $.get("/plot/" + plot_id(feature),
+        if (chosen_layer != null) {
+          set_defaultStyle(chosen_layer);
+          chosen_layer.setStyle(get_defaultStyle(chosen_layer));
+        }
+        chosen_layer = layer;
+        set_defaultStyle(chosen_layer, "red");
+        chosen_layer.setStyle({fillColor: "red", fillOpacity: 0.5});
+        $.get("/api/plots/" + plot_id(feature),
           {},
           function(data){
             set_plot_data(data)
@@ -170,7 +179,7 @@ $(document).ready(function () {
   });
 
   $("#filters").click(function(){
-    $.get("/plot/filter",
+    $.get("/api/plots/filter",
       {
         sale_status: $("#filter_sale_status").val(),
         owner_type: $("#filter_owner_type").val()
