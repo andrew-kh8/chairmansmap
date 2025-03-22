@@ -71,9 +71,6 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    apipie-rails (1.5.0)
-      actionpack (>= 5.0)
-      activesupport (>= 5.0)
     ast (2.4.3)
     base64 (0.3.0)
     bigdecimal (3.2.3)
@@ -413,7 +410,6 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-postgis-adapter (~> 8.0)
-  apipie-rails
   bootsnap
   brakeman
   bullet

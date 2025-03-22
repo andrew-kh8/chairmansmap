@@ -67,9 +67,6 @@ gem "dry-monads"
 gem "activerecord-postgis-adapter", "~> 8.0"
 gem "rgeo", "~> 3.0"
 
-# docs
-gem "apipie-rails"
-
 gem "faraday"
 
 group :development, :test do
