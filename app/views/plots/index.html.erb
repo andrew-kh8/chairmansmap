@@ -1,15 +1,37 @@
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css" />
+
 <%= javascript_include_tag "main_map" %>
+<%= javascript_include_tag "hunters" %>
 
 <div class="flex h-full">
     <!-- map -->
-        <div class="mx-4 my-4 w-3/5 max-h-700px">
+        <div class="m-4 w-3/5 max-h-700px">
             <div id="map" class="map w-full h-full"></div>
         </div>
 
+
+    <div class="p-4 w-2/5 h-full">
+        <div class="max-w-2xl mx-auto">
+            <div class="border-b border-gray-200 dark:border-gray-700 mb-2 h-8">
+                <ul class="flex flex-wrap " id="myTab">
+                    <li class="mr-2">
+                        <button class="inline-block text-gray-500 hover:text-gray-600 hover:border-gray-300 pb-2 px-4 rounded-t-lg text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300 active">
+                            Участки
+                        </button>
+                    </li>
+                    <li class="mr-2">
+                        <button class="inline-block text-gray-500 hover:text-gray-600 hover:border-gray-300 pb-2 px-4 rounded-t-lg text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300">
+                            Охотники
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
     <!-- form -->
-    <div id="data_form" class="p-5 w-2/5 h-full max-h-700px">
-        <!-- plots -->
+    <div id="data_form" class="max-h-700px">
+        <!-- plots
         
         <div class="h-full w-full">
             <%= render "plot_filters" %>
@@ -23,21 +45,17 @@
                 <%= render "plot_data" %>
                 <%= render partial: "plot_update_form", locals: {people: @people} %>
             </div>
-        </div>
+        </div>-->
+         
 
         <!-- hunters -->
-        <div class="hidden h-full w-full">
+        <div class="h-full w-full">
             <%= render "hunter_filters" %>
 
-            <div class="rounded-lg p-8 flex flex-col w-full shadow-2xl h-4/5">
-
-                <div class="divide-solid devide-y">
-                    <div class="inline-block text-xl">Данные участка № <b id="plot_number"></b></div>
-                </div>
-
                 <%= render "hunter_data" %>
-                <%= render partial: "hunter_update_form", locals: {people: @people} %>
+                <%= render partial: "hunter_update_form" %>
             </div>
         </div>
     </div>
+</div>
 </div>

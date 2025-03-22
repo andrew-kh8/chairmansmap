@@ -244,11 +244,9 @@ $(document).ready(function () {
 
   $('input[name="daterange"]').daterangepicker(
     {
-      opens: "left",
+      autoApply: true,
       locale: {
-        format: "DD.MM.YYYY",
-        cancelLabel: "Отмена",
-        applyLabel: "Принять",
+        format: "DD.MM.YY",
         firstDay: 1,
         daysOfWeek: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
         monthNames: [
@@ -267,14 +265,14 @@ $(document).ready(function () {
         ],
       },
     },
-    function (start, end, label) {
-      console.log(
-        "A new date selection was made: " +
-          start.format("YYYY-MM-DD") +
-          " to " +
-          end.format("YYYY-MM-DD")
-      );
-    }
+    // function (start, end, label) {
+    //   console.log(
+    //     "A new date selection was made: " +
+    //       start.format("YYYY-MM-DD") +
+    //       " to " +
+    //       end.format("YYYY-MM-DD")
+    //   );
+    // }
   );
 
 
