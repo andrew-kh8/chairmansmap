@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Owner, type: :model do
@@ -8,18 +10,22 @@ RSpec.describe Owner, type: :model do
   end
 
   describe 'validations' do
-    subject { create(:owner) }
+    subject { create(:owner, active_to: active_to) }
 
     context 'when owner is active' do
+      let(:active_to) { Date.current }
+
       it 'validates' do
-        allow(subject).to receive(:active_to?).and_return(true)
+        allow(subject.active_to?).to be true
         expect(subject).to validate_uniqueness_of(:plot_id).scoped_to(:active_to).ignoring_case_sensitivity
       end
     end
 
     context "when owner isn't active" do
+      let(:active_to) { nil }
+
       it "doesn't validate" do
-        allow(subject).to receive(:active_to?).and_return(false)
+        allow(subject.active_to?).to be false
         expect(subject).not_to validate_uniqueness_of(:plot_id).scoped_to(:active_to)
       end
     end

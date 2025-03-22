@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'update plots', type: :system do
   let(:plot) { Plot.find(1) }
   let!(:new_person) { create(:person) }
   let!(:plot_datum) { create(:plot_datum, plot: plot) }
-  let!(:owner) { create(:owner, plot: plot) }
+
+  before { create(:owner, plot: plot) }
 
   it "update plot's data" do
     visit root_path

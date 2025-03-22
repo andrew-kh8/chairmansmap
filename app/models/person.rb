@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Person < ApplicationRecord
   include Discard::Model
 
-  has_many :owners
+  has_many :owners, dependent: :restrict_with_error
   has_many :plots, through: :owners
 
   def full_name

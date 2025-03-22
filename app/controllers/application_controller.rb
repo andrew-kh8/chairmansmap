@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   rescue_from NoMethodError, with: :not_implemented
   rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity

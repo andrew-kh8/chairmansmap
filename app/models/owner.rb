@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Owner < ApplicationRecord
   belongs_to :plot
   belongs_to :person

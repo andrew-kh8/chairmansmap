@@ -5,14 +5,35 @@ require:
   - rubocop-capybara
   - rubocop-factory_bot
 
+# region All cops
 AllCops:
   TargetRailsVersion: 7.0.8
 
+# region Rspec
 RSpec/MultipleMemoizedHelpers:
   Max: 7
-
 RSpec/NestedGroups:
   Max: 4
-
 RSpec/MultipleExpectations:
-  Max: 3
+  Max: 15
+RSpec/ExampleLength:
+  Max: 25
+RSpec/NamedSubject:
+  EnforcedStyle: named_only
+
+# region Metrics
+Metrics/AbcSize:
+  Max: 30
+Metrics/BlockLength:
+  Enabled: false
+Metrics/MethodLength:
+  Max: 50
+
+# region Rails
+Rails/SkipsModelValidations:
+  Exclude: 
+    - db/migrate/20241222132212_add_timestamp_to_plots.rb
+
+# region Style
+Style/Documentation:
+  Enabled: false

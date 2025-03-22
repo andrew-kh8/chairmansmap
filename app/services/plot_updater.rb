@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlotUpdater
   include Dry::Monads[:result]
 

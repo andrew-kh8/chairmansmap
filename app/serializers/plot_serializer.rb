@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlotSerializer < Panko::Serializer
   attributes :number, :area, :perimetr
 

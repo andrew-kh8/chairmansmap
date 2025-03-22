@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreatePlots < ActiveRecord::Migration[7.0]
   def up
     create_table :plots, id: false, primaty_key: :number do |t|

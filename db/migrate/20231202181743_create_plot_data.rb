@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreatePlotData < ActiveRecord::Migration[7.0]
   def change
     create_table :plot_data do |t|

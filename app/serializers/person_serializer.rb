@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PersonSerializer < Panko::Serializer
   attributes :id, :first_name, :middle_name, :surname, :tel, :address, :member_from, :plot_count
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_22_133940) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_22_105636) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -59,9 +59,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_22_133940) do
     t.string "sale_status"
     t.string "owner_type"
     t.string "kadastr_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["kadastr_number"], name: "index_plot_data_on_kadastr_number", unique: true
     t.index ["plot_id"], name: "index_plot_data_on_plot_id"
+    t.check_constraint "kadastr_number::text ~ '^\\d{1,2}:\\d{1,2}:\\d{1,7}:\\d{1,9}$'::text", name: "kadastr_number_format_regex"
   end
 
   create_table "plots", id: false, force: :cascade do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PlotUpdater do
@@ -17,8 +19,8 @@ RSpec.describe PlotUpdater do
       it 'updates plot data' do
         expect { result }.to change { plot_datum.reload.sale_status }
           .to('for_sale')
-          .and(change { plot_datum.owner_type }.to('personal'))
-          .and(change { plot_datum.description }.to(description))
+          .and(change(plot_datum, :owner_type).to('personal'))
+          .and(change(plot_datum, :description).to(description))
           .and(not_change { plot_datum.kadastr_number })
         expect(result).to eq Dry::Monads::Success(plot)
       end

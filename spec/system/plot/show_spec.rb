@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'show plots', type: :system do
   let(:plot) { Plot.find(1) }
   let!(:person) { create(:person) }
   let!(:plot_datum) { create(:plot_datum, plot: plot) }
-  let!(:owner) { create(:owner, plot: plot, person: person) }
+
+  before { create(:owner, plot: plot, person: person) }
 
   it "shows plot's data" do
     visit root_path
