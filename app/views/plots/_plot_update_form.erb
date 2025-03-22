@@ -1,0 +1,37 @@
+<div id="update_data_form" class="hidden h-full">
+    <%= form_for("update plots", method: :patch, remote: true, html: {class: "h-full flex flex-col", id: "update_form"}) do |f| %>
+        <div class="flex-auto">
+            <div class="mb-4">
+                <label for="form_person_id" class="block leading-7 text-sm">Владелец участка</label>
+                <select name="owner[person_id]" id="form_person_id">
+                    <%=options_for_select(people.map { ["#{_1.surname} #{_1.first_name} #{_1.middle_name}", _1.id] }) %>
+                </select>
+            </div>
+
+            <div class="relative mb-4">
+                <label for="form_sale_status" class="block leading-7 text-sm">Статус продажи</label>
+                <select name="plot_data[sale_status]" id="form_sale_status">
+                    <%=options_for_select(["не продается", "продается"]) %>
+                </select>
+            </div>
+
+            <div class="relative mb-4">
+                <label for="form_owner_type" class="block leading-7 text-sm">Тип владения</label>
+                <select name="plot_data[owner_type]" id="form_owner_type">
+                    <%=options_for_select(["личная собственность", "государственная собственность"]) %>
+                </select>
+            </div>
+
+            <div class="relative mb-4">
+                <label for="form_description" class="block leading-7 text-sm">Дополнительная информация</label>
+                <textarea name="plot_data[description]" id="form_description"></textarea>
+            </div>
+        </div>
+    
+        <div class="flex w-full inset-x-0 bottom-0">
+            <button type="submit" id="update_data_button" class="w-1/3 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Обновить</button>
+            <button type="reset" id="reset_data_button" class="mx-3 w-1/3 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Сброс</button>
+            <div id="cancel_data_button" class="w-1/3 cursor-pointer text-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Отмена</div>
+        </div>
+    <% end %>
+</div>

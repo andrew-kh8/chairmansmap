@@ -121,6 +121,7 @@ $(document).ready(function () {
   map = L.map("map", {
     center: [coord.lat, coord.lng],
     zoom: zoom,
+    attributionControl: false,
   });
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -239,6 +240,43 @@ $(document).ready(function () {
       set_defaultStyle(r);
     });
   });
+
+
+  $('input[name="daterange"]').daterangepicker(
+    {
+      opens: "left",
+      locale: {
+        format: "DD.MM.YYYY",
+        cancelLabel: "Отмена",
+        applyLabel: "Принять",
+        firstDay: 1,
+        daysOfWeek: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+        monthNames: [
+          "Январь",
+          "Февраль",
+          "Март",
+          "Апрель",
+          "Май",
+          "Июнь",
+          "Июль",
+          "Август",
+          "Сентябрь",
+          "Октябрь",
+          "Ноябрь",
+          "Декабрь",
+        ],
+      },
+    },
+    function (start, end, label) {
+      console.log(
+        "A new date selection was made: " +
+          start.format("YYYY-MM-DD") +
+          " to " +
+          end.format("YYYY-MM-DD")
+      );
+    }
+  );
+
 
   // --------------------------
   // end of work section

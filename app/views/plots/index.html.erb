@@ -9,101 +9,34 @@
 
     <!-- form -->
     <div id="data_form" class="p-5 w-2/5 h-full max-h-700px">
-        <div class="px-4 pd-4 w-full h-1/5 grid grid-cols-2">
+        <!-- plots -->
+        
+        <div class="h-full w-full">
+            <%= render "plot_filters" %>
 
-            <div class="grid grid-row-2 mx-1 mb-1">
-                <span>Статус продажи</span>
-                <select id="filter_sale_status">
-                    <%=options_for_select(["не важно", "продается", "не продается"]) %>
-                </select>
-            </div>
-            
-            <div id="filters" class="mt-5 mx-1 cursor-pointer text-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Фильтровать</div>
+            <div class="rounded-lg p-8 flex flex-col w-full shadow-2xl h-4/5">
 
-
-            <div class="grid grid-row-2 mx-1 mb-1">
-                <span>Тип владения</span>
-                <select id="filter_owner_type">
-                    <%=options_for_select(["не важно", "личная собственность", "государственная собственность"]) %>
-                </select>
-            </div>
-
-            <div id="reset_filters" class="mt-5 mx-1 cursor-pointer text-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Сбросить</div>
-
-        </div>
-
-        <div class="rounded-lg p-8 flex flex-col w-full shadow-2xl h-4/5">
-
-            <div class="divide-solid devide-y">
-                <div class="inline-block text-xl">Данные участка № <b id="plot_number"></b></div>
-            </div>
-
-            <!-- data -->
-            <div id="show_data_form" class="flex flex-col h-full">
-                <div class="flex-auto">
-
-                    <div class="my-10">
-                        <div class="mb-3 text-xl">Владелец участка</div>
-                        <div>Тип владения: <span id="owner_type"></span></div>
-                        <div>ФИО: <span id="owner_fio"></span></div>
-                        <div>Тел: <span id="owner_tel"></span></div>
-                        <div>Адрес: <span id="owner_adr"></span></div>
-                    </div>
-
-                    <div>
-                        <div class="mt-5 mb-3 text-xl">Данные участка</div>
-                        <div>Кадастровый № <span id="plot_number_cadastral"></span></div>
-                        <div>Площадь: <span id="plot_area"></span></div>
-                        <div>Периметр: <span id="plot_perimeter"></span></div>
-                        <div>Статус продажи: <span id="plot_sale_status"></span></div>
-                        <div>
-                            <div>Дополнительная информация:</div>
-                            <span id="plot_description" class="ml-3"></span>
-                        </div>
-                    </div>
-                    
+                <div class="divide-solid devide-y">
+                    <div class="inline-block text-xl">Данные участка № <b id="plot_number"></b></div>
                 </div>
 
-                <button id="open_form_button" href="" disabled class="inset-x-0 bottom-0 text-white bg-indigo-500 border-0 py-2 px-6 enabled:focus:outline-none enabled:hover:bg-indigo-900 rounded text-lg">Обновить данные участка</button>
+                <%= render "plot_data" %>
+                <%= render partial: "plot_update_form", locals: {people: @people} %>
             </div>
+        </div>
 
-            <!-- update form -->
-            <div id="update_data_form" class="hidden h-full">
-                <%= form_for("update plots", method: :patch, remote: true, html: {class: "h-full flex flex-col", id: "update_form"}) do |f| %>
-                    <div class="flex-auto">
-                        <div class="mb-4">
-                            <label for="form_person_id" class="block leading-7 text-sm">Владелец участка</label>
-                            <select name="owner[person_id]" id="form_person_id">
-                                <%=options_for_select(@people.map { ["#{_1.surname} #{_1.first_name} #{_1.middle_name}", _1.id] }) %>
-                            </select>
-                        </div>
+        <!-- hunters -->
+        <div class="hidden h-full w-full">
+            <%= render "hunter_filters" %>
 
-                        <div class="relative mb-4">
-                            <label for="form_sale_status" class="block leading-7 text-sm">Статус продажи</label>
-                            <select name="plot_data[sale_status]" id="form_sale_status">
-                                <%=options_for_select(["не продается", "продается"]) %>
-                            </select>
-                        </div>
+            <div class="rounded-lg p-8 flex flex-col w-full shadow-2xl h-4/5">
 
-                        <div class="relative mb-4">
-                            <label for="form_owner_type" class="block leading-7 text-sm">Тип владения</label>
-                            <select name="plot_data[owner_type]" id="form_owner_type">
-                                <%=options_for_select(["личная собственность", "государственная собственность"]) %>
-                            </select>
-                        </div>
+                <div class="divide-solid devide-y">
+                    <div class="inline-block text-xl">Данные участка № <b id="plot_number"></b></div>
+                </div>
 
-                        <div class="relative mb-4">
-                            <label for="form_description" class="block leading-7 text-sm">Дополнительная информация</label>
-                            <textarea name="plot_data[description]" id="form_description"></textarea>
-                        </div>
-                    </div>
-                
-                    <div class="flex w-full inset-x-0 bottom-0">
-                        <button type="submit" id="update_data_button" class="w-1/3 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Обновить</button>
-                        <button type="reset" id="reset_data_button" class="mx-3 w-1/3 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Сброс</button>
-                        <div id="cancel_data_button" class="w-1/3 cursor-pointer text-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Отмена</div>
-                    </div>
-                <% end %>
+                <%= render "hunter_data" %>
+                <%= render partial: "hunter_update_form", locals: {people: @people} %>
             </div>
         </div>
     </div>
