@@ -1,6 +1,23 @@
 <div class="rounded-lg p-8 flex flex-col w-full shadow-2xl h-4/5">
     <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
         <div id="hunter_data" class="flex flex-col h-full">
+            <% hunter_locations.each do |hunter| %>
+                <li class="p-1 my-1 bg-gray-50 shadow-2xl">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-base font-medium truncate">
+                                <%=hunter.description%>
+                            </p>
+                            <p class="text-sm text-gray-500 truncate">
+                                <%=[hunter.dog ? hunter.dog : "без собаки", hunter.license ? hunter.license : "без оружия"].join(", ") %>
+                            </p>
+                        </div>
+                        <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                            <%=hunter.date.strftime("%d.%m.%Y %H:%M")%>
+                        </div>
+                    </div>
+                </li>
+            <%end%>
         </div>
     </ul>
 </div>

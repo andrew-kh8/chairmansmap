@@ -242,38 +242,6 @@ $(document).ready(function () {
   });
 
 
-  $('input[name="daterange"]').daterangepicker(
-    {
-      autoApply: true,
-      locale: {
-        format: "DD.MM.YY",
-        firstDay: 1,
-        daysOfWeek: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
-        monthNames: [
-          "Январь",
-          "Февраль",
-          "Март",
-          "Апрель",
-          "Май",
-          "Июнь",
-          "Июль",
-          "Август",
-          "Сентябрь",
-          "Октябрь",
-          "Ноябрь",
-          "Декабрь",
-        ],
-      },
-    },
-    // function (start, end, label) {
-    //   console.log(
-    //     "A new date selection was made: " +
-    //       start.format("YYYY-MM-DD") +
-    //       " to " +
-    //       end.format("YYYY-MM-DD")
-    //   );
-    // }
-  );
 
 
   // --------------------------
