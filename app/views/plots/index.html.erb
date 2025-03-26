@@ -2,60 +2,42 @@
 <link rel="stylesheet" href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css" />
 
 <%= javascript_include_tag "main_map" %>
-<%= javascript_include_tag "hunters" %>
 
 <div class="flex h-full">
     <!-- map -->
-        <div class="m-4 w-3/5 max-h-700px">
-            <div id="map" class="map w-full h-full"></div>
-        </div>
-
+    <div class="m-4 w-3/5 max-h-700px">
+        <div id="map" class="map w-full h-full"></div>
+    </div>
 
     <div class="p-4 w-2/5 h-full">
+        <!-- tabs -->
         <div class="max-w-2xl mx-auto">
             <div class="border-b border-gray-200 dark:border-gray-700 mb-2 h-8">
                 <ul class="flex flex-wrap " id="myTab">
-                    <li class="mr-2">
-                        <button class="inline-block text-gray-500 hover:text-gray-600 hover:border-gray-300 pb-2 px-4 rounded-t-lg text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300 active">
-                            Участки
-                        </button>
+            <li class="mr-2">
+                        <%= link_to "Участки", plots_plots_path, data: {
+                        turbo_frame: "side_panel" }, class:
+                        "inline-block text-gray-500 hover:text-gray-600 hover:border-gray-300 pb-2 px-4 rounded-t-lg text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300"%>
+
                     </li>
                     <li class="mr-2">
-                        <button class="inline-block text-gray-500 hover:text-gray-600 hover:border-gray-300 pb-2 px-4 rounded-t-lg text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300">
-                            Охотники
-                        </button>
+                        <%= link_to "Охотники", plots_hunters_path, data: {
+                        turbo_frame: "side_panel" }, class:
+                        "inline-block text-gray-500 hover:text-gray-600 hover:border-gray-300 pb-2 px-4 rounded-t-lg text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300"%>
+
                     </li>
                 </ul>
             </div>
         </div>
 
-    <!-- form -->
-    <div id="data_form" class="max-h-700px">
-        <!-- plots
-        
-        <div class="h-full w-full">
-            <%= render "plot_filters" %>
+        <!-- form -->
+        <div id="data_form" class="max-h-700px">
 
-            <div class="rounded-lg p-8 flex flex-col w-full shadow-2xl h-4/5">
-
-                <div class="divide-solid devide-y">
-                    <div class="inline-block text-xl">Данные участка № <b id="plot_number"></b></div>
-                </div>
-
-                <%= render "plot_data" %>
-                <%= render partial: "plot_update_form", locals: {people: @people} %>
+            <!-- right side panel -->
+            <div class="h-full w-full">
+                <%= render "plots" %>
             </div>
-        </div>-->
-         
 
-        <!-- hunters -->
-        <div class="h-full w-full">
-            <%= render "hunter_filters" %>
-
-                <%= render "hunter_data" %>
-                <%= render partial: "hunter_update_form" %>
-            </div>
         </div>
     </div>
-</div>
 </div>

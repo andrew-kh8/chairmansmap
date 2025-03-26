@@ -1,0 +1,11 @@
+<%= turbo_frame_tag "side_panel" do %>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+
+    <%= javascript_include_tag "hunters" %>
+
+    <%= render partial: "hunter_filters" %>
+    <%= render partial: "hunter_data", locals: { hunter_locations: hunter_locations } %>
+    <%= render partial: "hunter_update_form" %>
+<%end%>

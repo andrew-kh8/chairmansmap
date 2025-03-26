@@ -9,28 +9,8 @@
         <span>Период</span>
         <input type="text" name="daterange" class="w-full"/>
     </div>
-    
-    <div class="grid grid-row-2 mx-1 mb-1">
-        <span>Собака</span>
-        <select id="filter_owner_type">
-            <%=options_for_select(["не важно", "с собакой", "без собаки"]) %>
-        </select>
-    </div>
-
-    <div class="grid grid-row-2 mx-1 mb-1">
-        <span>Оружие</span>
-        <select id="filter_owner_type">
-            <%=options_for_select(["не важно", "огнестрельное", "бесшумное", "не известный тип", "без оружия"]) %>
-        </select>
-    </div>
-
-</div>
-
-<div class="px-4 pd-4 w-full grid grid-cols-2">
-    <div id="hunter_filters" class="mt-5 mx-1 cursor-pointer text-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+    <div type="submit" id="hunter_filters" class="mt-5 mx-1 cursor-pointer text-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
         Фильтровать
     </div>
-    <div id="hunter_reset_filters" class="mt-5 mx-1 cursor-pointer text-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-        Сбросить
-    </div>
 </div>
+
