@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
   root 'plots#index'
-  get 'plots/plots', to: 'plots#plots'
-  get 'plots/hunters', to: 'plots#hunters'
 
   resources :people, only: %i[index edit update]
+
+  namespace :side_panel do
+    resources :plots
+    resources :hunters
+  end
 
   namespace :api do
     resources :plots, only: %i[show update] do

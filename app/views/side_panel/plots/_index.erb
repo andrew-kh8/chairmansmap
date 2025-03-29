@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "side_panel" do %>
-    <%= render partial: "plot_filters" %>
+    <%= render partial: "side_panel/plots/filters" %>
 
     <div class="rounded-lg p-8 flex flex-col w-full shadow-2xl h-4/5">
 
@@ -7,7 +7,7 @@
             <div class="inline-block text-xl">Данные участка № <b id="plot_number"></b></div>
         </div>
 
-        <%= render partial: "plot_data" %>
-        <%= render partial: "plot_update_form", locals: {people: @people} %>
+        <%= render partial: "side_panel/plots/data" %>
+        <%= render partial: "side_panel/plots/update_form", locals: {people: @people} %>
     </div>
 <%end%>
