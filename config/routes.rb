@@ -5,6 +5,11 @@ Rails.application.routes.draw do
 
   resources :people, only: %i[index edit update]
 
+  namespace :side_panel do
+    resources :plots
+    resources :hunters
+  end
+
   namespace :api do
     resources :plots, only: %i[show update] do
       get "filter", to: "plots_filter#index", on: :collection

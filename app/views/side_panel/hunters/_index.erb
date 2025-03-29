@@ -5,7 +5,6 @@
 
     <%= javascript_include_tag "hunters" %>
 
-    <%= render partial: "hunter_filters" %>
-    <%= render partial: "hunter_data", locals: { hunter_locations: hunter_locations } %>
-    <%= render partial: "hunter_update_form" %>
+    <%= render partial: "side_panel/hunters/filters" %>
+    <%= render partial: "side_panel/hunters/data", locals: { hunter_locations: hunter_locations } %>
 <%end%>
