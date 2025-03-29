@@ -168,6 +168,13 @@ $(document).ready(function () {
 
   wfs_hunter_layer = L.Geoserver.wfs(wfs_endpoint, {
     layers: "web_gis:hunter_locations",
+    onEachFeature: function (feature, layer) {
+      layer.on("mouseover", function () {
+        layer
+          .bindTooltip(new Date(feature.properties.date).toLocaleString("ru-RU"))
+          .openTooltip();
+      });
+    },
     style: {color: "black",
       fillOpacity: "0",
       opacity: "0.5"}
