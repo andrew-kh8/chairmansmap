@@ -1,0 +1,30 @@
+CHROME_VERSION=$(google-chrome --version | grep -oE "[0-9.]{10,20}")
+
+wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip
+
+# get archive name
+if [ -f chromedriver_linux64.zip ]; then
+    ARCHIVE_NAME="chromedriver_linux64";
+else
+    ARCHIVE_NAME="chromedriver-linux64";
+fi
+
+# unzip, move to correct location, remove unzipped folder
+unzip ${ARCHIVE_NAME}.zip
+
+sudo mv ${ARCHIVE_NAME}/chromedriver /usr/bin/chromedriver
+sudo chown root:root /usr/bin/chromedriver
+sudo chmod +x /usr/bin/chromedriver
+rm -r ${ARCHIVE_NAME}
+rm -r "${ARCHIVE_NAME}.zip"
+
+# status check
+chromedriver --port=9515 & sleep 2
+
+if curl -s http://localhost:9515/status | grep -q "ready"; then
+    echo -e "\033[0;32mDone! ChromeDriver is installed correctly :)\033[0m"
+else
+    echo -e "\033[0;31mOh no ChromeDriver isn't alive :(\033[0m"
+fi
+
+pkill chromedriver
