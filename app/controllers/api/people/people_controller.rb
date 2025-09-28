@@ -8,16 +8,16 @@ class Api::People::PeopleController < ApplicationController
 
   def_param_group :people do
     property :people, Array, 'array of people' do
-      property :id, Integer
+      property :id, String
       property :first_name, String
       property :middle_name, String
       property :surname, String
       property :tel, String
       property :address, String
       property :member_from, String
-      property :plot_count, Integer
+      property :plot_count, String
       property :owners, Array do
-        property :id, Integer
+        property :id, String
         property :active_from, String
         property :active_to, String
       end

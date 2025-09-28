@@ -69,36 +69,48 @@ function get_form_data(){
 
 function set_plot_data(data) {
   $("#plot_number").text(data.number);
-  $("#plot_number_kadastr").text(data.plot_datum.kadastr_number);
-  $("#owner_fio").text(full_name(data.person));
-  $("#owner_tel").text(data.person.tel);
-  $("#owner_adr").text(data.person.address);
-  $("#owner_type").text(data.plot_datum.owner_type);
   $("#plot_area").text(data.area);
   $("#plot_perimetr").text(data.perimetr);
-  $("#plot_sale_status").text(data.plot_datum.sale_status);
-  $("#plot_description").text(data.plot_datum.description);
 
   $("#form_person_id").val(data.number).change();
   $("#open_form_button").removeAttr("disabled");
   $("#update_form").attr("action", "/api/plots/" + data.number);
 
-  $("#form_sale_status option:contains(" + data.plot_datum.sale_status + ")").prop('selected', true);
-  $("#form_person_id option:contains(" + full_name(data.person) + ")").prop('selected', true);
-  $("#form_owner_type option:contains(" + data.plot_datum.owner_type + ")").prop('selected', true);
-  $("#form_description").val(data.plot_datum.description);
+
+  if (data.person !== null) {
+    $("#owner_fio").text(full_name(data.person));
+    $("#owner_tel").text(data.person.tel);
+    $("#owner_adr").text(data.person.address);
+
+    $("#form_person_id option:contains(" + full_name(data.person) + ")").prop('selected', true);
+  };
+
+  if (data.plot_datum !== null) {
+    $("#plot_number_kadastr").text(data.plot_datum.kadastr_number);
+    $("#owner_type").text(data.plot_datum.owner_type);
+    $("#plot_sale_status").text(data.plot_datum.sale_status);
+    $("#plot_description").text(data.plot_datum.description);
+
+    $("#form_sale_status option:contains(" + data.plot_datum.sale_status + ")").prop('selected', true);
+    $("#form_owner_type option:contains(" + data.plot_datum.owner_type + ")").prop('selected', true);
+    $("#form_description").val(data.plot_datum.description);
+  }
 };
 
 function update_plot_data(data) {
-  $("#owner_fio").text(full_name(data.person));
-  $("#owner_tel").text(data.person.tel);
-  $("#owner_adr").text(data.person.address);
   $("#owner_type").text(data.plot_datum.owner_type);
   $("#plot_sale_status").text(data.plot_datum.sale_status);
   $("#plot_description").text(data.plot_datum.description);
 
   $("#show_data_form").removeClass("hidden");
   $("#update_data_form").addClass("hidden");
+
+
+  if (data.person !== null) {
+    $("#owner_fio").text(full_name(data.person));
+    $("#owner_tel").text(data.person.tel);
+    $("#owner_adr").text(data.person.address);
+  };
 };
 
 // end of functions

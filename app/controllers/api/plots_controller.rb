@@ -15,15 +15,15 @@ class Api::PlotsController < ApplicationController
   end
 
   api! "show plot's data"
-  param :id, Integer, 'ID of plot'
+  param :id, String, 'ID of plot'
   def show
     render json: PlotSerializer.new.serialize_to_json(Plot.find(params[:id]))
   end
 
   api! "update plot's data"
-  param :id, Integer, 'ID of plot'
+  param :id, String, 'ID of plot'
   param :owner, Hash do
-    param :person_id, Integer, 'ID of new owner'
+    param :person_id, String, 'ID of new owner'
   end
   param :plot_data, Hash do
     param :sale_status, String, "plot's sale status"
