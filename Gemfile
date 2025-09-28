@@ -82,6 +82,7 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 7.0.0'
+  gem 'dotenv'
 end
 
 group :development do
