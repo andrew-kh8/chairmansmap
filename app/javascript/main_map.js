@@ -13,7 +13,7 @@ var coord = {
   lng:33.57975
 }
 
-var wfs_endpoint = "http://0.0.0.0:8080/geoserver/wfs"
+var wfs_endpoint = document.body.dataset.geoserverUrl + "/wfs"
 
 var chosen_layer = null;
 

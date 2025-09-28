@@ -38,6 +38,8 @@ Things you may want to cover:
 
 * Configuration
 
+copy and fill the .env file
+
 * Database creation
 
 * Database initialization
