@@ -13,7 +13,8 @@ var coord = {
   lng:33.57975
 }
 
-var wfs_endpoint = document.body.dataset.geoserverUrl + "/wfs"
+var wfs_endpoint = document.body.dataset.geoserverUrl + "/wfs";
+var layer_name = document.body.dataset.geoserverPlotsLayer;
 
 var chosen_layer = null;
 
@@ -129,7 +130,7 @@ $(document).ready(function () {
   }).addTo(map);
 
   // var wmsLayer = L.tileLayer.wms(local_wms, {
-  //   layers: "web_gis:plots",
+  //   layers: layer_name,
   //   format: "image/png",
   //   transparent: true,
   // });
@@ -137,7 +138,7 @@ $(document).ready(function () {
 
 
   wfsLayer = L.Geoserver.wfs(wfs_endpoint, {
-    layers: "web_gis:plots",
+    layers: layer_name,
     onEachFeature: function(feature, layer){
       set_defaultStyle(layer);
       layer.on("mouseover",(function(){
