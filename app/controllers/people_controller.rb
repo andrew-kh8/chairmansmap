@@ -9,7 +9,7 @@ class PeopleController < ApplicationController
 
   def update
     Person.find(params[:id]).update!(person_params)
-    redirect_to person_index_path
+    redirect_to people_path
   end
 
   private

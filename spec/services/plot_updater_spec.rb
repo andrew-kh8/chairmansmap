@@ -15,12 +15,41 @@ RSpec.describe PlotUpdater do
       let(:description) { 'описание' }
 
       it 'updates plot data' do
-        expect { result }.to change { plot_datum.reload.sale_status }
-          .to('for_sale')
+        expect { result }.to change { plot_datum.reload.sale_status }.to('for_sale')
           .and(change { plot_datum.owner_type }.to('personal'))
           .and(change { plot_datum.description }.to(description))
           .and(not_change { plot_datum.kadastr_number })
+          .and(change { plot.owners.count }.by(1))
+
         expect(result).to eq Dry::Monads::Success(plot)
+      end
+
+      context "when person_id is nil" do
+        let(:person_id) { nil }
+
+        it 'updates plot data' do
+          expect { result }.to change { plot_datum.reload.sale_status }.to('for_sale')
+            .and(change { plot_datum.owner_type }.to('personal'))
+            .and(change { plot_datum.description }.to(description))
+            .and(not_change { plot_datum.kadastr_number })
+            .and(not_change { plot.owners.count })
+
+          expect(result).to eq Dry::Monads::Success(plot)
+        end
+      end
+
+      context "when plot_data is nil" do
+        let(:plot_data) { nil }
+
+        it 'updates plot data' do
+          expect { result }.to not_change { plot_datum.reload.sale_status }
+            .and(not_change { plot_datum.owner_type })
+            .and(not_change { plot_datum.description })
+            .and(not_change { plot_datum.kadastr_number })
+            .and(change { plot.owners.count }.by(1))
+
+          expect(result).to eq Dry::Monads::Success(plot)
+        end
       end
     end
 
