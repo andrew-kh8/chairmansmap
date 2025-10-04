@@ -2,9 +2,9 @@ class Api::PlotsController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 
   resource_description do
-    short 'Plot'
+    short "Plot"
 
-    error 404, 'plot not found'
+    error 404, "plot not found"
 
     deprecated false
     description <<-DESC
@@ -15,15 +15,15 @@ class Api::PlotsController < ApplicationController
   end
 
   api! "show plot's data"
-  param :id, String, 'ID of plot'
+  param :id, String, "ID of plot"
   def show
     render json: PlotSerializer.new.serialize_to_json(Plot.find(params[:id]))
   end
 
   api! "update plot's data"
-  param :id, String, 'ID of plot'
+  param :id, String, "ID of plot"
   param :owner, Hash do
-    param :person_id, String, 'ID of new owner'
+    param :person_id, String, "ID of new owner"
   end
   param :plot_data, Hash do
     param :sale_status, String, "plot's sale status"
@@ -36,7 +36,7 @@ class Api::PlotsController < ApplicationController
     if plot.success?
       render json: PlotSerializer.new.serialize_to_json(plot.success), status: :ok
     else
-      render json: { message: plot.failure }, status: :bad_request
+      render json: {message: plot.failure}, status: :bad_request
     end
   end
 

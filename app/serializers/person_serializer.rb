@@ -4,7 +4,7 @@ class PersonSerializer < Panko::Serializer
   has_many :owners
 
   def member_from
-    object.member_from.strftime('%d.%m.%Y')
+    object.member_from.strftime("%d.%m.%Y")
   end
 
   def plot_count

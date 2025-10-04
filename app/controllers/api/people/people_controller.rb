@@ -1,13 +1,13 @@
 class Api::People::PeopleController < ApplicationController
   resource_description do
-    short 'Person'
+    short "Person"
 
     deprecated false
-    description 'Just people'
+    description "Just people"
   end
 
   def_param_group :people do
-    property :people, Array, 'array of people' do
+    property :people, Array, "array of people" do
       property :id, String
       property :first_name, String
       property :middle_name, String
@@ -24,7 +24,7 @@ class Api::People::PeopleController < ApplicationController
     end
   end
 
-  api! 'get all people (discarded and not)'
+  api! "get all people (discarded and not)"
   returns code: 200 do
     param_group :people
   end

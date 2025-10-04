@@ -7,19 +7,19 @@ class ApplicationController < ActionController::Base
 
   def not_implemented
     render json: {
-      message: 'the method not implemented'
+      message: "the method not implemented"
     }, status: :not_implemented
   end
 
   def unprocessable_entity
     render json: {
-      message: 'something went wrong'
+      message: "something went wrong"
     }, status: :unprocessable_entity
   end
 
   def not_found
     render json: {
-      message: 'record not found'
+      message: "record not found"
     }, status: :not_found
   end
 end

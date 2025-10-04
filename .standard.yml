@@ -1,0 +1,10 @@
+ruby_version: 3.0
+
+ignore:
+  - 'vendor/**/*'
+
+plugins:
+  - standard-rails
+
+standard-rails:
+  target_rails_version: 7.0

@@ -9,7 +9,7 @@ FactoryBot.define do
     member_from { FFaker::Date.backward }
 
     trait :discarded do
-      discarded_at { DateTime.current.in_time_zone('UTC') }
+      discarded_at { DateTime.current.in_time_zone("UTC") }
     end
   end
 end

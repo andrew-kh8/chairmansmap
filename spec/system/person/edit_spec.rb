@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'people', type: :system do
+RSpec.describe "people", type: :system do
   let!(:person) { create(:person) }
 
   context "when nothing to change" do

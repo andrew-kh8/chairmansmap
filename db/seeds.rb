@@ -6,19 +6,19 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-Plot.all.each do |plot|
+Plot.all.find_each do |plot|
   person = FactoryBot.create(:person)
   Owner.create(plot_id: plot.number, person_id: person.id, active_from: person.member_from)
 
   PlotDatum.create(
     plot_id: plot.number,
-    sale_status: ['не продается', 'продается'].sample,
-    owner_type: ['личная собственность', 'государственная собственность'].sample,
+    sale_status: ["не продается", "продается"].sample,
+    owner_type: ["личная собственность", "государственная собственность"].sample,
     kadastr_number: [
-        FFaker::Number.number,
-        FFaker::Number.number,
-        FFaker::Number.number(digits: 3),
-        FFaker::Number.number(digits: 6)
-      ].join(':')
+      FFaker::Number.number,
+      FFaker::Number.number,
+      FFaker::Number.number(digits: 3),
+      FFaker::Number.number(digits: 6)
+    ].join(":")
   )
 end

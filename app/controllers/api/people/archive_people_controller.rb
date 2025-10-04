@@ -1,5 +1,5 @@
 class Api::People::ArchivePeopleController < ApplicationController
-  api! 'get all discarded people'
+  api! "get all discarded people"
   returns code: 200 do
     param_group :people, Api::People::PeopleController
   end
