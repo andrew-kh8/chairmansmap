@@ -19,6 +19,8 @@ shp2pgsql -i -D -s 4326 vector_map.shp plots > bd/plots.sql
 ```
 
 check docs folder
+
+<!-- sudo apt-get install libproj-dev proj-bin -->
 # Testing
 
 chrome for testing link: https://googlechromelabs.github.io/chrome-for-testing/#stable

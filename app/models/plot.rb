@@ -1,4 +1,6 @@
 class Plot < ApplicationRecord
+  SRID = 3857
+
   self.primary_key = :number
 
   has_one :plot_datum, dependent: :destroy
