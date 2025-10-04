@@ -62,7 +62,7 @@ RSpec.describe PlotUpdater do
 
         it "raise an error" do
           expect { result }.to not_change { plot_datum }.and(not_change { plot })
-          
+
           expect(result).to eq Dry::Monads::Failure(failure_text)
         end
       end
@@ -76,8 +76,8 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot_datum }
             .and not_change { plot }
-          
-            expect(result).to eq Dry::Monads::Failure(failure_text)
+
+          expect(result).to eq Dry::Monads::Failure(failure_text)
         end
       end
 
@@ -90,7 +90,7 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot_datum }
             .and not_change { plot }
-            
+
           expect(result).to eq Dry::Monads::Failure(failure_text)
         end
       end
