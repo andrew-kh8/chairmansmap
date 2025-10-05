@@ -9,7 +9,7 @@ class SidePanel::HuntersController < ApplicationController
   end
 
   def create
-    HunterLocation.create!(hunter_params)
+    CreateHunterLocation.new.call(hunter_params)
 
     hunter_locations = HunterLocation.all
     render partial: 'index', locals: { hunter_locations: hunter_locations }
@@ -18,8 +18,6 @@ class SidePanel::HuntersController < ApplicationController
   private
 
   def hunter_params
-    # error with projection (leaflet has EPSG:3857)
-    location = RGeo::Cartesian.factory.point(*params[:hunter_location][:location].split.map(&:to_f))
-    params.require(:hunter_location).permit(:date, :license, :dog, :description).merge({ location: location })
+    params.require(:hunter_location).permit(:date, :license, :dog, :description, :location)
   end
 end

@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_22_133940) do
   end
 
   create_table "hunter_locations", force: :cascade do |t|
-    t.geometry "location", limit: {:srid=>28406, :type=>"st_point"}, null: false
+    t.geometry "location", limit: {:srid=>3857, :type=>"st_point"}, null: false
     t.datetime "date", null: false
     t.text "description"
     t.boolean "license"
