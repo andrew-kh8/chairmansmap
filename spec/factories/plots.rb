@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :plot do
     sequence(:gid) { |n| n }
     area { FFaker::Number.decimal(whole_digits: 3) }
-    perimetr { FFaker::Number.decimal(whole_digits: 2) }
+    perimeter { FFaker::Number.decimal(whole_digits: 2) }
     geom do
       factory = RGeo::Cartesian.simple_factory
       x = rand(6545959..6546308)

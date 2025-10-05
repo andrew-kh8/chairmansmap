@@ -5,7 +5,7 @@ module Workers
       result = {success: [], failure: []}
 
       plots.each do |plot|
-        cn = plot.plot_datum.kadastr_number
+        cn = plot.plot_datum.cadastral_number
 
         coords = coord_getter.call(cn)
         if coords.failure?

@@ -20,6 +20,10 @@ shp2pgsql -i -D -s 4326 vector_map.shp plots > bd/plots.sql
 
 check docs folder
 
+```bash
+bundle exec rails generate strong_migrations:install
+```
+
 <!-- sudo apt-get install libproj-dev proj-bin -->
 # Testing
 

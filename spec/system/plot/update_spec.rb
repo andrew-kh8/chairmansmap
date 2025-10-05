@@ -30,9 +30,9 @@ RSpec.describe "update plots", type: :system do
     expect(find_by_id("owner_tel")).to have_content(new_person.tel)
     expect(find_by_id("owner_adr")).to have_content(new_person.address)
 
-    expect(find_by_id("plot_number_kadastr")).to have_content(plot_datum.reload.kadastr_number)
+    expect(find_by_id("plot_number_cadastral")).to have_content(plot_datum.reload.cadastral_number)
     expect(find_by_id("plot_area")).to have_content(plot.area)
-    expect(find_by_id("plot_perimetr")).to have_content(plot.perimetr.to_i)
+    expect(find_by_id("plot_perimeter")).to have_content(plot.perimeter.to_i)
     expect(find_by_id("plot_sale_status")).to have_content(plot_datum.reload.sale_status)
     expect(find_by_id("plot_description")).to have_content(plot_datum.reload.description)
   end

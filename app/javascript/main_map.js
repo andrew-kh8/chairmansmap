@@ -71,7 +71,7 @@ function get_form_data(){
 function set_plot_data(data) {
   $("#plot_number").text(data.number);
   $("#plot_area").text(data.area);
-  $("#plot_perimetr").text(data.perimetr);
+  $("#plot_perimeter").text(data.perimeter);
 
   $("#form_person_id").val(data.number).change();
   $("#open_form_button").removeAttr("disabled");
@@ -87,7 +87,7 @@ function set_plot_data(data) {
   };
 
   if (data.plot_datum !== null) {
-    $("#plot_number_kadastr").text(data.plot_datum.kadastr_number);
+    $("#plot_number_cadastral").text(data.plot_datum.cadastral_number);
     $("#owner_type").text(data.plot_datum.owner_type);
     $("#plot_sale_status").text(data.plot_datum.sale_status);
     $("#plot_description").text(data.plot_datum.description);

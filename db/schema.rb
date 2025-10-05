@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_04_182043) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -48,16 +48,17 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_04_182043) do
     t.string "description"
     t.string "sale_status"
     t.string "owner_type"
-    t.string "kadastr_number"
+    t.string "cadastral_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["cadastral_number"], name: "index_plot_data_on_cadastral_number", unique: true
     t.index ["plot_id"], name: "index_plot_data_on_plot_id"
   end
 
   create_table "plots", id: false, force: :cascade do |t|
     t.serial "gid", null: false
     t.float "area", null: false
-    t.float "perimetr", null: false
+    t.float "perimeter", null: false
     t.integer "number", null: false
     t.geometry "geom", limit: {:srid=>3857, :type=>"multi_polygon"}
     t.index ["number"], name: "index_plots_on_number", unique: true

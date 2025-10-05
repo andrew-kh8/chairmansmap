@@ -8,7 +8,7 @@ class PlotCoordsUpdater
 
     new_geom = create_multi_polygon(coords)
 
-    plot = Plot.joins(:plot_datum).find_by(plot_datum: {kadastr_number: cadaster_number})
+    plot = Plot.joins(:plot_datum).find_by(plot_datum: {cadastral_number: cadaster_number})
 
     plot.update!(geom: new_geom)
 

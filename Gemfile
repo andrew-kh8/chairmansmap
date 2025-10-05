@@ -95,6 +95,7 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
   gem "brakeman", require: false
+  gem "strong_migrations"
 end
 
 group :test do

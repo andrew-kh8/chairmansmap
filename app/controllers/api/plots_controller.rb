@@ -10,7 +10,7 @@ class Api::PlotsController < ApplicationController
     description <<-DESC
       In fact, plot contains two models - plot and plot_datum
       Plot has geo data like geom with coordinates, plot's number, gid, area and perimeter
-      Plot data has another data like sale status, owner type, kadastr number and description
+      Plot data has another data like sale status, owner type, cadastral number and description
     DESC
   end
 

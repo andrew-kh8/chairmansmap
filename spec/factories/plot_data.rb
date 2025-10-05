@@ -4,7 +4,7 @@ FactoryBot.define do
     description { FFaker::Lorem.sentence }
     sale_status { "не продается" }
     owner_type { "государственная собственность" }
-    kadastr_number do
+    cadastral_number do
       [
         FFaker::Number.number,
         FFaker::Number.number,

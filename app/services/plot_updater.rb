@@ -1,6 +1,8 @@
 class PlotUpdater
   include Dry::Monads[:result]
 
+  class UpdateError < StandardError; end
+
   def call(plot_id, person_id, plot_data)
     begin
       plot = Plot.find(plot_id)
@@ -17,9 +19,11 @@ class PlotUpdater
 
       plot.plot_datum.update!(plot_data) if plot_data.present?
     rescue => e
-      return Failure("При обновлении данных произошла ошибка. #{e}")
+      raise UpdateError, "При обновлении данных произошла ошибка. #{e}"
     end
 
     Success(plot)
+  rescue UpdateError => error
+    Failure(error.message)
   end
 end

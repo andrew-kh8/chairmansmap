@@ -14,7 +14,7 @@ Plot.all.find_each do |plot|
     plot_id: plot.number,
     sale_status: ["не продается", "продается"].sample,
     owner_type: ["личная собственность", "государственная собственность"].sample,
-    kadastr_number: [
+    cadastral_number: [
       FFaker::Number.number,
       FFaker::Number.number,
       FFaker::Number.number(digits: 3),
