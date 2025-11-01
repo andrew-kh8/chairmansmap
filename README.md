@@ -37,7 +37,9 @@ To prepare test plots run `bin/prepare_test_plots`
 
 * Configuration
 
-copy and fill the .env file
+copy .env.sample to .env and fill the file
+
+copy .env.sample to .env.test and rewrite some variables if you wanna use other values in test environment
 
 
 * ...
