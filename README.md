@@ -1,4 +1,6 @@
-# README
+# Chairman's map
+
+[![CodeFactor](https://www.codefactor.io/repository/github/andrew-kh8/chairmansmap/badge)](https://www.codefactor.io/repository/github/andrew-kh8/chairmansmap)
 
 ## Stack
 
