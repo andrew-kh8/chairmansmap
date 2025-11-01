@@ -248,13 +248,9 @@ $(document).ready(function () {
     });
   });
 
-
-
-
   // --------------------------
   // end of work section
   // --------------------------
-
 
   // another background map
   // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {

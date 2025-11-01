@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   resources :people, only: %i[index edit update]
 
   namespace :side_panel do
-    resources :plots
-    resources :hunters
+    resources :plots, only: [:index]
+    resources :hunters, only: [:index, :new, :create]
   end
 
   namespace :api do
