@@ -1,18 +1,18 @@
 class SidePanel::HuntersController < ApplicationController
   def index
     hunter_locations = HunterLocation.all
-    render partial: 'index', locals: { hunter_locations: hunter_locations }
+    render partial: "index", locals: {hunter_locations: hunter_locations}
   end
 
   def new
-    render partial: 'new'
+    render partial: "new"
   end
 
   def create
     CreateHunterLocation.new.call(hunter_params)
 
     hunter_locations = HunterLocation.all
-    render partial: 'index', locals: { hunter_locations: hunter_locations }
+    render partial: "index", locals: {hunter_locations: hunter_locations}
   end
 
   private
