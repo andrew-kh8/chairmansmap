@@ -1,0 +1,21 @@
+<div class="px-4 pd-4 w-full h-1/5 grid grid-cols-2">
+
+    <div class="grid grid-row-2 mx-1 mb-1">
+        <span>Статус продажи</span>
+        <select id="filter_sale_status">
+            <%=options_for_select(["не важно", "продается", "не продается"]) %>
+        </select>
+    </div>
+    
+    <div id="filters" class="mt-5 mx-1 cursor-pointer text-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Фильтровать</div>
+
+
+    <div class="grid grid-row-2 mx-1 mb-1">
+        <span>Тип владения</span>
+        <select id="filter_owner_type">
+            <%=options_for_select(["не важно", "личная собственность", "государственная собственность"]) %>
+        </select>
+    </div>
+
+    <div id="reset_filters" class="mt-5 mx-1 cursor-pointer text-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Сбросить</div>
+</div>

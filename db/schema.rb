@@ -18,6 +18,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
   create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
+  create_table "hunter_locations", force: :cascade do |t|
+    t.geometry "location", limit: {:srid=>3857, :type=>"st_point"}, null: false
+    t.datetime "date", null: false
+    t.text "description"
+    t.boolean "license"
+    t.boolean "dog"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "owners", force: :cascade do |t|
     t.bigserial "plot_id", null: false
     t.bigint "person_id", null: false
@@ -60,7 +70,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
     t.float "area", null: false
     t.float "perimeter", null: false
     t.integer "number", null: false
-    t.geometry "geom", limit: {:srid=>3857, :type=>"multi_polygon"}
+    t.geometry "geom", limit: {:srid=>3857, :type=>"multi_polygon"}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["number"], name: "index_plots_on_number", unique: true
   end
 

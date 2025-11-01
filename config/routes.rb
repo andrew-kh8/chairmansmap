@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
-  apipie
-
   root "plots#index"
+  get "plots/plots", to: "plots#plots"
+  get "plots/hunters", to: "plots#hunters"
 
   resources :people, only: %i[index edit update]
+
+  namespace :side_panel do
+    resources :plots, only: [:index]
+    resources :hunters, only: [:index, :new, :create]
+  end
 
   namespace :api do
     resources :plots, only: %i[show update] do

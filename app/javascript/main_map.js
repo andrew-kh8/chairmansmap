@@ -4,8 +4,8 @@ console.log("map");
 // const
 
 var map;
-var wfsLayer;
-var wfsFilter;
+var wfs_plots_layer;
+var wfs_hunter_layer;
 
 var zoom = 17;
 var coord = {
@@ -121,6 +121,7 @@ $(document).ready(function () {
   map = L.map("map", {
     center: [coord.lat, coord.lng],
     zoom: zoom,
+    attributionControl: false,
   });
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -136,8 +137,7 @@ $(document).ready(function () {
   // });
   // wmsLayer.addTo(map);
 
-
-  wfsLayer = L.Geoserver.wfs(wfs_endpoint, {
+  wfs_plots_layer = L.Geoserver.wfs(wfs_endpoint, {
     layers: layer_name,
     onEachFeature: function(feature, layer){
       set_defaultStyle(layer);
@@ -165,8 +165,31 @@ $(document).ready(function () {
       });
     }
   });
-  wfsLayer.addTo(map);
 
+  wfs_hunter_layer = L.Geoserver.wfs(wfs_endpoint, {
+    layers: "web_gis:hunter_locations",
+    onEachFeature: function (feature, layer) {
+      layer.on("mouseover", function () {
+        layer
+          .bindTooltip(new Date(feature.properties.date).toLocaleString("ru-RU"))
+          .openTooltip();
+      });
+    },
+    style: {color: "black",
+      fillOpacity: "0",
+      opacity: "0.5"}
+  });
+
+  wfs_plots_layer.addTo(map);
+  wfs_hunter_layer.addTo(map);
+
+
+  L.control.layers(null, {"Участки": wfs_plots_layer, "Охотники": wfs_hunter_layer}).addTo(map);
+
+  // print coordinates in console
+  // map.addEventListener('mousemove', (event) => {
+  //   console.log(event.latlng.lat, event.latlng.lng);
+  // });
 
   // map.setView(new L.LatLng(coord.lat, coord.lng), zoom);
 
@@ -198,13 +221,13 @@ $(document).ready(function () {
         owner_type: $("#filter_owner_type").val()
       },
       function(data){
-        Object.values(wfsLayer._layers).forEach((r) => {
+        Object.values(wfs_plots_layer._layers).forEach((r) => {
           r.setStyle({fillColor: ""});
           set_defaultStyle(r);
         });
 
         if (data.plots){
-          Object.values(wfsLayer._layers)
+          Object.values(wfs_plots_layer._layers)
           .filter((el) => data.plots.includes(plot_id(el.feature)))
           .forEach((r) => {
             r.setStyle({fillColor: "red"});
@@ -219,7 +242,7 @@ $(document).ready(function () {
     $("#filter_sale_status option:contains('не важно')").prop('selected', true);
     $("#filter_owner_type option:contains('не важно')").prop('selected', true);
 
-    Object.values(wfsLayer._layers).forEach((r) => {
+    Object.values(wfs_plots_layer._layers).forEach((r) => {
       r.setStyle({fillColor: ""});
       set_defaultStyle(r);
     });
@@ -228,7 +251,6 @@ $(document).ready(function () {
   // --------------------------
   // end of work section
   // --------------------------
-
 
   // another background map
   // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {

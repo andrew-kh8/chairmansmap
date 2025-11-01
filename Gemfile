@@ -38,6 +38,7 @@ gem "jbuilder"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+gem "mutex_m"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -67,9 +68,6 @@ gem "dry-monads"
 gem "activerecord-postgis-adapter", "~> 8.0"
 gem "rgeo", "~> 3.0"
 
-# docs
-gem "apipie-rails"
-
 gem "faraday"
 
 group :development, :test do
@@ -78,6 +76,8 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "rspec-rails", "~> 7.0.0"
   gem "dotenv"
+
+  # lint
   gem "standard"
   gem "standard-rails"
 end

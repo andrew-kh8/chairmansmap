@@ -1,0 +1,55 @@
+<%= turbo_frame_tag "side_panel" do %>
+<script>
+    var newMarker;
+
+    map.on('click', (event) => {
+        $("#hunter_location_location").val([event.latlng.lat, event.latlng.lng].join(" "));
+        console.log([event.latlng.lat, event.latlng.lng].join(" "));
+
+        if (typeof newMarker == 'undefined') {
+            newMarker = new L.marker(event.latlng).addTo(map);
+            newMarker.getElement().style.filter = 'hue-rotate(120deg)';
+        } else {
+            newMarker.setLatLng(event.latlng);
+        };
+    });
+</script>
+
+<div class="rounded-lg p-8 flex flex-col w-full shadow-2xl h-4/5">
+
+    <%= form_for :hunter_location, url: side_panel_hunters_path, html: {class:
+    "h-full flex flex-col"} do |form| %>
+    <div class="flex-auto">
+        <div class="mb-4">
+            <%= form.label :location, "Локация" %>
+            <%= form.text_field :location %>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :date, "Дата и время"%>
+            <%= form.datetime_field :date, value: DateTime.now.strftime("%Y-%m-%dT%H:%M")%>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :license, "Лицензия" %>
+            <%= form.check_box :license%>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :dog, "С собакой" %>
+            <%= form.check_box :dog %>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :description, "Описание", class: "mb-3 block"%>
+            <%= form.text_area :description, class: "w-full rounded-md" %>
+        </div>
+
+        <div class="flex w-full inset-x-0 bottom-0">
+            <%= form.submit "Сохранить", class: "mr-3 w-1/2 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" %>
+            <%= link_to "Отмена", side_panel_hunters_path, class: "text-center w-1/2 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" %>
+        </div>
+    </div>
+    <%end%>
+</div>
+<%end%>
