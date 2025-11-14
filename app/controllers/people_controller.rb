@@ -15,8 +15,10 @@ class PeopleController < ApplicationController
   end
 
   def update
-    Person.find(params[:id]).update!(person_params)
-    redirect_to people_path
+    person = Person.find(params[:id])
+    person.update!(person_params)
+
+    redirect_to person_path(person)
   end
 
   private
