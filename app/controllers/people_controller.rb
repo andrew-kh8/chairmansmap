@@ -3,6 +3,13 @@ class PeopleController < ApplicationController
     @people = Person.all.order(:surname).includes(owners: :plot)
   end
 
+  def show
+    person = Person.preload(:plots).find(params[:id])
+    person_plots = person.plots.preload(:plot_datum)
+
+    render :show, locals: {person: person, person_plots: person_plots}
+  end
+
   def edit
     @person = Person.find(params[:id])
   end

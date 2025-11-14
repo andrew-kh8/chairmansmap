@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
-
   root "main_map#index"
   get "plots/plots", to: "plots#plots"
   get "plots/hunters", to: "plots#hunters"
 
-  resources :people, only: %i[index edit update]
+  resources :people, only: %i[index show edit update]
   resources :plots, only: %i[index show]
 
   namespace :side_panel do

@@ -11,4 +11,8 @@ class Person < ApplicationRecord
   def member
     member_from.strftime("%d.%m.%Y")
   end
+
+  def short_name
+    "#{surname} #{first_name.first}. #{middle_name.first}"
+  end
 end
