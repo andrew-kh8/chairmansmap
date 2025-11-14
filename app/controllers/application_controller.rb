@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  rescue_from NoMethodError, with: :not_implemented
+  # rescue_from NoMethodError, with: :not_implemented
   rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
