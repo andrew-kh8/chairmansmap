@@ -12,11 +12,15 @@ class PlotsController < ApplicationController
   end
 
   def show
-    @plot = Plot.includes(:plot_datum, :person).find(params[:id])
-    render :show, locals: {plot: @plot, person: @plot.person}
+    plot = Plot.includes(:plot_datum, :person).find(params[:id])
+    render :show, locals: {plot: plot, person: plot.person}
   end
 
   def new
+    plot = Plot.new
+    people = Person.kept.map { [_1.short_name, _1.id] }
+
+    render :new, locals: {plot: plot, people: people}
   end
 
   def create

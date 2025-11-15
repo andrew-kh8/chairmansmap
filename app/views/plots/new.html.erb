@@ -1,0 +1,114 @@
+<div class="max-h-full bg-white py-8">
+    <div class="max-w-6xl mx-auto px-6">
+        <!-- Увеличил max-w-2xl на max-w-6xl -->
+
+        <%= form_with model: plot, class: "bg-white rounded-xl border border-gray-200 p-8", data: {controller: "cadastral-number"} do |f| %>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Добавил grid с двумя колонками -->
+            <!-- Левая колонка -->
+            <div class="space-y-6">
+                <!-- Кадастровый номер -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <%= f.label :cadastral_number, "Кадастровый номер", class: "block text-sm font-medium text-gray-700" %>
+                        <button data-action="click->cadastral-number#check" type="button" class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium">
+                            Проверить
+                        </button>
+                    </div>
+                    <%= f.text_field :cadastral_number,
+                            data: { cadastral_number_target: "input" },
+                            class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200",
+                            placeholder: "77:01:0001001:123" %>
+                    <div data-cadastral-number-target="result"></div>
+                </div>
+
+                <!-- Простой номер -->
+                <div>
+                    <%= f.label :number, "Номер участка", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                    <%= f.text_field :number, 
+                              class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200",
+                              placeholder: "123" %>
+                </div>
+
+                <!-- Владелец -->
+                <div>
+                    <%= f.label :person_id, "Владелец", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                    <%= f.select :person_id, 
+                              options_for_select(people),
+                              {},
+                              prompt: "Выберите владельца",
+                              class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200" %>
+                </div>
+
+                <!-- Тип владения -->
+                <div>
+                    <%= f.label :ownership_type, "Тип владения", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                    <%= f.select :ownership_type, 
+                              options_for_select([
+                                ["Собственность", "ownership"],
+                                ["Аренда", "rent"],
+                                ["Пожизненное наследуемое владение", "lifetime_heritage"],
+                                ["Постоянное бессрочное пользование", "permanent_use"]
+                              ]),
+                              {},
+                              class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200" %>
+                </div>
+
+                <!-- Статус продажи -->
+                <div>
+                    <%= f.label :sale_status, "Статус продажи", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                    <%= f.select :sale_status, 
+                              options_for_select([
+                                ["Свободен", "available"],
+                                ["В процессе продажи", "in_progress"],
+                                ["Продан", "sold"],
+                                ["Забронирован", "reserved"]
+                              ]),
+                              {},
+                              class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200" %>
+                </div>
+            </div>
+
+            <!-- Правая колонка -->
+            <div class="space-y-6">
+                <!-- Описание -->
+                <div class="h-64">
+                    <!-- Фиксированная высота для контейнера -->
+                    <%= f.label :description, "Описание", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                    <%= f.text_area :description, rows: 8,
+              class: "w-full h-48 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 resize-none",
+              placeholder: "Дополнительная информация об участке..." %>
+                </div>
+
+                <!-- Фото -->
+                <div class="h-64">
+                    <!-- Такая же высота как у описания -->
+                    <%= f.label :photos, "Фотографии участка", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center h-48 flex flex-col justify-center">
+                        <!-- h-48 вместо h-40 -->
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <p class="mt-2 text-sm text-gray-600">Перетащите фото или кликните для загрузки</p>
+                        <%= f.file_field :photos, multiple: true, class: "hidden" %>
+                        <button type="button" class="mt-3 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium">
+                            Выбрать файлы
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопки действий -->
+        <div class="flex justify-end space-x-4 pt-4 border-t border-gray-200">
+            <%= link_to "Отмена", plots_path, 
+          class: "px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200 font-medium" %>
+            <%= f.submit "Создать участок",
+            disabled: true,
+            data: {cadastral_number_target: "submit"},
+          class: "px-6 py-3 rounded-lg transition duration-200 font-medium" %>
+        </div>
+        <% end %>
+    </div>
+</div>
