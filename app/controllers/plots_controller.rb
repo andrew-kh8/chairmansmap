@@ -3,11 +3,22 @@ class PlotsController < ApplicationController
 
   def index
     plots = Plot.includes(:plot_datum, :person).order(:gid)
-    @pagy, @plots = pagy(:offset, plots, limit: 24)
+
+    participants = {"Участники" => plots.map { [_1.person.short_name, _1.id] }.sort_by { |n, i| n }}
+    general = {"Наличие собственника" => [["Любой", "any"], ["Без собственника", "none"]]}
+    @people_data = general.merge(participants)
+
+    @pagy, @plots = pagy(:offset, plots, limit: 20)
   end
 
   def show
     @plot = Plot.includes(:plot_datum, :person).find(params[:id])
     render :show, locals: {plot: @plot, person: @plot.person}
+  end
+
+  def new
+  end
+
+  def create
   end
 end
