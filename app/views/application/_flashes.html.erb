@@ -1,0 +1,9 @@
+<% if flash %>
+    <div class="fixed top-4 right-4 z-50 space-y-3 w-80">
+        <% flash.each do |type, messages|%>
+            <% Array(messages).each do |message| %>
+                <%= render "flash_#{type}", message: message %>
+            <% end %>
+        <% end %>
+    </div>
+<% end %>

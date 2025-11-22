@@ -33,6 +33,17 @@ class PlotsController < ApplicationController
     end
   end
 
+  def destroy
+    plot_id = params[:id]
+    plot = Plot.find(plot_id)
+
+    if plot.destroy!
+      redirect_to plots_path, notice: "Участок #{plot_id} удален"
+    else
+      redirect_to plot_path(plot), alert: "Не получилось удалить участок #{plot_id}"
+    end
+  end
+
   private
 
   def permitted_params

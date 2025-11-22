@@ -100,9 +100,8 @@
                     <button class="w-full border border-indigo-500 text-indigo-500 py-3 px-4 rounded-lg hover:bg-indigo-50 transition duration-200 font-medium">
                         Скачать документы
                     </button>
-                    <button class="w-full border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition duration-200 font-medium">
-                        Поделиться доступом
-                    </button>
+                    <%= button_to "Удалить участок и все записи о нем", plot_path(plot), method: :delete, form:{data: { turbo_confirm: "Нажмите 'OK' чтобы удалить участок"}}, class:"w-full border border-red-300 text-red-700 py-3 px-4 rounded-lg hover:bg-red-50 transition duration-200 font-medium"%>
+                        
                 </div>
             </section>
         </div>

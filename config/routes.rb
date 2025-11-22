@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get "plots/hunters", to: "plots#hunters"
 
   resources :people, only: %i[index show edit update]
-  resources :plots, only: %i[index show new create]
+  resources :plots, only: %i[index show new create destroy]
 
   namespace :side_panel do
     resources :plots, only: [:index]
