@@ -16,6 +16,20 @@ visit http://127.0.0.1:3000
 
 # Setup
 
+install GEOS [rgeo doc](https://github.com/rgeo/rgeo/blob/main/doc/Installing-GEOS.md)
+```bash
+sudo apt update
+sudo apt install libgeos-dev libgeos++-dev
+
+# check geos
+apt list | grep geos
+
+# reinstall rgeo gem
+gem uninstall rgeo
+bundle install
+```
+
+
 ```bash
 shp2pgsql -i -D -s 4326 vector_map.shp plots > bd/plots.sql
 ```

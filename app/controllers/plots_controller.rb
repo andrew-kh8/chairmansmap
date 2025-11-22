@@ -24,5 +24,18 @@ class PlotsController < ApplicationController
   end
 
   def create
+    plot_result = PlotCreator.new(permitted_params).call
+
+    if plot_result.success?
+      redirect_to plot_path(plot_result.success)
+    else
+      redirect_to new_plot_path, alert: plot_result.failure
+    end
+  end
+
+  private
+
+  def permitted_params
+    params.require(:plot).permit(:cadastral_number, :number, :person_id, :owner_type, :sale_status, :description) # :photos
   end
 end
