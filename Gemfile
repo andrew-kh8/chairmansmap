@@ -5,8 +5,8 @@ ruby "3.3.6"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.8"
-gem "pg", "~> 1.1"
-gem "puma", "~> 5.0"
+gem "pg", "~> 1.6"
+gem "puma", "~> 7.0"
 gem "importmap-rails"
 gem "sprockets-rails"
 
@@ -24,8 +24,8 @@ gem "tailwindcss-rails", "~> 2.0"
 
 # database / models
 gem "data_migrate"
-gem "discard", "~> 1.2"
-gem "ffaker", "~> 2.23"
+gem "discard", "~> 1.4"
+gem "ffaker", "~> 2.25"
 
 # serializer
 gem "oj"
