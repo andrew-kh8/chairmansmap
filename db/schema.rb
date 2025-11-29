@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
+ActiveRecord::Schema[7.0].define(version: 2025_11_23_084546) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "postgis"
 
@@ -35,6 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
     t.date "active_to"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "new_plot_id"
     t.index ["person_id"], name: "index_owners_on_person_id"
     t.index ["plot_id"], name: "index_owners_on_plot_id"
   end
@@ -61,6 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
     t.string "cadastral_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "new_plot_id"
     t.index ["cadastral_number"], name: "index_plot_data_on_cadastral_number", unique: true
     t.index ["plot_id"], name: "index_plot_data_on_plot_id"
   end
@@ -73,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
     t.geometry "geom", limit: {:srid=>3857, :type=>"multi_polygon"}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "id", default: -> { "gen_random_uuid()" }
     t.index ["number"], name: "index_plots_on_number", unique: true
   end
 
