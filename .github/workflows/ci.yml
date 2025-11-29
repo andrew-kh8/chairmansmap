@@ -5,6 +5,10 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  RAILS_ENV: test
+  BUNDLE_PATH: vendor/bundle
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -19,7 +23,6 @@ jobs:
           POSTGRES_PASSWORD: password
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
-      RAILS_ENV: test
       PGHOST: localhost
       PGPORT: 5432
       PGUSER: rails
@@ -37,7 +40,7 @@ jobs:
       - name: Goofy ahh tests
         run: bundle exec rspec
 
-  lint:
+  bundler_audit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -49,7 +52,29 @@ jobs:
           bundler-cache: true
       - name: Bundler audit
         run: bundle exec bundler-audit --update
+
+  mr_brakeman:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
       - name: Mr. Brakeman
         run: bundle exec brakeman -q -w2
+
+  standard_english_mate_innit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
       - name: Standard english mate, innit?
         run: bundle exec standardrb
