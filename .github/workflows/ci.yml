@@ -1,0 +1,55 @@
+name: "Just flight CI"
+
+on:
+  pull_request:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:latest
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: chairmansmap_test
+          POSTGRES_USER: rails
+          POSTGRES_PASSWORD: password
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+    env:
+      RAILS_ENV: test
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: rails
+      PGPASSWORD: password
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Set up database schema
+        run: bin/rails db:schema:load
+      - name: Goofy ahh tests
+        run: bundle exec rspec
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Bundler audit
+        run: bundle exec bundler-audit --update
+      - name: Mr. Brakeman
+        run: bundle exec brakeman -q -w2
+      - name: Standard english mate, innit?
+        run: bundle exec standardrb
