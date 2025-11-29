@@ -5,21 +5,21 @@
     <div class="-mx-1">
         <ul class="flex w-full flex-wrap items-center h-10">
             <li class="block relative">
-                <input class="peer sr-only" type="radio" name="members" id="i1" checked/>
+                <input class="peer sr-only" type="radio" name="members" id="i1" checked />
                 <label for="i1" class="active_people_filter flex justify-center cursor-pointer border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out">
                     Активные участники (<%=@people.kept.count%>)
                 </label>
             </li>
 
             <li class="block relative mx-2">
-                <input class="peer sr-only" type="radio" name="members" id="i2"/>
+                <input class="peer sr-only" type="radio" name="members" id="i2" />
                 <label for="i2" class="archive_people_filter flex justify-center cursor-pointer border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out">
                     Бывшие участники (<%=@people.discarded.count%>)
                 </label>
             </li>
 
             <li class="block relative">
-                <input class="peer sr-only" type="radio" name="members" id="i3"/>
+                <input class="peer sr-only" type="radio" name="members" id="i3" />
                 <label for="i3" class="people_filter flex justify-center cursor-pointer border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out">
                     Все участники (<%=@people.count%>)
                 </label>
@@ -49,8 +49,7 @@
                     <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         Количество участков
                     </th>
-                    <th
-                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     </th>
                 </tr>
             </thead>
@@ -59,9 +58,11 @@
                 <%@people.each do |person| %>
                 <tr>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm flex items-center ml-3">
+                        <%= link_to person do %>
                         <p class="text-gray-900 whitespace-no-wrap">
                             <%=person.full_name%>
                         </p>
+                        <%end%>
                     </td>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p class="text-gray-900 whitespace-no-wrap">

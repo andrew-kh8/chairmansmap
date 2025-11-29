@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
+ActiveRecord::Schema[7.0].define(version: 2025_11_23_085416) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "postgis"
 
@@ -29,14 +30,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
   end
 
   create_table "owners", force: :cascade do |t|
-    t.bigserial "plot_id", null: false
     t.bigint "person_id", null: false
     t.date "active_from"
     t.date "active_to"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "plot_id"
     t.index ["person_id"], name: "index_owners_on_person_id"
-    t.index ["plot_id"], name: "index_owners_on_plot_id"
   end
 
   create_table "people", force: :cascade do |t|
@@ -54,18 +54,17 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
   end
 
   create_table "plot_data", force: :cascade do |t|
-    t.bigserial "plot_id", null: false
     t.string "description"
     t.string "sale_status"
     t.string "owner_type"
     t.string "cadastral_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "plot_id"
     t.index ["cadastral_number"], name: "index_plot_data_on_cadastral_number", unique: true
-    t.index ["plot_id"], name: "index_plot_data_on_plot_id"
   end
 
-  create_table "plots", id: false, force: :cascade do |t|
+  create_table "plots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.serial "gid", null: false
     t.float "area", null: false
     t.float "perimeter", null: false
@@ -77,4 +76,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_05_115854) do
   end
 
   add_foreign_key "owners", "people"
+  add_foreign_key "owners", "plots"
+  add_foreign_key "plot_data", "plots"
 end

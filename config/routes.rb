@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
-  root "plots#index"
+  root "main_map#index"
   get "plots/plots", to: "plots#plots"
   get "plots/hunters", to: "plots#hunters"
 
-  resources :people, only: %i[index edit update]
+  resource :maintenance, only: :show
+
+  resources :people, only: %i[index show edit update]
+  resources :plots, only: %i[index show new create destroy]
 
   namespace :side_panel do
     resources :plots, only: [:index]
@@ -12,7 +15,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :plots, only: %i[show update] do
-      get "filter", to: "plots_filter#index", on: :collection
+      collection do
+        get "filter", to: "plots_filter#index"
+        get "check_cadastral_number"
+      end
     end
 
     scope module: :people do

@@ -23,12 +23,16 @@
   </head>
 
   <body class="h-screen max-h-screen flex flex-col">
+
+    <%= render "application/flashes" %>
+
     <header class='w-full text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font'>
       <div class='container flex flex-col items-start justify-between p-6 mx-auto md:flex-row'>
         <a class='flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0'>
         </a>
         <nav class='flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto'>
             <%= link_to "Карта", root_path, class: 'mr-5 font-medium hover:text-gray-900' %>
+            <%= link_to "Участки", plots_path, class: 'mr-5 font-medium hover:text-gray-900' %>
             <%= link_to "Участники", people_path, class: 'mr-5 font-medium hover:text-gray-900' %>
         </nav>
       </div>

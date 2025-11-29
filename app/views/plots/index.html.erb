@@ -1,43 +1,84 @@
-<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
-<link rel="stylesheet" href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<%= javascript_include_tag "main_map" %>
+<div class="relative flex max-h-full flex-col justify-center overflow-hidden py-6 h-full">
+    <!-- Фильтры и кнопка создания -->
+    <div class="mx-auto max-w-screen-xl px-4 w-full mb-6">
+        <div class="bg-gray-100 rounded-xl border border-gray-200 p-6 mb-4 shadow-sm">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <!-- Фильтры -->
+                <%= form_with url: plots_path, method: :get do |form|%>
+                <div class="flex flex-col sm:flex-row gap-4 flex-wrap">
+                    <!-- Площадь -->
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">Площадь:</span>
+                        <%= form.number_field :area_min, placeholder: "От", value: params[:area_min], class: "w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"%>
+                        <span class="text-gray-400">-</span>
+                        <%= form.number_field :area_max, placeholder: "До", value: params[:area_max], class: "w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"%>
+                        <span class="text-sm text-gray-600">сот.</span>
+                    </div>
 
-<div class="flex h-full">
-    <!-- map -->
-    <div class="m-4 w-3/5 max-h-700px">
-        <div id="map" class="map w-full h-full"></div>
+                    <!-- Кто собственник -->
+                    <div>
+                        <%= select_tag :person, grouped_options_for_select(@people_data), multiple: true, class:"js-example-basic-multiple px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+                    </div>
+
+                    <!-- Кнопка применения фильтров -->
+                    <button class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium">
+                        Применить
+                    </button>
+                </div>
+                <%end%>
+
+                <!-- Кнопка создания -->
+                <%= link_to new_plot_path, class: "px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium flex items-center gap-2" do %>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Новый участок
+                <% end %>
+            </div>
+        </div>
     </div>
 
-    <div class="p-4 w-2/5 h-full">
-        <!-- tabs -->
-        <div class="max-w-2xl mx-auto">
-            <div class="border-b border-gray-200 dark:border-gray-700 mb-2 h-8">
-                <ul class="flex flex-wrap " id="myTab">
-            <li class="mr-2">
-                        <%= link_to "Участки", side_panel_plots_path, data: {
-                        turbo_frame: "side_panel" }, class:
-                        "inline-block text-gray-500 hover:text-gray-600 hover:border-gray-300 pb-2 px-4 rounded-t-lg text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300"%>
+    <!-- Сетка участков -->
+    <div class="mx-auto max-w-screen-xl px-4 w-full flex-grow">
+        <div class="grid w-full sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            <%@plots.each do |plot|%>
+            <div class="relative flex flex-col shadow-md rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 max-w-sm">
+                <%= link_to "", plot_path(plot), class:"z-20 absolute h-full w-full top-0 left-0"%>
 
-                    </li>
-                    <li class="mr-2">
-                        <%= link_to "Охотники", side_panel_hunters_path, data: {
-                        turbo_frame: "side_panel" }, class:
-                        "inline-block text-gray-500 hover:text-gray-600 hover:border-gray-300 pb-2 px-4 rounded-t-lg text-sm font-medium text-center border-transparent border-b-2 dark:text-gray-400 dark:hover:text-gray-300"%>
+                <div class="bg-white py-4 px-3">
+                    <div class="flex justify-between">
+                        <h3 class="text-xs mb-2 font-medium">№ <%=plot.number%></h3>
+                        <%= link_to person_path(plot.person), class: "relative z-30" do %>
+                        <h3 class="text-xs mb-2 font-medium"><%=plot.person.short_name%></h3>
+                        <%end%>
+                    </div>
 
-                    </li>
-                </ul>
+                    <div class="flex justify-between items-center">
+                        <p class="text-xs text-gray-400">
+                            Кадастровый № <%= plot.plot_datum.cadastral_number%>
+                        </p>
+                    </div>
+                </div>
             </div>
+            <%end%>
         </div>
+    </div>
 
-        <!-- form -->
-        <div id="data_form" class="max-h-700px">
-
-            <!-- right side panel -->
-            <div class="h-full w-full">
-                <%= render "side_panel/plots/index" %>
-            </div>
-
-        </div>
+    <!-- Пагинация -->
+    <div class="flex-none flex justify-center items-center mt-8">
+        <%== @pagy.series_nav %>
     </div>
 </div>
+
+<script>
+$(document).ready(function() {
+    $('.js-example-basic-multiple').select2({
+        width: "100%",
+        placeholder: "Выберите собственников",
+        allowClear: true
+    });
+});
+</script>

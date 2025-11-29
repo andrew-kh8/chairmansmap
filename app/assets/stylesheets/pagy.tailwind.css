@@ -1,0 +1,57 @@
+.pagy {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pagy a:not([role="separator"]) {
+  display: block;
+  text-decoration: none;
+  background-color: white;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pagy a[href]:hover {
+  background-color: #f9fafb;
+  color: #374151;
+  border-color: #9ca3af;
+}
+
+.pagy a:not([href]) {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.pagy a[aria-current] {
+  background-color: #6366f1;
+  color: white;
+  border-color: #6366f1;
+}
+
+.pagy a[role="link"]:not([aria-current]) {
+  opacity: 0.6;
+}
+
+.pagy span {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  color: #9ca3af;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Для разделителей (gap) */
+.pagy span[role="separator"] {
+  background-color: transparent;
+  border: none;
+  color: #d1d5db;
+  padding: 0.5rem 0.25rem;
+}

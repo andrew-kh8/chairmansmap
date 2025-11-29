@@ -1,0 +1,109 @@
+<%= javascript_include_tag "show_plot" %>
+
+<div class="flex h-4/5" id="mp">
+    <!-- Левая часть - карта -->
+    <div class="w-3/5 h-3/5">
+        <div id="map" class="w-full h-full" data-plot-id="<%= plot.id %>"></div>
+    </div>
+
+    <!-- Правая часть - информация -->
+    <div class="w-2/5 h-4/5 overflow-y-auto bg-white">
+        <div class="p-6 space-y-6">
+            <!-- Основная информация -->
+            <section class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Основная информация</h2>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Номер участка:</span>
+                        <span class="font-medium"><%= plot.number %></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Площадь:</span>
+                        <span class="font-medium"><%= plot.area %> м</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Кадастровый номер:</span>
+                        <span class="font-medium"><%= plot.plot_datum.cadastral_number %></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Статус продажи:</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"><%= plot.plot_datum.sale_status %></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Тип владения:</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"><%= plot.plot_datum.owner_type %></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Владельцы -->
+            <section class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Владелец</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
+                            <span class="text-indigo-600 font-medium">:)</span>
+                        </div>
+                        <div>
+                          <%= link_to(person.full_name, person_path, class: "font-medium")%>
+                            <p class="text-sm text-gray-500"><%= person.tel %></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Фотографии -->
+            <section class="bg-white rounded-lg border border-gray-200 p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Фотографии</h2>
+                    <button class="text-indigo-500 hover:text-indigo-600 text-sm font-medium">
+                        Добавить фото
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <%plot.plot_datum.photos.each do |photo| %> 
+                    <div class="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
+                        <%= image_tag("https://picsum.photos/400/400")%>
+                    </div>
+                  <%end%>
+                </div>
+            </section>
+
+            <!-- История изменений -->
+            <section class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">История изменений</h2>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-medium">Изменен статус участка</p>
+                            <p class="text-sm text-gray-500">Иван Иванов</p>
+                        </div>
+                        <span class="text-sm text-gray-400">2 часа назад</span>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-medium">Добавлен новый владелец</p>
+                            <p class="text-sm text-gray-500">Петр Петров</p>
+                        </div>
+                        <span class="text-sm text-gray-400">1 день назад</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Действия -->
+            <section class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Действия</h2>
+                <div class="space-y-3">
+                    <button class="w-full bg-indigo-500 text-white py-3 px-4 rounded-lg hover:bg-indigo-600 transition duration-200 font-medium">
+                        Редактировать информацию
+                    </button>
+                    <button class="w-full border border-indigo-500 text-indigo-500 py-3 px-4 rounded-lg hover:bg-indigo-50 transition duration-200 font-medium">
+                        Скачать документы
+                    </button>
+                    <%= button_to "Удалить участок и все записи о нем", plot_path(plot), method: :delete, form:{data: { turbo_confirm: "Нажмите 'OK' чтобы удалить участок"}}, class:"w-full border border-red-300 text-red-700 py-3 px-4 rounded-lg hover:bg-red-50 transition duration-200 font-medium"%>
+                        
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

@@ -15,6 +15,17 @@ class Api::PlotsController < ApplicationController
     end
   end
 
+  def check_cadastral_number
+    cadastral_number = params[:cadastral_number]
+    data = Apis::Geoplys::GetCoords.new.call(cadastral_number)
+
+    if data.success?
+      render json: {message: "ok"}, status: 200
+    else
+      render json: {message: data.failure}, status: 404
+    end
+  end
+
   private
 
   def owner_params
