@@ -4,7 +4,6 @@
 
     map.on('click', (event) => {
         $("#hunter_location_location").val([event.latlng.lat, event.latlng.lng].join(" "));
-        console.log([event.latlng.lat, event.latlng.lng].join(" "));
 
         if (typeof newMarker == 'undefined') {
             newMarker = new L.marker(event.latlng).addTo(map);

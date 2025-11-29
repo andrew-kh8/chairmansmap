@@ -30,7 +30,7 @@ $(document).ready(function () {
 
   wfs_plots_layer = L.Geoserver.wfs(wfs_endpoint, {
     layers: layer_name,
-    CQL_FILTER: "gid=" + plot_id,
+    CQL_FILTER: "id='" + plot_id + "'",
   });
 
   wfs_hunter_layer = L.Geoserver.wfs(wfs_endpoint, {

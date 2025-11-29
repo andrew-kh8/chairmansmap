@@ -30,7 +30,11 @@ var chosen_layer = null;
 // functions
 
 function plot_id(plot){
-  return Number(plot.id.split(".")[1]);
+  return plot.id.split(".")[1];
+};
+
+function plot_number(plot){
+  return Number(plot.properties.number);
 };
 
 function set_defaultStyle(layer, color = "", opacity = 0.2){
@@ -75,7 +79,7 @@ function set_plot_data(data) {
 
   $("#form_person_id").val(data.number).change();
   $("#open_form_button").removeAttr("disabled");
-  $("#update_form").attr("action", "/api/plots/" + data.number);
+  $("#update_form").attr("action", "/api/plots/" + data.id);
 
 
   if (data.person !== null) {
@@ -142,7 +146,7 @@ $(document).ready(function () {
     onEachFeature: function(feature, layer){
       set_defaultStyle(layer);
       layer.on("mouseover",(function(){
-        layer.bindTooltip("№ " + plot_id(feature), {permanent: false}).openTooltip();
+        layer.bindTooltip("№ " + plot_number(feature), {permanent: false}).openTooltip();
         layer.setStyle({fillColor: "red", fillOpacity: 0.5});
       }))
       .on("mouseout", function(){
@@ -208,7 +212,7 @@ $(document).ready(function () {
         update_plot_data(result)
       },
       error: function(error){
-        console.log(error)
+        console.log("error while update plot:" + error)
       }
     });
     return false;
@@ -228,7 +232,7 @@ $(document).ready(function () {
 
         if (data.plots){
           Object.values(wfs_plots_layer._layers)
-          .filter((el) => data.plots.includes(plot_id(el.feature)))
+          .filter((el) => data.plots.includes(plot_number(el.feature)))
           .forEach((r) => {
             r.setStyle({fillColor: "red"});
             set_defaultStyle(r, "red");

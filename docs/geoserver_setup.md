@@ -43,6 +43,7 @@ sudo rm -rf /usr/share.geoserver
 * название бд (chairmansmap_development)
 * имя пользователя в бд (vboxuser)
 * пароль для бд (1234)
+* check "Expose primary keys"
 
 host, port, schema - оставить по умолчанию
 
