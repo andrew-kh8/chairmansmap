@@ -1,3 +1,5 @@
+# standard:disable Rails/DangerousColumnNames
+
 class ChangePlotId < ActiveRecord::Migration[7.0]
   def up
     add_column :plots, :id, :uuid
@@ -8,3 +10,5 @@ class ChangePlotId < ActiveRecord::Migration[7.0]
     remove_column :plots, :id
   end
 end
+
+# standard:enable Rails/DangerousColumnNames

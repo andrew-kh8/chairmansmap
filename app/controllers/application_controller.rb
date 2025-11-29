@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_maintenance_mode
-    if ENV.fetch("MAINTENANCE_MODE", false) && request.path != maintenance_path
+    if ENV.fetch("MAINTENANCE_MODE") { false } && request.path != maintenance_path
       redirect_to maintenance_path
     end
   end
