@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get "plots/plots", to: "plots#plots"
   get "plots/hunters", to: "plots#hunters"
 
+  resource :maintenance, only: :show
+
   resources :people, only: %i[index show edit update]
   resources :plots, only: %i[index show new create destroy]
 
