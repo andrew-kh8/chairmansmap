@@ -1,27 +1,31 @@
 <div id="show_data_form" class="flex flex-col h-full">
-    <div class="flex-auto">
+    <div class="flex-auto space-y-4">
 
-        <div class="my-10">
-            <div class="mb-3 text-xl">Владелец участка</div>
-            <div>Тип владения: <span id="owner_type"></span></div>
-            <div>ФИО: <span id="owner_fio"></span></div>
-            <div>Тел: <span id="owner_tel"></span></div>
-            <div>Адрес: <span id="owner_adr"></span></div>
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Владелец участка</h3>
+            <div class="space-y-1 text-gray-700">
+                <div><span class="font-medium">Тип владения:</span> <span id="owner_type" class="text-indigo-600"></span></div>
+                <div><span class="font-medium">ФИО:</span> <span id="owner_fio" class="text-indigo-600"></span></div>
+                <div><span class="font-medium">Тел:</span> <span id="owner_tel" class="text-indigo-600"></span></div>
+                <div><span class="font-medium">Адрес:</span> <span id="owner_adr" class="text-indigo-600"></span></div>
+            </div>
         </div>
 
         <div>
-            <div class="mt-5 mb-3 text-xl">Данные участка</div>
-            <div>Кадастровый № <span id="plot_number_cadastral"></span></div>
-            <div>Площадь: <span id="plot_area"></span></div>
-            <div>Периметр: <span id="plot_perimeter"></span></div>
-            <div>Статус продажи: <span id="plot_sale_status"></span></div>
-            <div>
-                <div>Дополнительная информация:</div>
-                <span id="plot_description" class="ml-3"></span>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Данные участка</h3>
+            <div class="space-y-1 text-gray-700">
+                <div><span class="font-medium">Кадастровый №:</span> <span id="plot_number_cadastral" class="text-indigo-600"></span></div>
+                <div><span class="font-medium">Площадь:</span> <span id="plot_area" class="text-indigo-600"></span></div>
+                <div><span class="font-medium">Периметр:</span> <span id="plot_perimeter" class="text-indigo-600"></span></div>
+                <div><span class="font-medium">Статус продажи:</span> <span id="plot_sale_status" class="text-indigo-600"></span></div>
+                <div>
+                    <div class="font-medium mb-2">Дополнительная информация:</div>
+                    <div id="plot_description" class="text-gray-600 bg-gray-50 p-3 rounded-lg"></div>
+                </div>
             </div>
         </div>
-        
+
     </div>
 
-    <button id="open_form_button" href="" disabled class="inset-x-0 bottom-0 text-white bg-indigo-500 border-0 py-2 px-6 enabled:focus:outline-none enabled:hover:bg-indigo-900 rounded text-lg">Обновить данные участка</button>
+    <button id="open_form_button" href="" disabled class="mt-6 px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed">Обновить данные участка</button>
 </div>

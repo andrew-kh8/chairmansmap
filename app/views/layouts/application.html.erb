@@ -26,23 +26,23 @@
 
     <%= render "application/flashes" %>
 
-    <header class='w-full text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font'>
-      <div class='container flex flex-col items-start justify-between p-6 mx-auto md:flex-row'>
-        <a class='flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0'>
-        </a>
-        <nav class='flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto'>
-            <%= link_to "Карта", root_path, class: 'mr-5 font-medium hover:text-gray-900' %>
-            <%= link_to "Участки", plots_path, class: 'mr-5 font-medium hover:text-gray-900' %>
-            <%= link_to "Участники", people_path, class: 'mr-5 font-medium hover:text-gray-900' %>
+    <header class="w-full bg-white border-b border-gray-200">
+      <div class="container mx-auto px-6 py-4">
+        <nav class='flex items-center justify-center'>
+          <div class="flex items-center space-x-8">
+            <%= link_to "Карта", root_path, class: 'text-gray-600 hover:text-indigo-500 font-medium transition duration-200' %>
+            <%= link_to "Участки", plots_path, class: 'text-gray-600 hover:text-indigo-500 font-medium transition duration-200' %>
+            <%= link_to "Участники", people_path, class: 'text-gray-600 hover:text-indigo-500 font-medium transition duration-200' %>
+          </div>
         </nav>
       </div>
     </header>
 
-    <main class="m-6 w-full-8 flex-auto">
+    <main class="m-2 w-full-8 flex-auto">
       <%= yield %>
     </main>
 
-    <footer class="p-2 bg-gray-300 text-gray-800">
+    <footer class="pt-1 bg-gray-300 text-gray-800">
       <div class="text-sm text-center">
         <p>
           Copyright © 2023 - Andrew
