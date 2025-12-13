@@ -1,0 +1,32 @@
+<tr class="hover:bg-gray-50 transition duration-150">
+    <td class="px-6 py-4 whitespace-nowrap">
+        <%= link_to person, class: "block" do %>
+        <p class="text-sm font-medium text-gray-900 hover:text-indigo-600 transition duration-200">
+            <%= person.full_name %>
+        </p>
+        <% end %>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <p class="text-sm text-gray-900">
+            <%= person.tel %>
+        </p>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <p class="text-sm text-gray-900 max-w-xs truncate">
+            <%= person.address %>
+        </p>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <p class="text-sm text-gray-900">
+            <%= person.member %>
+        </p>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
+            <%= person.owners.map(&:plot).count %>
+        </span>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+        <%= link_to "Редактировать", edit_person_path(person), class: "text-indigo-600 hover:text-indigo-900 transition duration-200" %>
+    </td>
+</tr>

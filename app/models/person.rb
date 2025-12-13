@@ -4,6 +4,14 @@ class Person < ApplicationRecord
   has_many :owners
   has_many :plots, through: :owners
 
+  scope :by_full_name, ->(search_string = nil) do
+    if search_string.nil?
+      all
+    else
+      where("concat_ws(' ', surname, first_name, middle_name) ILIKE ?", "%#{search_string}%")
+    end
+  end
+
   def full_name
     [surname, first_name, middle_name].join(" ")
   end

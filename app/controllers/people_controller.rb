@@ -1,6 +1,23 @@
 class PeopleController < ApplicationController
+  include Pagy::Method
+
   def index
-    @people = Person.all.order(:surname).includes(owners: :plot)
+    people = Person
+      .by_full_name(params[:full_name])
+      .order(:surname)
+      .includes(owners: :plot)
+
+    people =
+      case params[:active].to_i
+      when 1
+        people.kept
+      when 2
+        people.discarded
+      else
+        people.all
+      end
+
+    @pagy, @people = pagy(:offset, people, limit: 10)
   end
 
   def show

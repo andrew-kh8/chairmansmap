@@ -20,11 +20,5 @@ Rails.application.routes.draw do
         get "check_cadastral_number"
       end
     end
-
-    scope module: :people do
-      resources :people, only: ["index"]
-      resources :active_people, only: ["index"]
-      resources :archive_people, only: ["index"]
-    end
   end
 end

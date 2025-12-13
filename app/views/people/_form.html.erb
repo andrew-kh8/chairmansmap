@@ -1,0 +1,44 @@
+<%= form_with url: people_path, method: :get, class: "flex-1" do |form| %>
+<div class="flex flex-col sm:flex-row gap-4 flex-wrap items-center">
+    <!-- Радио-кнопки -->
+    <div class="flex items-center space-x-6">
+        <%= label_tag :active_0, class: "flex items-center space-x-2 cursor-pointer" do %>
+        <%= radio_button_tag :active, 0, params[:active] == "0" || params[:active].blank?, class: "text-indigo-500 focus:ring-indigo-500" %>
+        <span class="text-sm text-gray-700">Все</span>
+        <% end %>
+
+        <%= label_tag :active_1, class: "flex items-center space-x-2 cursor-pointer" do %>
+        <%= radio_button_tag :active, 1, params[:active] == "1", class: "text-indigo-500 focus:ring-indigo-500" %>
+        <span class="text-sm text-gray-700">Активные</span>
+        <% end %>
+
+        <%= label_tag :active_2, class: "flex items-center space-x-2 cursor-pointer" do %>
+        <%= radio_button_tag :active, 2, params[:active] == "2", class: "text-indigo-500 focus:ring-indigo-500" %>
+        <span class="text-sm text-gray-700">Архивные</span>
+        <% end %>
+    </div>
+
+    <!-- Поле поиска -->
+    <div class="flex-1 min-w-[200px] relative">
+        <%= text_field_tag :full_name,
+            params[:full_name], 
+            placeholder: "ФИО...", 
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 text-sm"
+        %>
+
+        <% if params[:full_name].present? %>
+        <button type="button" onclick="this.previousElementSibling.value=''; this.previousElementSibling.focus()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition duration-150">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <% end %>
+    </div>
+
+    <!-- Кнопка поиска -->
+    <%= submit_tag 'Поиск', 
+        name: nil, 
+        class: "cursor-pointer px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium whitespace-nowrap"
+    %>
+</div>
+<% end %>
