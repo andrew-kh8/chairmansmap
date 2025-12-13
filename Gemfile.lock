@@ -181,6 +181,8 @@ GEM
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
+    faraday-http-cache (2.5.1)
+      faraday (>= 0.8)
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
     fasterer (0.11.0)
@@ -539,6 +541,7 @@ DEPENDENCIES
   dry-monads
   factory_bot_rails
   faraday
+  faraday-http-cache
   fasterer (~> 0.11.0)
   ffaker (~> 2.25)
   importmap-rails

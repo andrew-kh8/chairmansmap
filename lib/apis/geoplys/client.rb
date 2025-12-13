@@ -27,6 +27,8 @@ module Apis
 
       def self.create_connection
         Faraday.new(options) do |faraday|
+          faraday.use :http_cache, store: Rails.cache
+          # faraday.response :logger
           faraday.request :url_encoded
           faraday.response :json, parser_options: {decoder: Oj, symbolize_names: true}
           faraday.adapter Faraday.default_adapter
