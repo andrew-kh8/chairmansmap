@@ -1,0 +1,24 @@
+---
+EnableDefaultLinters: true
+exclude:
+  - ".github/**/*"
+  - ".vscode/**/*"
+  - "coverage/**/*"
+  - "node_modules/**/*"
+  - "tmp/**/*"
+  - "vendor/**/*"
+linters:
+  Rubocop:
+    enabled: true
+    rubocop_config:
+      require: standard
+      inherit_gem:
+        standard: config/base.yml
+      Layout/TrailingEmptyLines:
+        Enabled: false
+      Layout/InitialIndentation:
+        Enabled: false
+      Lint/UselessAssignment:
+        Enabled: false
+      AllCops:
+        DisabledByDefault: true

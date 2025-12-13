@@ -25,13 +25,13 @@
         </div>
 
         <div class="mb-4">
-            <%= form.label :date, "Дата и время"%>
-            <%= form.datetime_field :date, value: DateTime.now.strftime("%Y-%m-%dT%H:%M")%>
+            <%= form.label :date, "Дата и время" %>
+            <%= form.datetime_field :date, value: DateTime.now.strftime("%Y-%m-%dT%H:%M") %>
         </div>
 
         <div class="mb-4">
             <%= form.label :license, "Лицензия" %>
-            <%= form.check_box :license%>
+            <%= form.check_box :license %>
         </div>
 
         <div class="mb-4">
@@ -40,7 +40,7 @@
         </div>
 
         <div class="mb-4">
-            <%= form.label :description, "Описание", class: "mb-3 block"%>
+            <%= form.label :description, "Описание", class: "mb-3 block" %>
             <%= form.text_area :description, class: "w-full rounded-md" %>
         </div>
 
@@ -49,6 +49,6 @@
             <%= link_to "Отмена", side_panel_hunters_path, class: "text-center w-1/2 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" %>
         </div>
     </div>
-    <%end%>
+    <% end %>
 </div>
-<%end%>
+<% end %>

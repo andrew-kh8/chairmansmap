@@ -54,6 +54,7 @@ group :development, :test do
   # lint
   gem "standard"
   gem "standard-rails"
+  gem "erb_lint", require: false
 end
 
 group :development do

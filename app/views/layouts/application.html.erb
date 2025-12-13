@@ -6,10 +6,10 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Leaflet CSS and JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <%= favicon_link_tag 'favicon.png', skip_pipeline: true %>
+    <%= favicon_link_tag "favicon.png", skip_pipeline: true %>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -18,8 +18,8 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
-    <body data-geoserver-url="<%= ENV['GEOSERVER_URL'] %>">
-    <body data-geoserver-plots-layer="<%= ENV['PLOTS_LAYER_NAME'] %>">
+    <body data-geoserver-url="<%= ENV["GEOSERVER_URL"] %>">
+    <body data-geoserver-plots-layer="<%= ENV["PLOTS_LAYER_NAME"] %>">
   </head>
 
   <body class="h-screen max-h-screen flex flex-col">
@@ -30,9 +30,9 @@
       <div class="container mx-auto px-6 py-4">
         <nav class='flex items-center justify-center'>
           <div class="flex items-center space-x-8">
-            <%= link_to "Карта", root_path, class: 'text-gray-600 hover:text-indigo-500 font-medium transition duration-200' %>
-            <%= link_to "Участки", plots_path, class: 'text-gray-600 hover:text-indigo-500 font-medium transition duration-200' %>
-            <%= link_to "Участники", people_path, class: 'text-gray-600 hover:text-indigo-500 font-medium transition duration-200' %>
+            <%= link_to "Карта", root_path, class: "text-gray-600 hover:text-indigo-500 font-medium transition duration-200" %>
+            <%= link_to "Участки", plots_path, class: "text-gray-600 hover:text-indigo-500 font-medium transition duration-200" %>
+            <%= link_to "Участники", people_path, class: "text-gray-600 hover:text-indigo-500 font-medium transition duration-200" %>
           </div>
         </nav>
       </div>

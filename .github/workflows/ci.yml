@@ -78,3 +78,16 @@ jobs:
           bundler-cache: true
       - name: Standard english mate, innit?
         run: bundle exec standardrb
+
+  erb_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Lick, I mean lint
+        run: bundle exec erb_lint --lint-all

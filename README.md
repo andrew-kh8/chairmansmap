@@ -57,5 +57,11 @@ copy .env.sample to .env and fill the file
 
 copy .env.sample to .env.test and rewrite some variables if you wanna use other values in test environment
 
+# Linters
+
+## Views
+Use [erb-lint](https://github.com/Shopify/erb_lint) with config file
+
+Maybe onetime i will use herb
 
 * ...
