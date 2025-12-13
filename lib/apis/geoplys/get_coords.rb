@@ -9,7 +9,7 @@ module Apis
         result = Client.get(URL, {cn: cadaster_number})
 
         Success(result[:coordinates].first)
-      rescue Client::ResponseError => error
+      rescue Client::ResponseError, Client::RequestError => error
         Failure(error)
       end
     end
