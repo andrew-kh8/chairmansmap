@@ -6,6 +6,7 @@ RSpec.describe Person, type: :model do
     it { is_expected.to have_many(:plots).class_name("Plot") }
   end
 
+  # deprecated with PeopleSearch
   describe "by_full_name" do
     subject { described_class.by_full_name(search_string) }
 

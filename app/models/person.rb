@@ -4,6 +4,7 @@ class Person < ApplicationRecord
   has_many :owners
   has_many :plots, through: :owners
 
+  # deprecated with PeopleSearch
   scope :by_full_name, ->(search_string = nil) do
     if search_string.nil?
       all

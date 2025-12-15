@@ -2,20 +2,10 @@ class PeopleController < ApplicationController
   include Pagy::Method
 
   def index
-    people = Person
-      .by_full_name(params[:full_name])
-      .order(:surname)
+    people = PeopleSearch
+      .call(search_params)
+      .order(:surname, :first_name)
       .includes(owners: :plot)
-
-    people =
-      case params[:active].to_i
-      when 1
-        people.kept
-      when 2
-        people.discarded
-      else
-        people.all
-      end
 
     @pagy, @people = pagy(:offset, people, limit: 10)
   end
@@ -42,5 +32,12 @@ class PeopleController < ApplicationController
 
   def person_params
     params.require(:person).permit(:surname, :first_name, :middle_name, :tel, :address)
+  end
+
+  def search_params
+    permitted = params.permit(:full_name, :active, :plot_presence)
+    permitted[:active] = ActiveModel::Type::Boolean.new.cast(permitted[:active])
+    permitted[:plot_presence] = ActiveModel::Type::Boolean.new.cast(permitted[:plot_presence])
+    permitted
   end
 end
