@@ -1,0 +1,30 @@
+<div class="p-6 hover:bg-gray-50 transition duration-150">
+    <div class="flex justify-between items-start">
+        <div class="flex-1">
+            <div class="flex items-center space-x-3 mb-2">
+                <h4 class="text-lg font-medium text-gray-900">Участок №<%= plot.number %></h4>
+                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Активный</span>
+                <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">Архивный</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                    <p class="text-gray-600">Кадастровый номер</p>
+                    <p class="font-medium"><%= plot.plot_datum.cadastral_number %></p>
+                </div>
+                <div>
+                    <p class="text-gray-600">Дата покупки</p>
+                    <p class="font-medium">15.01.2023</p>
+                </div>
+                <div>
+                    <p class="text-gray-600">Площадь</p>
+                    <p class="font-medium"><%= plot.area %> м</p>
+                </div>
+                <div>
+                    <p class="text-gray-600">Статус</p>
+                    <p class="font-medium"><%= plot.plot_datum.owner_type %></p>
+                </div>
+            </div>
+        </div>
+        <%= link_to "Перейти →", plot, class: "ml-4 text-indigo-600 hover:text-indigo-800 font-medium text-sm" %>
+    </div>
+</div>
