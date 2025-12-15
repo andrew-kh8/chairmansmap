@@ -6,6 +6,7 @@ on:
     branches: [ "main" ]
 
 env:
+  RUBY_VERSION: 3.3.6
   RAILS_ENV: test
   BUNDLE_PATH: vendor/bundle
 
@@ -33,14 +34,14 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
       - name: Set up database schema
         run: bin/rails db:schema:load
       - name: Goofy ahh tests
         run: bundle exec rspec
 
-  bundler_audit:
+  bundler_auditor_cheeker_breeker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -48,9 +49,9 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
-      - name: Bundler audit
+      - name: Bundler auditor cheeker breeker
         run: bundle exec bundler-audit --update
 
   mr_brakeman:
@@ -61,7 +62,7 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
       - name: Mr. Brakeman
         run: bundle exec brakeman -q -w2
@@ -74,12 +75,12 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
       - name: Standard english mate, innit?
         run: bundle exec standardrb
 
-  erb_lint:
+  erb_licker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -87,7 +88,7 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
       - name: Lick, I mean lint
         run: bundle exec erb_lint --lint-all
