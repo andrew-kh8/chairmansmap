@@ -1,10 +1,10 @@
 class PeopleController < ApplicationController
   include Pagy::Method
+  include PeopleHelper
 
   def index
     people = PeopleSearch
       .call(search_params)
-      .order(:surname, :first_name)
       .includes(owners: :plot)
 
     @pagy, @people = pagy(:offset, people, limit: 10)
@@ -35,7 +35,7 @@ class PeopleController < ApplicationController
   end
 
   def search_params
-    permitted = params.permit(:full_name, :active, :plot_presence)
+    permitted = params.permit(:full_name, :active, :plot_presence, :sort)
     permitted[:active] = ActiveModel::Type::Boolean.new.cast(permitted[:active])
     permitted[:plot_presence] = ActiveModel::Type::Boolean.new.cast(permitted[:plot_presence])
     permitted

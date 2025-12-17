@@ -25,6 +25,19 @@ class PeopleSearch
         discarded
       end
     end
+
+    def by_sort(sort_type)
+      case sort_type
+      when "name_desc"
+        order(surname: :desc, first_name: :desc, middle_name: :desc)
+      when "member"
+        order(:member_from)
+      when "member_desc"
+        order(member_from: :desc)
+      else # default, by name asc
+        order(:surname, :first_name, :middle_name)
+      end
+    end
   end
 
   def self.call(filters)
@@ -33,5 +46,6 @@ class PeopleSearch
       .by_full_name(filters[:full_name])
       .by_plot_presence(filters[:plot_presence])
       .by_active(filters[:active])
+      .by_sort(filters[:sort])
   end
 end
