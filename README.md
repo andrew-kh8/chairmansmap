@@ -36,13 +36,9 @@ need for projection [gem rgeo-proj4](https://github.com/rgeo/rgeo-proj4)
 sudo apt install libproj-dev proj-bin
 ```
 
-
-```bash
-shp2pgsql -i -D -s 4326 vector_map.shp plots > bd/plots.sql
-```
-
 check docs folder
 
+## install strong migrations
 ```bash
 bundle exec rails generate strong_migrations:install
 ```

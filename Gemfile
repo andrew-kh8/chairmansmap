@@ -23,7 +23,6 @@ gem "turbo-rails"
 gem "tailwindcss-rails", "~> 2.0"
 
 # database / models
-gem "data_migrate"
 gem "discard", "~> 1.4"
 gem "ffaker", "~> 2.25"
 
