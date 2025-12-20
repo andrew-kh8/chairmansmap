@@ -16,7 +16,8 @@ visit http://127.0.0.1:3000
 
 # Setup
 
-install GEOS [rgeo doc](https://github.com/rgeo/rgeo/blob/main/doc/Installing-GEOS.md)
+## install GEOS
+[rgeo doc](https://github.com/rgeo/rgeo/blob/main/doc/Installing-GEOS.md)
 ```bash
 sudo apt update
 sudo apt install libgeos-dev libgeos++-dev
@@ -27,6 +28,12 @@ apt list | grep geos
 # reinstall rgeo gem
 gem uninstall rgeo
 bundle install
+```
+
+## install PROJ
+need for projection [gem rgeo-proj4](https://github.com/rgeo/rgeo-proj4)
+```bash
+sudo apt install libproj-dev proj-bin
 ```
 
 
@@ -40,7 +47,7 @@ check docs folder
 bundle exec rails generate strong_migrations:install
 ```
 
-<!-- sudo apt-get install libproj-dev proj-bin -->
+
 # Testing
 
 chrome for testing link: https://googlechromelabs.github.io/chrome-for-testing/#stable

@@ -16,6 +16,32 @@ class PlotsController < ApplicationController
     render :show, locals: {plot: plot, person: plot.person}
   end
 
+  def geometry
+    plot = Plot.find(params[:plot_id])
+
+    factory = RGeo::Geographic.projected_factory(projection_srid: 3857)
+    unprojected = factory.unproject(plot.geom)
+
+    feature =
+      {
+        type: "Feature",
+        geometry: RGeo::GeoJSON.encode(unprojected),
+        properties: {
+          id: plot.id,
+          centroid: unprojected.centroid.coordinates.reverse,
+          cadastral_number: plot.cadastral_number
+        }
+      }
+
+    geojson = {
+      type: "FeatureCollection",
+      id: plot.id,
+      features: [feature]
+    }
+
+    render json: geojson
+  end
+
   def new
     plot = Plot.new
     people = Person.kept.map { [_1.short_name, _1.id] }

@@ -1,7 +1,6 @@
 console.log("one plot");
 
 var map;
-var wfs_plots_layer;
 var wfs_hunter_layer;
 var plot_id;
 
@@ -12,7 +11,6 @@ var coord = {
 };
 
 var wfs_endpoint = document.body.dataset.geoserverUrl + "/wfs";
-var layer_name = document.body.dataset.geoserverPlotsLayer;
 
 $(document).ready(function () {
   map = L.map("map", {
@@ -22,8 +20,11 @@ $(document).ready(function () {
   });
   plot_id = $("#map")[0].dataset.plotId;
 
-  var isDarkMode = $(document.body).hasClass('dark');
-  var tile = (isDarkMode) ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" :"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  var isDarkMode = $(document.body).hasClass("dark");
+  var plotColor = isDarkMode ? "green" : "blue";
+  var tile = isDarkMode
+    ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+    : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
   L.tileLayer(tile, {
     attribution:
@@ -31,10 +32,22 @@ $(document).ready(function () {
     maxZoom: 23,
   }).addTo(map);
 
-  wfs_plots_layer = L.Geoserver.wfs(wfs_endpoint, {
-    layers: layer_name,
-    CQL_FILTER: "id='" + plot_id + "'",
-  });
+  fetch(`/plots/${plot_id}/geometry`)
+    .then((response) => response.json())
+    .then((geojson) => {
+      L.geoJson(geojson, {
+        style: function (feature) {
+          return {
+            color: plotColor,
+            weight: 2,
+            fillColor: plotColor,
+            fillOpacity: 0.2,
+          };
+        },
+      }).addTo(map);
+
+      map.setView(geojson.features[0].properties.centroid, 19);
+    });
 
   wfs_hunter_layer = L.Geoserver.wfs(wfs_endpoint, {
     layers: "web_gis:hunter_locations",
@@ -50,7 +63,6 @@ $(document).ready(function () {
     style: { color: "black", fillOpacity: "0", opacity: "0.5" },
   });
 
-  wfs_plots_layer.addTo(map);
   wfs_hunter_layer.addTo(map);
 
   L.control.layers(null, { Охотники: wfs_hunter_layer }).addTo(map);

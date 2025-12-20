@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   resource :maintenance, only: :show
 
   resources :people, only: %i[index show edit update]
-  resources :plots, only: %i[index show new create destroy]
+  resources :plots, only: %i[index show new create destroy] do
+    get :geometry
+  end
 
   namespace :side_panel do
     resources :plots, only: [:index]
