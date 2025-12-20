@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_23_085416) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_20_130058) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -66,11 +66,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_23_085416) do
 
   create_table "public.plots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.float "area", null: false
+    t.string "cadastral_number"
     t.datetime "created_at", null: false
+    t.string "description"
     t.geometry "geom", limit: {:srid=>3857, :type=>"multi_polygon"}, null: false
     t.serial "gid", null: false
     t.integer "number", null: false
+    t.string "owner_type"
     t.float "perimeter", null: false
+    t.string "sale_status"
     t.datetime "updated_at", null: false
     t.index ["number"], name: "index_plots_on_number", unique: true
   end

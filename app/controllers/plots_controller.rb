@@ -2,7 +2,7 @@ class PlotsController < ApplicationController
   include Pagy::Method
 
   def index
-    plots = Plot.includes(:plot_datum, :person).order(:gid)
+    plots = Plot.includes(:person).order(:gid)
 
     participants = {"Участники" => plots.map { [_1.person.short_name, _1.id] }.sort_by { |n, i| n }}
     general = {"Наличие собственника" => [["Любой", "any"], ["Без собственника", "none"]]}
@@ -12,7 +12,7 @@ class PlotsController < ApplicationController
   end
 
   def show
-    plot = Plot.includes(:plot_datum, :person).find(params[:id])
+    plot = Plot.includes(:person).find(params[:id])
     render :show, locals: {plot: plot, person: plot.person}
   end
 

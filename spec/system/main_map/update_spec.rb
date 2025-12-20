@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.describe "update plots", type: :system do
   let(:plot) { create(:plot) }
   let!(:new_person) { create(:person) }
-  let!(:plot_datum) { create(:plot_datum, plot: plot) }
   let!(:owner) { create(:owner, plot: plot) }
 
   it "update plot's data" do
@@ -25,15 +24,15 @@ RSpec.describe "update plots", type: :system do
 
     expect(find_by_id("plot_number")).to have_content(plot.number)
 
-    expect(find_by_id("owner_type")).to have_content(plot_datum.reload.owner_type)
+    expect(find_by_id("owner_type")).to have_content(plot.reload.owner_type)
     expect(find_by_id("owner_fio")).to have_content(new_person.full_name)
     expect(find_by_id("owner_tel")).to have_content(new_person.tel)
     expect(find_by_id("owner_adr")).to have_content(new_person.address)
 
-    expect(find_by_id("plot_number_cadastral")).to have_content(plot_datum.reload.cadastral_number)
+    expect(find_by_id("plot_number_cadastral")).to have_content(plot.reload.cadastral_number)
     expect(find_by_id("plot_area")).to have_content(plot.area)
     expect(find_by_id("plot_perimeter")).to have_content(plot.perimeter.to_i)
-    expect(find_by_id("plot_sale_status")).to have_content(plot_datum.reload.sale_status)
-    expect(find_by_id("plot_description")).to have_content(plot_datum.reload.description)
+    expect(find_by_id("plot_sale_status")).to have_content(plot.reload.sale_status)
+    expect(find_by_id("plot_description")).to have_content(plot.reload.description)
   end
 end

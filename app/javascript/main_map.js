@@ -64,7 +64,7 @@ function get_form_data(){
     owner:{
       person_id: $("#form_person_id").val()
     },
-    plot_data:{
+    plot:{
       sale_status: $("#form_sale_status").val(),
       owner_type: $("#form_owner_type").val(),
       description: $("#form_description").val()
@@ -90,22 +90,21 @@ function set_plot_data(data) {
     $("#form_person_id option:contains(" + full_name(data.person) + ")").prop('selected', true);
   };
 
-  if (data.plot_datum !== null) {
-    $("#plot_number_cadastral").text(data.plot_datum.cadastral_number);
-    $("#owner_type").text(data.plot_datum.owner_type);
-    $("#plot_sale_status").text(data.plot_datum.sale_status);
-    $("#plot_description").text(data.plot_datum.description);
+    $("#plot_number_cadastral").text(data.cadastral_number);
+    $("#owner_type").text(data.owner_type);
+    $("#plot_sale_status").text(data.sale_status);
+    $("#plot_description").text(data.description);
 
-    $("#form_sale_status option:contains(" + data.plot_datum.sale_status + ")").prop('selected', true);
-    $("#form_owner_type option:contains(" + data.plot_datum.owner_type + ")").prop('selected', true);
-    $("#form_description").val(data.plot_datum.description);
-  }
+    $("#form_sale_status option:contains(" + data.sale_status + ")").prop('selected', true);
+    $("#form_owner_type option:contains(" + data.owner_type + ")").prop('selected', true);
+    $("#form_description").val(data.description);
+
 };
 
 function update_plot_data(data) {
-  $("#owner_type").text(data.plot_datum.owner_type);
-  $("#plot_sale_status").text(data.plot_datum.sale_status);
-  $("#plot_description").text(data.plot_datum.description);
+  $("#owner_type").text(data.owner_type);
+  $("#plot_sale_status").text(data.sale_status);
+  $("#plot_description").text(data.description);
 
   $("#show_data_form").removeClass("hidden");
   $("#update_data_form").addClass("hidden");

@@ -17,7 +17,7 @@ class PlotUpdater
 
       plot.owners.create!(person_id: person_id, active_from: current_date) if person_id.present?
 
-      plot.plot_datum.update!(plot_data) if plot_data.present?
+      plot.update!(plot_data) if plot_data.present?
     rescue => e
       raise UpdateError, "При обновлении данных произошла ошибка. #{e}"
     end

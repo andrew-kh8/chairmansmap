@@ -1,7 +1,7 @@
 class PlotCreator
   include Dry::Monads[:result]
 
-  attr_reader :plot, :plot_data, :owner, :params
+  attr_reader :plot, :owner, :params
 
   PlotParams = Struct.new(:number, :description, :sale_status, :owner_type, :cadastral_number, :person_id)
 
@@ -9,25 +9,21 @@ class PlotCreator
     @params = PlotParams.new(**plot_params)
 
     @plot = build_plot
-    @plot_data = build_plot_data
     @owner = build_owner
   end
 
   def call
-    if plot.valid? && plot_data.valid? && owner.valid?
-
+    if plot.valid? && owner.valid?
       ActiveRecord::Base.transaction do
         plot.save!
-        plot_data.save!
         owner.save!
       rescue
-        raise Dry::Monads::Failure(plot.errors.full_messages + plot_data.errors.full_messages)
+        raise Dry::Monads::Failure(plot.errors.full_messages)
       end
 
       Dry::Monads::Success(plot)
     else
-
-      Dry::Monads::Failure(plot.errors.full_messages + plot_data.errors.full_messages)
+      Dry::Monads::Failure(plot.errors.full_messages)
     end
   end
 
@@ -42,13 +38,7 @@ class PlotCreator
       area: multi_polygon_data.area,
       perimeter: multi_polygon_data.perimeter,
       number: params.number,
-      geom: multi_polygon_data.multi_polygon
-    )
-  end
-
-  def build_plot_data
-    PlotDatum.new(
-      plot: plot,
+      geom: multi_polygon_data.multi_polygon,
       description: params.description,
       sale_status: params.sale_status,
       owner_type: params.owner_type,

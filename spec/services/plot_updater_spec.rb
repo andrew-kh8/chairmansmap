@@ -4,8 +4,7 @@ RSpec.describe PlotUpdater do
   subject(:result) { described_class.new.call(plot_id, person_id, plot_data) }
 
   let(:person) { create(:person) }
-  let(:plot) { create(:plot) }
-  let!(:plot_datum) { create(:plot_datum, plot: plot, cadastral_number: "1:2:3:4") }
+  let(:plot) { create(:plot, cadastral_number: "1:2:3:4") }
 
   describe "#call" do
     context "when result is positive" do
@@ -15,10 +14,10 @@ RSpec.describe PlotUpdater do
       let(:description) { "описание" }
 
       it "updates plot data" do
-        expect { result }.to change { plot_datum.reload.sale_status }.to("продается")
-          .and change { plot_datum.owner_type }.to("личная собственность")
-          .and change { plot_datum.description }.to(description)
-          .and not_change { plot_datum.cadastral_number }
+        expect { result }.to change { plot.reload.sale_status }.to("продается")
+          .and change { plot.owner_type }.to("личная собственность")
+          .and change { plot.description }.to(description)
+          .and not_change { plot.cadastral_number }
           .and change { plot.owners.count }.by(1)
 
         expect(result).to eq Dry::Monads::Success(plot)
@@ -28,10 +27,10 @@ RSpec.describe PlotUpdater do
         let(:person_id) { nil }
 
         it "updates plot data" do
-          expect { result }.to change { plot_datum.reload.sale_status }.to("продается")
-            .and change { plot_datum.owner_type }.to("личная собственность")
-            .and change { plot_datum.description }.to(description)
-            .and not_change { plot_datum.cadastral_number }
+          expect { result }.to change { plot.reload.sale_status }.to("продается")
+            .and change { plot.owner_type }.to("личная собственность")
+            .and change { plot.description }.to(description)
+            .and not_change { plot.cadastral_number }
             .and not_change { plot.owners.count }
 
           expect(result).to eq Dry::Monads::Success(plot)
@@ -42,10 +41,10 @@ RSpec.describe PlotUpdater do
         let(:plot_data) { nil }
 
         it "updates plot data" do
-          expect { result }.to not_change { plot_datum.reload.sale_status }
-            .and not_change { plot_datum.owner_type }
-            .and not_change { plot_datum.description }
-            .and not_change { plot_datum.cadastral_number }
+          expect { result }.to not_change { plot.reload.sale_status }
+            .and not_change { plot.owner_type }
+            .and not_change { plot.description }
+            .and not_change { plot.cadastral_number }
             .and change { plot.owners.count }.by(1)
 
           expect(result).to eq Dry::Monads::Success(plot)
@@ -61,7 +60,7 @@ RSpec.describe PlotUpdater do
         let(:failure_text) { "Не получилось найти участок" }
 
         it "raise an error" do
-          expect { result }.to not_change { plot_datum }.and(not_change { plot })
+          expect { result }.to not_change { plot }
 
           expect(result).to eq Dry::Monads::Failure(failure_text)
         end
@@ -74,8 +73,7 @@ RSpec.describe PlotUpdater do
         let(:failure_text) { "При обновлении данных произошла ошибка. Validation failed: Person must exist" }
 
         it "raise an error" do
-          expect { result }.to not_change { plot_datum }
-            .and not_change { plot }
+          expect { result }.to not_change { plot }
 
           expect(result).to eq Dry::Monads::Failure(failure_text)
         end
@@ -88,8 +86,7 @@ RSpec.describe PlotUpdater do
         let(:failure_text) { "При обновлении данных произошла ошибка. 'invalid status' is not a valid sale_status" }
 
         it "raise an error" do
-          expect { result }.to not_change { plot_datum }
-            .and not_change { plot }
+          expect { result }.to not_change { plot }
 
           expect(result).to eq Dry::Monads::Failure(failure_text)
         end

@@ -4,7 +4,7 @@ class PlotCoordsUpdateWorker
     result = {success: [], failure: []}
 
     plots.each do |plot|
-      cn = plot.plot_datum.cadastral_number
+      cn = plot.cadastral_number
 
       coords = coord_getter.call(cn)
       if coords.failure?

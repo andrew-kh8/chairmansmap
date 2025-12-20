@@ -23,15 +23,15 @@
                     </div>
                     <div class="flex justify-between">
                         <span class="text-gray-600">Кадастровый номер:</span>
-                        <span class="font-medium"><%= plot.plot_datum.cadastral_number %></span>
+                        <span class="font-medium"><%= plot.cadastral_number %></span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-gray-600">Статус продажи:</span>
-                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"><%= plot.plot_datum.sale_status %></span>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"><%= plot.sale_status %></span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-gray-600">Тип владения:</span>
-                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"><%= plot.plot_datum.owner_type %></span>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"><%= plot.owner_type %></span>
                     </div>
                 </div>
             </section>
@@ -61,7 +61,7 @@
                     </button>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
-                  <% plot.plot_datum.photos.each do |photo| %>
+                  <% plot.photos.each do |photo| %>
                     <div class="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
                         <%= image_tag("https://picsum.photos/400/400") %>
                     </div>

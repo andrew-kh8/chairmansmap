@@ -6,7 +6,7 @@ class Api::PlotsController < ApplicationController
   end
 
   def update
-    plot = PlotUpdater.new.call(params.require(:id), owner_params[:person_id].to_i, plot_data_params)
+    plot = PlotUpdater.new.call(params.require(:id), owner_params[:person_id].to_i, plot_params)
 
     if plot.success?
       render json: PlotSerializer.new.serialize_to_json(plot.success), status: :ok
@@ -32,7 +32,7 @@ class Api::PlotsController < ApplicationController
     params.require(:owner).permit(:person_id)
   end
 
-  def plot_data_params
-    params.require(:plot_data).permit(:sale_status, :owner_type, :description)
+  def plot_params
+    params.require(:plot).permit(:sale_status, :owner_type, :description)
   end
 end

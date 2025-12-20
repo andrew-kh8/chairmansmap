@@ -12,7 +12,7 @@ class PeopleController < ApplicationController
 
   def show
     person = Person.preload(:plots).find(params[:id])
-    person_plots = person.plots.preload(:plot_datum)
+    person_plots = person.plots
 
     render :show, locals: {person: person, person_plots: person_plots}
   end
