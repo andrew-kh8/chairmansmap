@@ -18,24 +18,11 @@ class PlotsController < ApplicationController
 
   def geometry
     plot = Plot.find(params[:plot_id])
+    unprojected_plot_geom = Geo::UnprojectPlot.call(plot)
 
-    factory = RGeo::Geographic.projected_factory(projection_srid: 3857)
-    unprojected = factory.unproject(plot.geom)
-
-    feature =
-      {
-        type: "Feature",
-        geometry: RGeo::GeoJSON.encode(unprojected),
-        properties: {
-          id: plot.id,
-          centroid: unprojected.centroid.coordinates.reverse,
-          cadastral_number: plot.cadastral_number
-        }
-      }
-
+    feature = Geo::PlotSerializer.new.serialize(unprojected_plot_geom)
     geojson = {
       type: "FeatureCollection",
-      id: plot.id,
       features: [feature]
     }
 
