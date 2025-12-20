@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_20_130058) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_20_144555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -53,17 +53,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_130058) do
     t.index ["discarded_at"], name: "index_people_on_discarded_at"
   end
 
-  create_table "public.plot_data", force: :cascade do |t|
-    t.string "cadastral_number"
-    t.datetime "created_at", null: false
-    t.string "description"
-    t.string "owner_type"
-    t.uuid "plot_id"
-    t.string "sale_status"
-    t.datetime "updated_at", null: false
-    t.index ["cadastral_number"], name: "index_plot_data_on_cadastral_number", unique: true
-  end
-
   create_table "public.plots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.float "area", null: false
     t.string "cadastral_number"
@@ -81,5 +70,4 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_130058) do
 
   add_foreign_key "public.owners", "public.people"
   add_foreign_key "public.owners", "public.plots"
-  add_foreign_key "public.plot_data", "public.plots"
 end
