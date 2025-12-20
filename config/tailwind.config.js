@@ -19,5 +19,8 @@ module.exports = {
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/container-queries'),
-  ]
+  ],
+  // {
+  darkMode: 'class', // или 'media' для prefers-color-scheme
+// }
 }

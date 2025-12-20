@@ -4,18 +4,18 @@
 <div class="relative flex max-h-full flex-col justify-center overflow-hidden py-6 h-full">
     <!-- Фильтры и кнопка создания -->
     <div class="mx-auto max-w-screen-xl px-4 w-full mb-6">
-        <div class="bg-gray-100 rounded-xl border border-gray-200 p-6 mb-4 shadow-sm">
+        <div class="bg-gray-100 rounded-xl border border-gray-200 p-6 mb-4 shadow-sm dark:bg-zinc-500 dark:border-gray-700">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <!-- Фильтры -->
                 <%= form_with url: plots_path, method: :get do |form| %>
                 <div class="flex flex-col sm:flex-row gap-4 flex-wrap">
                     <!-- Площадь -->
-                    <div class="flex items-center gap-2">
-                        <span class="text-sm text-gray-600">Площадь:</span>
-                        <%= form.number_field :area_min, placeholder: "От", value: params[:area_min], class: "w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
-                        <span class="text-gray-400">-</span>
-                        <%= form.number_field :area_max, placeholder: "До", value: params[:area_max], class: "w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
-                        <span class="text-sm text-gray-600">сот.</span>
+                    <div class="flex items-center gap-2 text-gray-600 dark:text-black">
+                        <span class="text-sm text-inherit">Площадь:</span>
+                        <%= form.number_field :area_min, placeholder: "От", value: params[:area_min], class: "w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-200" %>
+                        <span class="text-inherit">-</span>
+                        <%= form.number_field :area_max, placeholder: "До", value: params[:area_max], class: "w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-200" %>
+                        <span class="text-sm text-inherit">сот.</span>
                     </div>
 
                     <!-- Кто собственник -->
@@ -24,14 +24,14 @@
                     </div>
 
                     <!-- Кнопка применения фильтров -->
-                    <button class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium">
+                    <button class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium dark:text-black">
                         Применить
                     </button>
                 </div>
                 <% end %>
 
                 <!-- Кнопка создания -->
-                <%= link_to new_plot_path, class: "px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium flex items-center gap-2" do %>
+                <%= link_to new_plot_path, class: "px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium flex items-center gap-2 dark:text-black" do %>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
