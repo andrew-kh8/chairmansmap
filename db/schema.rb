@@ -16,10 +16,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_144555) do
   enable_extension "pgcrypto"
   enable_extension "postgis"
 
-  create_table "public.data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
-  create_table "public.hunter_locations", force: :cascade do |t|
+  create_table "hunter_locations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "date", null: false
     t.text "description"
@@ -29,7 +29,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_144555) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "public.owners", force: :cascade do |t|
+  create_table "owners", force: :cascade do |t|
     t.date "active_from"
     t.date "active_to"
     t.datetime "created_at", null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_144555) do
     t.index ["person_id"], name: "index_owners_on_person_id"
   end
 
-  create_table "public.people", force: :cascade do |t|
+  create_table "people", force: :cascade do |t|
     t.string "address"
     t.date "birth"
     t.datetime "created_at", null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_144555) do
     t.index ["discarded_at"], name: "index_people_on_discarded_at"
   end
 
-  create_table "public.plots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "plots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.float "area", null: false
     t.string "cadastral_number"
     t.datetime "created_at", null: false
@@ -68,6 +68,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_144555) do
     t.index ["number"], name: "index_plots_on_number", unique: true
   end
 
-  add_foreign_key "public.owners", "public.people"
-  add_foreign_key "public.owners", "public.plots"
+  add_foreign_key "owners", "people"
+  add_foreign_key "owners", "plots"
 end
