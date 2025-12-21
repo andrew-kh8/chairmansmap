@@ -5,7 +5,7 @@ class Api::PlotsFilterController < ApplicationController
     query = create_query
 
     if query.present?
-      plots_numbers = Plot.where(query).map { _1.plot.number }
+      plots_numbers = Plot.where(query).map { _1.number }
       render json: {plots: plots_numbers}, status: :ok
     else
       render json: {}, status: :ok

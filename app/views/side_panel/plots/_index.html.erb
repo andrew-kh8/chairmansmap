@@ -1,15 +1,9 @@
 <%= turbo_frame_tag "side_panel" do %>
-<%= render partial: "side_panel/plots/filters" %>
+    <%= render partial: "side_panel/plots/filters" %>
 
-<div class="bg-white rounded-xl border border-gray-200 p-8 flex flex-col h-4/5 dark:bg-zinc-500 dark:border-gray-700">
-
-    <div class="border-b border-gray-200 pb-4 mb-4 dark:border-gray-700">
-        <div class="text-xl text-gray-900 dark:text-black">
-            Данные участка № <b id="plot_number" class="font-semibold text-indigo-600 dark:text-black"></b>
-        </div>
+    <div class="bg-white rounded-xl border border-gray-200 p-8 flex flex-col h-4/5 dark:bg-zinc-500 dark:border-gray-700">
+        <%= turbo_frame_tag "side_panel_plot_data" do %>
+            Выберите участок для просмотра
+        <% end %>
     </div>
-
-    <%= render partial: "side_panel/plots/data" %>
-    <%= render partial: "side_panel/plots/update_form", locals: {people: @people} %>
-</div>
 <% end %>

@@ -45,78 +45,6 @@ function get_defaultStyle(layer){
   return layer.options.defaultStyle || {fillColor: "", fillOpacity: 0.2};
 };
 
-function full_name(names){
-  return names.surname + " " + names.first_name + " " + names.middle_name
-};
-
-function show_update_form(){
-  $("#show_data_form").addClass("hidden");
-  $("#update_data_form").removeClass("hidden");
-};
-
-function hide_update_form(){
-  $("#show_data_form").removeClass("hidden");
-  $("#update_data_form").addClass("hidden");
-};
-
-function get_form_data(){
-  return {
-    owner:{
-      person_id: $("#form_person_id").val()
-    },
-    plot:{
-      sale_status: $("#form_sale_status").val(),
-      owner_type: $("#form_owner_type").val(),
-      description: $("#form_description").val()
-    }
-  }
-};
-
-function set_plot_data(data) {
-  $("#plot_number").text(data.number);
-  $("#plot_area").text(data.area);
-  $("#plot_perimeter").text(data.perimeter);
-
-  $("#form_person_id").val(data.number).change();
-  $("#open_form_button").removeAttr("disabled");
-  $("#update_form").attr("action", "/api/plots/" + data.id);
-
-
-  if (data.person !== null) {
-    $("#owner_fio").text(full_name(data.person));
-    $("#owner_tel").text(data.person.tel);
-    $("#owner_adr").text(data.person.address);
-
-    $("#form_person_id option:contains(" + full_name(data.person) + ")").prop('selected', true);
-  };
-
-    $("#plot_number_cadastral").text(data.cadastral_number);
-    $("#owner_type").text(data.owner_type);
-    $("#plot_sale_status").text(data.sale_status);
-    $("#plot_description").text(data.description);
-
-    $("#form_sale_status option:contains(" + data.sale_status + ")").prop('selected', true);
-    $("#form_owner_type option:contains(" + data.owner_type + ")").prop('selected', true);
-    $("#form_description").val(data.description);
-
-};
-
-function update_plot_data(data) {
-  $("#owner_type").text(data.owner_type);
-  $("#plot_sale_status").text(data.sale_status);
-  $("#plot_description").text(data.description);
-
-  $("#show_data_form").removeClass("hidden");
-  $("#update_data_form").addClass("hidden");
-
-
-  if (data.person !== null) {
-    $("#owner_fio").text(full_name(data.person));
-    $("#owner_tel").text(data.person.tel);
-    $("#owner_adr").text(data.person.address);
-  };
-};
-
 // end of functions
 // ------------
 
@@ -162,12 +90,8 @@ $(document).ready(function () {
         chosen_layer = layer;
         set_defaultStyle(chosen_layer, "red");
         chosen_layer.setStyle({fillColor: "red", fillOpacity: 0.5});
-        $.get("/api/plots/" + plot_id(feature),
-          {},
-          function(data){
-            set_plot_data(data)
-          }
-        )
+
+        Turbo.visit(`/side_panel/plots/${plot_id(feature)}`, { action: "replace", frame: "side_panel_plot_data" });
       });
     }
   });
@@ -201,24 +125,6 @@ $(document).ready(function () {
 
   //   var latlng = map.mouseEventToLatLng(event.originalEvent);
 
-  $("#open_form_button").click(show_update_form);
-  $("#cancel_data_button").click(hide_update_form);
-
-  $("#update_form").submit(function(form=this){
-    $.ajax({
-      url: form.currentTarget.action,
-      type: 'PATCH',
-      data: get_form_data(),
-      dataType: "json",
-      success: function(result){
-        update_plot_data(result)
-      },
-      error: function(error){
-        console.log("error while update plot:" + error)
-      }
-    });
-    return false;
-  });
 
   $("#filters").click(function(){
     $.get("/api/plots/filter",
