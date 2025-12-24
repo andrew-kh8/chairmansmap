@@ -6,6 +6,7 @@ console.log("map");
 var map;
 var wfs_plots_layer;
 var wfs_hunter_layer;
+var layerControls;
 
 var zoom = 17;
 var coord = {
@@ -55,6 +56,7 @@ $(document).ready(function () {
     attributionControl: false,
   });
 
+  layerControls = L.control.layers(null, null).addTo(map);
   var isDarkMode = $(document.body).hasClass('dark');
   var tile = (isDarkMode) ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" :"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
@@ -96,25 +98,28 @@ $(document).ready(function () {
     }
   });
 
-  wfs_hunter_layer = L.Geoserver.wfs(wfs_endpoint, {
-    layers: "web_gis:hunter_locations",
-    onEachFeature: function (feature, layer) {
-      layer.on("mouseover", function () {
-        layer
-          .bindTooltip(new Date(feature.properties.date).toLocaleString("ru-RU"))
-          .openTooltip();
-      });
-    },
-    style: {color: "black",
-      fillOpacity: "0",
-      opacity: "0.5"}
-  });
-
   wfs_plots_layer.addTo(map);
-  wfs_hunter_layer.addTo(map);
+  layerControls.addOverlay(wfs_plots_layer, "Участки");
 
+  fetch("/geometry/hunters")
+    .then((response) => response.json())
+    .then((geojson) => {
+      wfs_hunter_layer = L.geoJson(geojson, {
+        pointToLayer: function (feature, latlng) {
+          return new L.CircleMarker(latlng, {
+            radius: 10,
+            fillOpacity: 0.85,
+          });
+        },
+        onEachFeature: function (feature, layer) {
+          layer.bindTooltip(feature.properties.date);
+        },
+      }).addTo(map);
 
-  L.control.layers(null, {"Участки": wfs_plots_layer, "Охотники": wfs_hunter_layer}).addTo(map);
+      wfs_hunter_layer.addTo(map);
+      layerControls.addOverlay(wfs_hunter_layer, "Охотники");
+    });
+
 
   // print coordinates in console
   // map.addEventListener('mousemove', (event) => {

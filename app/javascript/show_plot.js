@@ -49,21 +49,22 @@ $(document).ready(function () {
       map.setView(geojson.features[0].properties.centroid, 19);
     });
 
-  wfs_hunter_layer = L.Geoserver.wfs(wfs_endpoint, {
-    layers: "web_gis:hunter_locations",
-    onEachFeature: function (feature, layer) {
-      layer.on("mouseover", function () {
-        layer
-          .bindTooltip(
-            new Date(feature.properties.date).toLocaleString("ru-RU")
-          )
-          .openTooltip();
-      });
-    },
-    style: { color: "black", fillOpacity: "0", opacity: "0.5" },
-  });
+  fetch("/geometry/hunters")
+    .then((response) => response.json())
+    .then((geojson) => {
+      wfs_hunter_layer = L.geoJson(geojson, {
+        pointToLayer: function (feature, latlng) {
+          return new L.CircleMarker(latlng, {
+            radius: 10,
+            fillOpacity: 0.85,
+          });
+        },
+        onEachFeature: function (feature, layer) {
+          layer.bindTooltip(feature.properties.date);
+        },
+      }).addTo(map);
 
-  wfs_hunter_layer.addTo(map);
-
-  L.control.layers(null, { Охотники: wfs_hunter_layer }).addTo(map);
+      wfs_hunter_layer.addTo(map);
+      L.control.layers(null, { Охотники: wfs_hunter_layer }).addTo(map);
+    });
 });

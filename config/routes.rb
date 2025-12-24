@@ -21,4 +21,8 @@ Rails.application.routes.draw do
       get "check_cadastral_number"
     end
   end
+
+  namespace :geometry do
+    resources :hunters, only: [:index]
+  end
 end
