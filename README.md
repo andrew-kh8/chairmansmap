@@ -4,8 +4,8 @@
 
 ## Stack
 
-Rails + Geoserver(PostGIS) + Leaflet(leaflet-geoserver-request)\
-also Jquery, Tailwind, PostgreSQL, Java 11
+Rails + PostGIS (PostgreSQL) + Leaflet\
+also Jquery, Tailwind
 
 # Start
 
