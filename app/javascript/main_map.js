@@ -14,12 +14,8 @@ var coord = {
   lng:33.57975
 }
 
-var wfs_endpoint = document.body.dataset.geoserverUrl + "/wfs";
-var layer_name = document.body.dataset.geoserverPlotsLayer;
-
 var chosen_layer = null;
 
-// var local_wms = "https://5781-31-28-228-221.ngrok-free.app/geoserver/wms"
 // const pkk = "https://pkk.rosreestr.ru/arcgis/rest/services/PKK6/CadastreObjects/MapServer/export?layers=show%3A21&format=PNG32&bbox={bbox}&bboxSR=102100&imageSR=102100&size=1024%2C1024&transparent=true&f=image"
 
 
@@ -31,7 +27,7 @@ var chosen_layer = null;
 // functions
 
 function plot_id(plot){
-  return plot.id.split(".")[1];
+  return plot.properties.id;
 };
 
 function plot_number(plot){
@@ -59,6 +55,7 @@ $(document).ready(function () {
   layerControls = L.control.layers(null, null).addTo(map);
   var isDarkMode = $(document.body).hasClass('dark');
   var tile = (isDarkMode) ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" :"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  var plotColor = isDarkMode ? "green" : "blue";
 
   L.tileLayer(tile, {
     attribution:
@@ -66,40 +63,46 @@ $(document).ready(function () {
       maxZoom:23
   }).addTo(map);
 
-  // var wmsLayer = L.tileLayer.wms(local_wms, {
-  //   layers: layer_name,
-  //   format: "image/png",
-  //   transparent: true,
-  // });
-  // wmsLayer.addTo(map);
 
-  wfs_plots_layer = L.Geoserver.wfs(wfs_endpoint, {
-    layers: layer_name,
-    onEachFeature: function(feature, layer){
-      set_defaultStyle(layer);
-      layer.on("mouseover",(function(){
-        layer.bindTooltip("№ " + plot_number(feature), {permanent: false}).openTooltip();
-        layer.setStyle({fillColor: "red", fillOpacity: 0.5});
-      }))
-      .on("mouseout", function(){
-        layer.setStyle(get_defaultStyle(layer));
+  fetch("/geometry/plots")
+    .then((response) => response.json())
+    .then((geojson) => {
+      wfs_plots_layer = L.geoJson(geojson, {
+        style: function (feature) {
+          return {
+            color: plotColor,
+            weight: 2,
+            fillColor: plotColor,
+            fillOpacity: 0.2,
+          };
+        },
+        onEachFeature: function(feature, layer){
+          set_defaultStyle(layer);
+          layer.on("mouseover",(function(){
+            layer.bindTooltip("№ " + plot_number(feature), {permanent: false}).openTooltip();
+            layer.setStyle({fillColor: "red", fillOpacity: 0.5});
+          }))
+          .on("mouseout", function(){
+            layer.setStyle(get_defaultStyle(layer));
+          });
+          layer.on("click", function () {
+            if (chosen_layer != null) {
+              set_defaultStyle(chosen_layer);
+              chosen_layer.setStyle(get_defaultStyle(chosen_layer));
+            }
+            chosen_layer = layer;
+            set_defaultStyle(chosen_layer, "red");
+            chosen_layer.setStyle({fillColor: "red", fillOpacity: 0.5});
+
+            Turbo.visit(`/side_panel/plots/${plot_id(feature)}`, { action: "replace", frame: "side_panel_plot_data" });
+          });
+        },
       });
-      layer.on("click", function () {
-        if (chosen_layer != null) {
-          set_defaultStyle(chosen_layer);
-          chosen_layer.setStyle(get_defaultStyle(chosen_layer));
-        }
-        chosen_layer = layer;
-        set_defaultStyle(chosen_layer, "red");
-        chosen_layer.setStyle({fillColor: "red", fillOpacity: 0.5});
 
-        Turbo.visit(`/side_panel/plots/${plot_id(feature)}`, { action: "replace", frame: "side_panel_plot_data" });
-      });
-    }
-  });
+      wfs_plots_layer.addTo(map);
+      layerControls.addOverlay(wfs_plots_layer, "Участки");
+    });
 
-  wfs_plots_layer.addTo(map);
-  layerControls.addOverlay(wfs_plots_layer, "Участки");
 
   fetch("/geometry/hunters")
     .then((response) => response.json())

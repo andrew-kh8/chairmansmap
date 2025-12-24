@@ -24,5 +24,6 @@ Rails.application.routes.draw do
 
   namespace :geometry do
     resources :hunters, only: [:index]
+    resources :plots, only: [:index]
   end
 end

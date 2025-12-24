@@ -17,9 +17,6 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-
-    <body data-geoserver-url="<%= ENV["GEOSERVER_URL"] %>">
-    <body data-geoserver-plots-layer="<%= ENV["PLOTS_LAYER_NAME"] %>">
   </head>
 
   <body class="h-screen max-h-screen flex flex-col <%= (cookies[:dark_theme] == "1") ? "dark" : "" %> dark:bg-gray-900">
