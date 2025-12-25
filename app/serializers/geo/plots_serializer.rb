@@ -1,7 +1,6 @@
 module Geo
-  class HunterLocationSerializer < Panko::Serializer
+  class PlotsSerializer < Panko::Serializer
     FEATURE = "Feature"
-    DATE_FORMAT = "%d.%m.%Y %H:%M"
 
     attributes :type, :geometry, :properties
 
@@ -15,7 +14,8 @@ module Geo
 
     def properties
       {
-        date: object.date.strftime(DATE_FORMAT)
+        id: object.id,
+        number: object.number
       }
     end
   end

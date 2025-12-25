@@ -1,22 +1,10 @@
 module Geometry
   class HuntersController < ApplicationController
     def index
-      sql = <<~SQL
-        SELECT
-        ST_AsGeoJSON(ST_Transform(location, 4326)) as geojson_geom,
-        date
-        FROM hunter_locations;
-      SQL
+      hunter_locations = HunterLocationGeometry.call
+      features = Panko::ArraySerializer.new(nil, each_serializer: Geo::HunterLocationSerializer).serialize(hunter_locations)
 
-      result = ActiveRecord::Base.connection.execute(sql)
-      features = result.map { |hunter_geom| Geo::HunterLocationSerializer.new.serialize(hunter_geom) }
-
-      geojson = {
-        type: "FeatureCollection",
-        features: features
-      }
-
-      render json: geojson
+      render json: Geo::GeojsonSerializer.new.serialize_to_json(features)
     end
   end
 end
