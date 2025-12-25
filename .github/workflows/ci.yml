@@ -36,6 +36,10 @@ jobs:
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
+      - name: Install geo utils
+        run: |
+          sudo apt-get update
+          sudo apt-get install libgeos-dev libgeos++-dev libproj-dev proj-bin
       - name: Set up database schema
         run: bin/rails db:schema:load
       - name: Goofy ahh tests
