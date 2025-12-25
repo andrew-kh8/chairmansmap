@@ -29,12 +29,9 @@ jobs:
       PGUSER: rails
       PGPASSWORD: password
     steps:
-      - name: Install geo utils
-        run: |
-          sudo apt-get update
-          sudo apt-get install libgeos-dev libgeos++-dev libproj-dev proj-bin
       - name: Checkout code
         uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
@@ -50,6 +47,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
@@ -63,6 +61,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
@@ -76,6 +75,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
@@ -89,6 +89,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:

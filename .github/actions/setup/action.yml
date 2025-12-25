@@ -1,0 +1,11 @@
+name: 'Setup environment'
+description: 'Install system dependencies'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install geo utils
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install libgeos-dev libgeos++-dev libproj-dev proj-bin
