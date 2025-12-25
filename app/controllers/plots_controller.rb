@@ -16,19 +16,6 @@ class PlotsController < ApplicationController
     render :show, locals: {plot: plot, person: plot.person}
   end
 
-  def geometry
-    plot = Plot.find(params[:plot_id])
-    unprojected_plot_geom = Geo::UnprojectPlot.call(plot)
-
-    feature = Geo::PlotSerializer.new.serialize(unprojected_plot_geom)
-    geojson = {
-      type: "FeatureCollection",
-      features: [feature]
-    }
-
-    render json: geojson
-  end
-
   def new
     plot = Plot.new
     people = Person.kept.map { [_1.short_name, _1.id] }

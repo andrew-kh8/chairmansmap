@@ -29,5 +29,18 @@ module Geometry
 
       render json: geojson
     end
+
+    def show
+      plot = Plot.find(params[:id])
+      unprojected_plot_geom = Geo::UnprojectPlot.call(plot)
+
+      feature = Geo::PlotSerializer.new.serialize(unprojected_plot_geom)
+      geojson = {
+        type: "FeatureCollection",
+        features: [feature]
+      }
+
+      render json: geojson
+    end
   end
 end

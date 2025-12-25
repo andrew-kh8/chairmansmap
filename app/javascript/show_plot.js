@@ -1,25 +1,11 @@
 console.log("one plot");
 
-var map;
-var wfs_hunter_layer;
-var plot_id;
-
-var zoom = 17;
-var coord = {
-  lat: 44.50861,
-  lng: 33.57975,
-};
-
-var wfs_endpoint = document.body.dataset.geoserverUrl + "/wfs";
-
 $(document).ready(function () {
-  map = L.map("map", {
-    center: [coord.lat, coord.lng],
-    zoom: zoom,
+  var map = L.map("map", {
     attributionControl: false,
   });
-  plot_id = $("#map")[0].dataset.plotId;
 
+  var plot_id = $("#map")[0].dataset.plotId;
   var isDarkMode = $(document.body).hasClass("dark");
   var plotColor = isDarkMode ? "green" : "blue";
   var tile = isDarkMode
@@ -32,7 +18,7 @@ $(document).ready(function () {
     maxZoom: 23,
   }).addTo(map);
 
-  fetch(`/plots/${plot_id}/geometry`)
+  fetch(`/geometry/plots/${plot_id}`)
     .then((response) => response.json())
     .then((geojson) => {
       L.geoJson(geojson, {
@@ -52,7 +38,7 @@ $(document).ready(function () {
   fetch("/geometry/hunters")
     .then((response) => response.json())
     .then((geojson) => {
-      wfs_hunter_layer = L.geoJson(geojson, {
+      let wfs_hunter_layer = L.geoJson(geojson, {
         pointToLayer: function (feature, latlng) {
           return new L.CircleMarker(latlng, {
             radius: 10,
@@ -62,7 +48,7 @@ $(document).ready(function () {
         onEachFeature: function (feature, layer) {
           layer.bindTooltip(feature.properties.date);
         },
-      }).addTo(map);
+      });
 
       wfs_hunter_layer.addTo(map);
       L.control.layers(null, { Охотники: wfs_hunter_layer }).addTo(map);
