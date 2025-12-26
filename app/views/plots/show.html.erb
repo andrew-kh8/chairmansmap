@@ -1,9 +1,12 @@
-<%= javascript_include_tag "show_plot" %>
-
 <div class="flex h-4/5" id="mp">
     <!-- Левая часть - карта -->
     <div class="w-3/5 h-3/5">
-        <div id="map" class="w-full h-full" data-plot-id="<%= plot.id %>"></div>
+        <div
+             class="w-full h-full"
+             data-controller="plot"
+             data-plot-target="map"
+             data-plot-id-value="<%= plot.id %>">
+        </div>
     </div>
 
     <!-- Правая часть - информация -->
