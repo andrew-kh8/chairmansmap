@@ -1,8 +1,12 @@
-console.log("hun");
+import { Controller } from "@hotwired/stimulus";
 
-$(document).ready(function () {
-  $('input[name="daterange"]').on("focus", function () {
-    $(this).daterangepicker({
+export default class extends Controller {
+  static targets = ["input"];
+
+  connect() {}
+
+  showCalendar() {
+    $(this.inputTarget).daterangepicker({
       autoApply: true,
       locale: {
         format: "DD.MM.YY",
@@ -24,5 +28,5 @@ $(document).ready(function () {
         ],
       },
     });
-  });
-});
+  }
+}
