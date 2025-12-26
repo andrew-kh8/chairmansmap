@@ -1,9 +1,9 @@
 <%= turbo_frame_tag "side_panel" do %>
     <%= render partial: "side_panel/plots/filters" %>
 
-    <div class="bg-white rounded-xl border border-gray-200 p-8 flex flex-col h-4/5 dark:bg-zinc-500 dark:border-gray-700">
+    <div class="bg-white rounded-xl border border-gray-200 p-8 flex flex-col h-4/5 dark:bg-gray-800 dark:border-gray-700">
         <%= turbo_frame_tag "side_panel_plot_data" do %>
-            Выберите участок для просмотра
+            <span class="dark:text-white">Выберите участок для просмотра</span>
         <% end %>
     </div>
 <% end %>
