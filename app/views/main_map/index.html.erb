@@ -1,12 +1,9 @@
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
-<link rel="stylesheet" href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css">
 
-<%= javascript_include_tag "main_map" %>
-
-<div class="flex h-full">
+<div class="flex h-full" data-controller="main-map">
     <!-- map -->
     <div class="m-4 w-3/5 max-h-700px">
-        <div id="map" class="map w-full h-full"></div>
+        <div id="map" data-main-map-target="map" class="map w-full h-full"></div>
     </div>
 
     <div class="p-4 w-2/5 h-full">
