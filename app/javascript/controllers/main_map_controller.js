@@ -1,10 +1,16 @@
 import { Controller } from "@hotwired/stimulus";
 import { LeafletMap } from "../modules/leaflet_map";
 import {
+  plotColor,
+  layerStyleNames,
+  circleMarkerStyle,
+  defaultPlotStyle,
+} from "../modules/map_styles";
+import {
   PlotAction,
-  set_defaultStyle,
   plot_number,
-  removeStyle,
+  addLayerStyle,
+  removeLayerStyle,
 } from "../modules/main_map/plot_action";
 
 export default class extends Controller {
@@ -12,9 +18,9 @@ export default class extends Controller {
 
   connect() {
     console.log("main-map");
-    this.isDarkMode = $(document.body).hasClass("dark");
-    this.plotColor = this.isDarkMode ? "green" : "blue";
-    this.wfs_plots_layer = 1;
+    this.isDarkMode = document.body.classList.contains("dark");
+    this.plotColor = this.isDarkMode ? plotColor.DARK : plotColor.LIGHT;
+    this.wfs_plots_layer = null;
 
     this.leafletMap = new LeafletMap(this.mapTarget, this.isDarkMode, {
       zoom: 17,
@@ -37,15 +43,15 @@ export default class extends Controller {
         owner_type: this.ownerTypeTarget.value,
       },
       function (data) {
-        removeStyle(wfs_plots_layer);
+        Object.values(wfs_plots_layer._layers).forEach((layer) => {
+          removeLayerStyle(layer, layerStyleNames.FILTERED);
+        });
 
         if (data.plots) {
           Object.values(wfs_plots_layer._layers)
             .filter((el) => data.plots.includes(plot_number(el.feature)))
-            .forEach((r) => {
-              set_defaultStyle(r, "red");
-              r.options.filtered = true;
-              r.setStyle({ fillColor: "red" });
+            .forEach((layer) => {
+              addLayerStyle(layer, layerStyleNames.FILTERED);
             });
         }
       }
@@ -56,7 +62,9 @@ export default class extends Controller {
     this.saleStatusTarget.value = "не важно";
     this.ownerTypeTarget.value = "не важно";
 
-    removeStyle(this.wfs_plots_layer);
+    Object.values(this.wfs_plots_layer._layers).forEach((layer) => {
+      removeLayerStyle(layer, layerStyleNames.FILTERED);
+    });
   }
 
   // private
@@ -65,17 +73,11 @@ export default class extends Controller {
     fetch("/geometry/plots")
       .then((response) => response.json())
       .then((geojson) => {
-        const plotColor = this.plotColor;
-
         let plotAction = new PlotAction();
+
         this.wfs_plots_layer = L.geoJson(geojson, {
           style: function (feature) {
-            return {
-              color: plotColor,
-              weight: 2,
-              fillColor: plotColor,
-              fillOpacity: 0.2,
-            };
+            return defaultPlotStyle;
           },
           onEachFeature: (feature, layer) => {
             plotAction.call(feature, layer);
@@ -93,15 +95,12 @@ export default class extends Controller {
       .then((geojson) => {
         let wfs_hunter_layer = L.geoJson(geojson, {
           pointToLayer: function (feature, latlng) {
-            return new L.CircleMarker(latlng, {
-              radius: 10,
-              fillOpacity: 0.85,
-            });
+            return new L.CircleMarker(latlng, circleMarkerStyle);
           },
           onEachFeature: function (feature, layer) {
             layer.bindTooltip(feature.properties.date);
           },
-        }).addTo(this.map);
+        });
 
         wfs_hunter_layer.addTo(this.map);
         this.layerControls.addOverlay(wfs_hunter_layer, "Охотники");
