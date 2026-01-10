@@ -5,7 +5,7 @@
 ## Stack
 
 Rails + PostGIS (PostgreSQL) + Leaflet\
-also Jquery, Tailwind
+also Hotwire Turbo & Stimulus, Tailwind
 
 # Start
 
@@ -66,5 +66,9 @@ copy .env.sample to .env.test and rewrite some variables if you wanna use other 
 Use [erb-lint](https://github.com/Shopify/erb_lint) with config file
 
 Maybe onetime i will use herb
+
+# Js
+
+deadcode ??
 
 * ...
