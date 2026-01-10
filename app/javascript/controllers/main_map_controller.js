@@ -1,7 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import { LeafletMap } from "../modules/leaflet_map";
 import {
-  plotColor,
   layerStyleNames,
   circleMarkerStyle,
   defaultPlotStyle,
@@ -18,11 +17,9 @@ export default class extends Controller {
 
   connect() {
     console.log("main-map");
-    this.isDarkMode = document.body.classList.contains("dark");
-    this.plotColor = this.isDarkMode ? plotColor.DARK : plotColor.LIGHT;
     this.wfs_plots_layer = null;
 
-    this.leafletMap = new LeafletMap(this.mapTarget, this.isDarkMode, {
+    this.leafletMap = new LeafletMap(this.mapTarget, {
       zoom: 17,
       center: [44.50861, 33.57975],
     });

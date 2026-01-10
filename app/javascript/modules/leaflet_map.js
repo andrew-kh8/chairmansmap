@@ -1,6 +1,7 @@
+import { isDarkMode } from "./map_styles";
+
 export class LeafletMap {
-  constructor(container, isDarkMode, options = {}) {
-    this.isDarkMode = isDarkMode;
+  constructor(container, options = {}) {
     if (options["attributionControl"] == undefined) {
       options["attributionControl"] = false;
     }
@@ -9,7 +10,7 @@ export class LeafletMap {
   }
 
   initMap() {
-    this.tile = this.isDarkMode
+    this.tile = isDarkMode()
       ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
       : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 

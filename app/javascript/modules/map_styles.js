@@ -3,6 +3,10 @@
 // 'lightblue', 'lightgray', 'lightgreen', 'lightred', 'orange', 'pink', 'purple', and 'red'.
 // more about leflet style - https://veroviz.org/docs/leaflet_style.html
 
+export function isDarkMode() {
+  return document.body.classList.contains("dark");
+}
+
 export const plotColor = {
   LIGHT: "blue",
   DARK: "green",
@@ -16,9 +20,9 @@ export const layerStyleNames = Object.freeze({
 });
 
 export const layerStyles = {
-  [layerStyleNames.POINTED]: { fillColor: "red", fillOpacity: 0.5 },
-  [layerStyleNames.CHOSEN]: { fillColor: "orange", fillOpacity: 0.4 },
-  [layerStyleNames.FILTERED]: { fillColor: "red", fillOpacity: 0.2 },
+  [layerStyleNames.POINTED]: { fillColor: "white", fillOpacity: 0.6 },
+  [layerStyleNames.CHOSEN]: { fillColor: "orange", fillOpacity: 0.6 },
+  [layerStyleNames.FILTERED]: { fillColor: "purple", fillOpacity: 0.6 },
   [layerStyleNames.DEFAULT]: { fillColor: "", fillOpacity: 0.2 },
 };
 
@@ -27,13 +31,9 @@ export const circleMarkerStyle = {
   fillOpacity: 0.85,
 };
 
-let plotColorFill = document.body.classList.contains("dark")
-  ? plotColor.DARK
-  : plotColor.LIGHT;
-
 export const defaultPlotStyle = {
-  color: plotColorFill,
+  color: isDarkMode() ? plotColor.DARK : plotColor.LIGHT,
   weight: 2,
-  fillColor: plotColorFill,
+  fillColor: isDarkMode() ? plotColor.DARK : plotColor.LIGHT,
   fillOpacity: 0.2,
 };

@@ -47,7 +47,7 @@ export function removeLayerStyle(layer, style) {
   layer.setStyle(layerStyle(layer));
 }
 
-export function layerStyle(layer) {
+function layerStyle(layer) {
   switch (true) {
     case layer.options.pointed:
       return layerStyles.pointed;

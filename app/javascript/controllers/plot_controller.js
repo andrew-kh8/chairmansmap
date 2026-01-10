@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import { LeafletMap } from "../modules/leaflet_map";
+import { circleMarkerStyle, defaultPlotStyle } from "../modules/map_styles";
 
 export default class extends Controller {
   static values = {
@@ -9,10 +10,7 @@ export default class extends Controller {
   static targets = ["map"];
 
   connect() {
-    this.isDarkMode = $(document.body).hasClass("dark");
-    this.plotColor = this.isDarkMode ? "green" : "blue";
-
-    this.leafletMap = new LeafletMap(this.mapTarget, this.isDarkMode);
+    this.leafletMap = new LeafletMap(this.mapTarget);
     this.map = this.leafletMap.initMap();
 
     this.showPlot();
@@ -23,16 +21,9 @@ export default class extends Controller {
     fetch(`/geometry/plots/${this.idValue}`)
       .then((response) => response.json())
       .then((geojson) => {
-        const plotColor = this.plotColor;
-
         L.geoJson(geojson, {
           style: function (feature) {
-            return {
-              color: plotColor,
-              weight: 2,
-              fillColor: plotColor,
-              fillOpacity: 0.2,
-            };
+            return defaultPlotStyle;
           },
         }).addTo(this.map);
 
@@ -46,10 +37,7 @@ export default class extends Controller {
       .then((geojson) => {
         let wfs_hunter_layer = L.geoJson(geojson, {
           pointToLayer: function (feature, latlng) {
-            return new L.CircleMarker(latlng, {
-              radius: 10,
-              fillOpacity: 0.85,
-            });
+            return new L.CircleMarker(latlng, circleMarkerStyle);
           },
           onEachFeature: function (feature, layer) {
             layer.bindTooltip(feature.properties.date);
