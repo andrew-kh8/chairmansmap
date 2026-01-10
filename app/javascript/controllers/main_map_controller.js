@@ -4,6 +4,7 @@ import {
   layerStyleNames,
   circleMarkerStyle,
   defaultPlotStyle,
+  newHunterMarkerStyle,
 } from "../modules/map_styles";
 import {
   PlotAction,
@@ -28,18 +29,39 @@ export default class extends Controller {
 
     this.showAllPlots();
     this.showHunters();
+
+    this.newHunterMarker = null;
+    this.map.on("click", this.handleMapClick.bind(this));
+  }
+
+  handleMapClick(event) {
+    const locationInput = document.getElementById("hunter_location_location");
+
+    if (locationInput) {
+      const latlng = event.latlng;
+      locationInput.value = `${latlng.lat} ${latlng.lng}`;
+
+      if (!this.newHunterMarker) {
+        this.newHunterMarker = L.marker(latlng, {
+          icon: L.divIcon(newHunterMarkerStyle),
+        }).addTo(this.map);
+      } else {
+        this.newHunterMarker.setLatLng(latlng);
+      }
+    }
   }
 
   filterPlots() {
     let wfs_plots_layer = this.wfs_plots_layer;
 
-    $.get(
-      "/api/plots/filter",
-      {
-        sale_status: this.saleStatusTarget.value,
-        owner_type: this.ownerTypeTarget.value,
-      },
-      function (data) {
+    const params = new URLSearchParams({
+      sale_status: this.saleStatusTarget.value,
+      owner_type: this.ownerTypeTarget.value,
+    });
+
+    fetch(`/api/plots/filter?${params}`)
+      .then((response) => response.json())
+      .then((data) => {
         Object.values(wfs_plots_layer._layers).forEach((layer) => {
           removeLayerStyle(layer, layerStyleNames.FILTERED);
         });
@@ -51,8 +73,7 @@ export default class extends Controller {
               addLayerStyle(layer, layerStyleNames.FILTERED);
             });
         }
-      }
-    );
+      });
   }
 
   resetFilter() {
