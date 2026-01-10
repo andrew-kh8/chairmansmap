@@ -1,7 +1,11 @@
 <div class="rounded-xl p-8 flex flex-col w-full border dark:bg-gray-800 dark:border-gray-700">
     <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700 overflow-y-auto h-full">
         <div id="hunter_data" class="flex flex-col h-full">
-            <%= render partial: "hunter_row", collection: hunter_locations, as: :hunter %>
+            <% if hunter_locations.present? %>
+                <%= render partial: "hunter_row", collection: hunter_locations, as: :hunter %>
+            <% else %>
+                <div class="text-center dark:text-white">Охотники не найдены</div>
+            <% end %>
         </div>
     </ul>
 
