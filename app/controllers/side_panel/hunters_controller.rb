@@ -15,10 +15,15 @@ module SidePanel
     end
 
     def create
-      CreateHunterLocation.new.call(hunter_params)
+      CreateHunterLocation.call(hunter_params)
 
       hunter_locations = HunterLocation.all
-      render partial: "index", locals: {hunter_locations: hunter_locations}
+      locals = {
+        hunter_locations: hunter_locations,
+        dog_options: HunterLocationSearch::DOG_OPTIONS,
+        license_options: HunterLocationSearch::LICENSE_OPTIONS
+      }
+      render partial: "index", locals:
     end
 
     private

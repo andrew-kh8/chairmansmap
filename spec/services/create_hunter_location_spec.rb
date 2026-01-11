@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CreateHunterLocation do
-  subject(:result) { described_class.new.call(params) }
+  subject(:result) { described_class.call(params) }
 
   describe "#call" do
     context "when params are valid" do
