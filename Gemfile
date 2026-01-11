@@ -72,6 +72,7 @@ group :development do
   gem "rails_best_practices"
   gem "rubycritic", require: false
   gem "strong_migrations"
+  gem "ruby-lsp-rspec", require: false
 end
 
 group :test do

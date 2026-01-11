@@ -360,6 +360,8 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.3.1)
+    rbs (3.10.2)
+      logger
     rdoc (6.16.1)
       erb
       psych (>= 4.0.0)
@@ -425,6 +427,12 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.44.0, < 2.0)
+    ruby-lsp (0.26.4)
+      language_server-protocol (~> 3.17.0)
+      prism (>= 1.2, < 2.0)
+      rbs (>= 3, < 5)
+    ruby-lsp-rspec (0.1.28)
+      ruby-lsp (~> 0.26.0)
     ruby-progressbar (1.13.0)
     ruby_parser (3.21.1)
       racc (~> 1.5)
@@ -580,6 +588,7 @@ DEPENDENCIES
   rgeo-geojson
   rgeo-proj4
   rspec-rails (~> 7.0.0)
+  ruby-lsp-rspec
   rubycritic
   selenium-webdriver
   shoulda-matchers
