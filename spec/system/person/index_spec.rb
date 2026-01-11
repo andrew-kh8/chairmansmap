@@ -7,54 +7,37 @@ RSpec.describe "people", type: :system do
     it "shows one person" do
       visit people_path
 
-      expect(page).to have_content("Активные участники (1)")
-      expect(page).to have_content("Бывшие участники (0)")
-      expect(page).to have_content("Все участники (1)")
+      expect(page).to have_content("Новый участок")
 
       expect(page).to have_content(person.full_name)
         .and have_content(person.tel)
         .and have_content(person.address)
         .and have_content(person.member)
-
-      find("label", text: "Бывшие участники (0)").click
-
-      expect(find("tbody", visible: false)).to have_no_css("*")
     end
   end
 
-  context "when there is a former participant" do
-    let!(:former_person) { create(:person, :discarded) }
+  context "when there is a archived participant" do
+    let!(:archived_person) { create(:person, :discarded) }
 
-    it "shows a former participant in second tab" do
+    it "shows a archived participant in second tab" do
       visit people_path
 
-      expect(page).to have_content("Активные участники (1)")
-      expect(page).to have_content("Бывшие участники (1)")
-      expect(page).to have_content("Все участники (2)")
+      expect(page).to have_content("Новый участок")
 
       expect(page).to have_content(person.full_name)
-        .and have_content(person.tel)
-        .and have_content(person.address)
-        .and have_content(person.member)
+      expect(page).to have_content(archived_person.full_name)
 
-      find("label", text: "Бывшие участники (1)").click
-
-      expect(page).to have_content(former_person.full_name)
-        .and have_content(former_person.tel)
-        .and have_content(former_person.address)
-        .and have_content(former_person.member)
-
-      find("label", text: "Все участники (2)").click
+      find("label", text: "Активные").click
+      click_button "Поиск"
 
       expect(page).to have_content(person.full_name)
-        .and have_content(person.tel)
-        .and have_content(person.address)
-        .and have_content(person.member)
+      expect(page).not_to have_content(archived_person.full_name)
 
-      expect(page).to have_content(former_person.full_name)
-        .and have_content(former_person.tel)
-        .and have_content(former_person.address)
-        .and have_content(former_person.member)
+      find("label", text: "Архивные").click
+      click_button "Поиск"
+
+      expect(page).not_to have_content(person.full_name)
+      expect(page).to have_content(archived_person.full_name)
     end
   end
 end

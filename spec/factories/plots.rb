@@ -15,9 +15,9 @@ FactoryBot.define do
       ].join(":")
     end
     geom do
-      factory = RGeo::Cartesian.simple_factory
-      x = rand(6545959..6546308)
-      y = rand(4930381..4930708)
+      factory = RGeo::Geos.factory(srid: Plot::SRID)
+      x = rand(3737500..3737900)
+      y = rand(5544000..5544500)
 
       factory.multi_polygon([
         factory.polygon(

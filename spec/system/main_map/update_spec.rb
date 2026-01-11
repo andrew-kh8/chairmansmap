@@ -8,31 +8,31 @@ RSpec.describe "update plots", type: :system do
   it "update plot's data" do
     visit root_path
 
-    expect(find_by_id("plot_number", visible: false)).to have_no_css("*")
+    find("path.leaflet-interactive").click
 
-    find("path", match: :first).click
+    within("turbo-frame#side_panel_plot_data") do
+      expect(page).to have_content(plot.number)
 
-    expect(find_by_id("plot_number")).to have_content(plot.number)
+      click_on("Обновить данные участка")
+      select(new_person.full_name, from: "Владелец участка")
+      select("продается", from: "Статус продажи")
+      select("личная собственность", from: "Тип владения")
+      fill_in("form_description",	with: "Дополнительная информация")
 
-    click_button("Обновить данные участка")
-    select(new_person.full_name, from: "Владелец участка")
-    select("продается", from: "Статус продажи")
-    select("личная собственность", from: "Тип владения")
-    fill_in("form_description",	with: "Дополнительная информация")
+      click_button("Обновить")
 
-    click_button("Обновить")
+      expect(page).to have_content(plot.number)
 
-    expect(find_by_id("plot_number")).to have_content(plot.number)
+      expect(page).to have_content(plot.reload.owner_type)
+      expect(page).to have_content(new_person.full_name)
+      expect(page).to have_content(new_person.tel)
+      expect(page).to have_content(new_person.address)
 
-    expect(find_by_id("owner_type")).to have_content(plot.reload.owner_type)
-    expect(find_by_id("owner_fio")).to have_content(new_person.full_name)
-    expect(find_by_id("owner_tel")).to have_content(new_person.tel)
-    expect(find_by_id("owner_adr")).to have_content(new_person.address)
-
-    expect(find_by_id("plot_number_cadastral")).to have_content(plot.reload.cadastral_number)
-    expect(find_by_id("plot_area")).to have_content(plot.area)
-    expect(find_by_id("plot_perimeter")).to have_content(plot.perimeter.to_i)
-    expect(find_by_id("plot_sale_status")).to have_content(plot.reload.sale_status)
-    expect(find_by_id("plot_description")).to have_content(plot.reload.description)
+      expect(page).to have_content(plot.reload.cadastral_number)
+      expect(page).to have_content(plot.area)
+      expect(page).to have_content(plot.perimeter.to_i)
+      expect(page).to have_content(plot.reload.sale_status)
+      expect(page).to have_content(plot.reload.description)
+    end
   end
 end

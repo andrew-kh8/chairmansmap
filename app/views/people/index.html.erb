@@ -1,17 +1,15 @@
-<div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mx-20 mb-6 dark:bg-zinc-500 dark:border-gray-700">
-    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm dark:bg-zinc-500 dark:border-gray-700">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <!-- Фильтры -->
-            <%= render partial: "form" %>
+<div class="mt-2 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mx-20 mb-6 dark:bg-gray-800 dark:border-gray-700">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6">
+        <!-- Фильтры -->
+        <%= render partial: "form" %>
 
-            <!-- Кнопка создания -->
-            <%= link_to new_plot_path, class: "px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium flex items-center gap-2 whitespace-nowrap dark:text-black" do %>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Новый участок
-            <% end %>
-        </div>
+        <!-- Кнопка создания -->
+        <%= link_to new_plot_path, class: "px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium flex items-center gap-2 whitespace-nowrap dark:text-black" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Новый участок
+        <% end %>
     </div>
 </div>
 
