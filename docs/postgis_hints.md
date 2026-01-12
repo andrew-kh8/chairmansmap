@@ -11,7 +11,7 @@ DROP EXTENSION IF EXISTS postgis CASCADE;
 CREATE EXTENSION postgis;
 ```
 3. then check it again
-4. error might reproduce again :)
+4. if now all right, but after tests doesn't - check database_cleaner configuration (truncation clears all tables)
 
 ## Transform (unproject) coordinates
 
