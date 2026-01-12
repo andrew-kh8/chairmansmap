@@ -8,4 +8,4 @@ runs:
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt-get install libgeos-dev libgeos++-dev libproj-dev proj-bin
+        sudo apt-get install libproj-dev proj-bin
