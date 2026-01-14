@@ -9,7 +9,7 @@ RSpec.describe Geo::TransformPointSrid do
     let(:from_srid) { 4326 }
 
     it "returns location" do
-      is_expected.to eq "POINT(4954622.125972421 3972221.5103468867)"
+      is_expected.to eq_wkt_point "POINT(4954622.125972421 3972221.5103468867)"
     end
   end
 end

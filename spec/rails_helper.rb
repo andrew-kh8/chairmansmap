@@ -11,7 +11,8 @@ require "rspec/rails"
 # require "capybara/rails"
 require "capybara/rspec"
 
-require "support/custom_matchers"
+require "support/matchers/custom_matchers"
+require "support/matchers/geo_matchers"
 require "support/factory_bot"
 require "support/database_cleaner"
 
