@@ -15,7 +15,7 @@ FactoryBot.define do
       ].join(":")
     end
     geom do
-      factory = RGeo::Cartesian.simple_factory(srid: Plot::SRID)
+      factory = RGeo::Geos.factory(srid: Plot::SRID)
       x = rand(3737500..3737900)
       y = rand(5544000..5544500)
 

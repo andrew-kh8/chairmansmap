@@ -32,14 +32,24 @@ jobs:
       - name: Install dependency libs
         run: |
           sudo apt-get update
-          sudo apt-get install libgeos-dev libgeos++-dev libproj-dev proj-bin
+          sudo apt-get install -y libgeos-dev libgeos-c1v5 libproj-dev proj-bin
+      - name: Add GEOS to library path
+        run: |
+          echo "/usr/lib/x86_64-linux-gnu" | sudo tee /etc/ld.so.conf.d/geos.conf
+          sudo ldconfig
+      - name: Debug GEOS config
+        run: |
+          geos-config --version
+          ls -l /usr/lib/x86_64-linux-gnu/libgeos_c.so*
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Install Ruby and gems
+      - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: true
+          bundler-cache: false
+      - name: Install gems
+        run: bundle install
       - name: Set up database schema
         run: bin/rails db:schema:load
       - name: Precompile assets
