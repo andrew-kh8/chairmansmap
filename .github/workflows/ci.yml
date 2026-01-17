@@ -112,3 +112,53 @@ jobs:
           bundler-cache: true
       - name: Lick, I mean lint
         run: bundle exec erb_lint --lint-all
+
+  fasterer:
+    runs-on: ubuntu-latest
+    needs: [test, bundler_auditor_cheeker_breeker, mr_brakeman, standard_english_mate_innit, erb_licker]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+      - name: I am SPEED
+        run: bundle exec fasterer
+
+  rails_best_practices:
+    runs-on: ubuntu-latest
+    needs: [test, bundler_auditor_cheeker_breeker, mr_brakeman, standard_english_mate_innit, erb_licker]
+    continue-on-error: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+      - name: I am SPEED
+        run: bundle exec rails_best_practices
+
+  reek:
+    runs-on: ubuntu-latest
+    needs: [test, bundler_auditor_cheeker_breeker, mr_brakeman, standard_english_mate_innit, erb_licker]
+    continue-on-error: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+      - name: Reek'n Roll
+        run: bundle exec reek

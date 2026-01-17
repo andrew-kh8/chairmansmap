@@ -4,11 +4,7 @@ class PlotUpdater
   class UpdateError < StandardError; end
 
   def call(plot_id, person_id, plot_data)
-    begin
-      plot = Plot.find(plot_id)
-    rescue ActiveRecord::RecordNotFound => e
-      return Failure("Не получилось найти участок")
-    end
+    plot = Plot.find(plot_id)
 
     current_date = Date.current
 
@@ -18,11 +14,13 @@ class PlotUpdater
       plot.owners.create!(person_id: person_id, active_from: current_date) if person_id.present?
 
       plot.update!(plot_data) if plot_data.present?
-    rescue => e
-      raise UpdateError, "При обновлении данных произошла ошибка. #{e}"
+    rescue => error
+      raise UpdateError, "При обновлении данных произошла ошибка. #{error}"
     end
 
     Success(plot)
+  rescue ActiveRecord::RecordNotFound => _error
+    Failure("Не получилось найти участок")
   rescue UpdateError => error
     Failure(error.message)
   end

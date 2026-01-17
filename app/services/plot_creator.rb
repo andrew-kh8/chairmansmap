@@ -31,7 +31,7 @@ class PlotCreator
 
   def build_plot
     coords = Apis::Geoplys::GetCoords.new.call(params.cadastral_number).value_or { return Plot.new }
-    multi_polygon_data = Geo::MultiPolygonCreator.new.call(coords).value_or { return Plot.new }
+    multi_polygon_data = Geo::MultiPolygonCreator.call(coords).value_or { return Plot.new }
 
     Plot.new(
       gid: rand(1..500),

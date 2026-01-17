@@ -12,12 +12,12 @@ class PlotCoordsUpdateWorker
         next
       end
 
-      r = PlotCoordsUpdater.new.call(cn, coords.success)
+      result_plot = PlotCoordsUpdater.new.call(cn, coords.success)
 
-      if r.success?
-        result[:success] << r.success
+      if result_plot.success?
+        result[:success] << result_plot.success
       else
-        result[:failure] << r.failure
+        result[:failure] << result_plot.failure
       end
     end
 

@@ -4,7 +4,7 @@ class PlotsController < ApplicationController
   def index
     plots = Plot.includes(:person).order(:gid)
 
-    participants = {"Участники" => plots.map { [_1.person.short_name, _1.id] }.sort_by { |n, i| n }}
+    participants = {"Участники" => plots.map { |plot| [plot.person.short_name, plot.id] }.sort_by(&:first)}
     general = {"Наличие собственника" => [["Любой", "any"], ["Без собственника", "none"]]}
     @people_data = general.merge(participants)
 
@@ -18,7 +18,7 @@ class PlotsController < ApplicationController
 
   def new
     plot = Plot.new
-    people = Person.kept.map { [_1.short_name, _1.id] }
+    people = Person.kept.map { |person| [person.short_name, person.id] }
 
     render :new, locals: {plot: plot, people: people}
   end

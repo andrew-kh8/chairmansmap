@@ -66,13 +66,16 @@ group :development do
   gem "rack-mini-profiler"
   gem "stackprof"
 
-  gem "brakeman", require: false
-  gem "bundler-audit"
-  gem "fasterer", "~> 0.11.0"
-  gem "rails_best_practices"
-  gem "rubycritic", require: false
   gem "strong_migrations"
   gem "ruby-lsp-rspec", require: false
+
+  # checkers
+  gem "brakeman", require: false
+  gem "bundler-audit", require: false
+  gem "fasterer", "~> 0.11.0", require: false
+  gem "rails_best_practices", require: false
+  gem "reek", require: false
+  gem "rubycritic", require: false
 end
 
 group :test do

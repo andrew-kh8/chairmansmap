@@ -33,7 +33,7 @@ module SidePanel
     end
 
     def search_params
-      hunter_location = params.fetch(:hunter_location, {})
+      hunter_location = params.fetch(:hunter_location) { {} }
 
       {
         from: hunter_location[:from],

@@ -584,6 +584,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (~> 8.0)
   rails_best_practices
+  reek
   rgeo (~> 3.0)
   rgeo-geojson
   rgeo-proj4
