@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PeopleSearch
   module Scopes
     def by_full_name(full_name)

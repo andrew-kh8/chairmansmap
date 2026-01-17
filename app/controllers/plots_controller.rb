@@ -2,11 +2,7 @@ class PlotsController < ApplicationController
   include Pagy::Method
 
   def index
-    plots = Plot.includes(:person).order(:gid)
-
-    participants = {"Участники" => plots.map { |plot| [plot.person.short_name, plot.id] }.sort_by(&:first)}
-    general = {"Наличие собственника" => [["Любой", "any"], ["Без собственника", "none"]]}
-    @people_data = general.merge(participants)
+    plots = PlotSearch.call(search_params)
 
     @pagy, @plots = pagy(:offset, plots, limit: 20)
   end
@@ -48,5 +44,15 @@ class PlotsController < ApplicationController
 
   def permitted_params
     params.require(:plot).permit(:cadastral_number, :number, :person_id, :owner_type, :sale_status, :description) # :photos
+  end
+
+  def search_params
+    params
+      .permit(:area_min, :area_max, people: [])
+      .tap do |plot_params|
+        plot_params[:area_min] = plot_params[:area_min].blank? ? nil : plot_params[:area_min].to_f * 100
+        plot_params[:area_max] = plot_params[:area_max].blank? ? nil : plot_params[:area_max].to_f * 100
+      end
+      .compact_blank
   end
 end

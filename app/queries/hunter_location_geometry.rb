@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HunterLocationGeometry
   HunterLocationGeojson = Struct.new(:date, :geojson_geom)
 

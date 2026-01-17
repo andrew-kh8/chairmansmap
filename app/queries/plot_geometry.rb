@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlotGeometry
   PlotGeojson = Struct.new(:id, :number, :geojson_geom)
 

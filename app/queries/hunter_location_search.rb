@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HunterLocationSearch
   DOG_OPTIONS = {"есть" => true, "нет" => false}
   LICENSE_OPTIONS = {"есть" => true, "нет" => false}
