@@ -30,7 +30,7 @@ class PlotCreator
   private
 
   def build_plot
-    coords = Apis::Geoplys::GetCoords.new.call(params.cadastral_number).value_or { return Plot.new }
+    coords = Apis::Geoplys::GetCoords.call(params.cadastral_number).value_or { return Plot.new }
     multi_polygon_data = Geo::MultiPolygonCreator.call(coords).value_or { return Plot.new }
 
     Plot.new(

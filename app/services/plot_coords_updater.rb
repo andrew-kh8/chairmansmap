@@ -1,13 +1,14 @@
 class PlotCoordsUpdater
   include Dry::Monads[:result]
 
-  def call(cadaster_number, coords)
+  def self.call(plot)
+    coords = Apis::Geoplys::GetCoords.call(plot.cadastral_number)
     new_geom_data = Geo::MultiPolygonCreator.call(coords).value_or { |error| return Failure(error) }
-
-    plot = Plot.find_by(cadastral_number: cadaster_number)
 
     plot.update!(geom: new_geom_data.multi_polygon)
 
     Success(plot)
+  rescue => error
+    Failure(error)
   end
 end

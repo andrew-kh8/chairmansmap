@@ -5,7 +5,7 @@ module Apis
 
       URL = "pkk_files/geo2.php"
 
-      def call(cadaster_number)
+      def self.call(cadaster_number)
         result = Client.get(URL, {cn: cadaster_number})
 
         Success(result[:coordinates].first)

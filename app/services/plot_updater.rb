@@ -9,9 +9,10 @@ class PlotUpdater
     current_date = Date.current
 
     ActiveRecord::Base.transaction do
-      plot.owner.presence&.update!(active_to: current_date)
-
-      plot.owners.create!(person_id: person_id, active_from: current_date) if person_id.present?
+      if person_id.present?
+        plot.owner.presence&.update!(active_to: current_date)
+        plot.owners.create!(person_id: person_id, active_from: current_date)
+      end
 
       plot.update!(plot_data) if plot_data.present?
     rescue => error

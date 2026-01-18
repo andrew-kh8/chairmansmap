@@ -1,18 +1,11 @@
 class PlotCoordsUpdateWorker
-  def perform(plots)
-    coord_getter = Apis::Geoplys::GetCoords.new
+  def perform(plots = nil)
     result = {success: [], failure: []}
 
+    plots ||= Plot.all
+
     plots.each do |plot|
-      cn = plot.cadastral_number
-
-      coords = coord_getter.call(cn)
-      if coords.failure?
-        result[:failure] << coords.failure
-        next
-      end
-
-      result_plot = PlotCoordsUpdater.new.call(cn, coords.success)
+      result_plot = PlotCoordsUpdater.call(plot)
 
       if result_plot.success?
         result[:success] << result_plot.success

@@ -11,6 +11,10 @@ CI.run do
 
   step "Tests: Rails", "bin/rails spec"
 
+  step "Code checks: Fsterer", "bundle exec fasterer"
+  step "Code checks: Reek", "bundle exec reek"
+  step "Code checks: Rails Best Practices", "bundle exec rails_best_practices"
+
   # Optional: set a green GitHub commit status to unblock PR merge.
   # Requires the `gh` CLI and `gh extension install basecamp/gh-signoff`.
   # if success?
