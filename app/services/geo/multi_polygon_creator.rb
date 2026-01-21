@@ -6,7 +6,7 @@ module Geo
 
     def self.call(coords, srid: Plot::SRID)
       if coords.first != coords.last
-        return Failure("The coordinates are not closed in a circle")
+        return Dry::Monads::Failure("The coordinates are not closed in a circle")
       end
 
       factory = RGeo::Geos.factory(srid: srid)
@@ -14,7 +14,7 @@ module Geo
       polygon = factory.polygon(ring)
       multi_polygon = factory.multi_polygon([polygon])
 
-      Success(MultiPolygonData.new(multi_polygon, multi_polygon.area, ring.length))
+      Dry::Monads::Success(MultiPolygonData.new(multi_polygon, multi_polygon.area, ring.length))
     end
   end
 end

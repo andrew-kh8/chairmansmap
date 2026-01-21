@@ -8,9 +8,9 @@ module Apis
       def self.call(cadaster_number)
         result = Client.get(URL, {cn: cadaster_number})
 
-        Success(result[:coordinates].first)
+        Dry::Monads::Success(result[:coordinates].first)
       rescue Client::ResponseError, Client::RequestError => error
-        Failure(error)
+        Dry::Monads::Failure(error)
       end
     end
   end

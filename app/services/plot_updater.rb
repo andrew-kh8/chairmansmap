@@ -19,10 +19,10 @@ class PlotUpdater
       raise UpdateError, "При обновлении данных произошла ошибка. #{error}"
     end
 
-    Success(plot)
+    Dry::Monads::Success(plot)
   rescue ActiveRecord::RecordNotFound => _error
-    Failure("Не получилось найти участок")
+    Dry::Monads::Failure("Не получилось найти участок")
   rescue UpdateError => error
-    Failure(error.message)
+    Dry::Monads::Failure(error.message)
   end
 end
