@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   namespace :side_panel do
     resources :plots, only: [:index, :show, :edit, :update]
-    resources :hunters, only: [:index, :new, :create]
+    resources :hunters, only: [:index, :new, :create, :destroy]
   end
 
   namespace :api do

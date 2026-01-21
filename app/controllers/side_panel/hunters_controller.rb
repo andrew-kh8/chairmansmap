@@ -2,12 +2,8 @@ module SidePanel
   class HuntersController < ApplicationController
     def index
       hunter_locations = HunterLocationSearch.call(search_params)
-      locals = {
-        hunter_locations: hunter_locations,
-        dog_options: HunterLocationSearch::DOG_OPTIONS,
-        license_options: HunterLocationSearch::LICENSE_OPTIONS
-      }
-      render partial: "index", locals:
+
+      render partial: "index", locals: {hunter_locations:}
     end
 
     def new
@@ -18,12 +14,13 @@ module SidePanel
       CreateHunterLocation.call(hunter_params)
 
       hunter_locations = HunterLocation.all
-      locals = {
-        hunter_locations: hunter_locations,
-        dog_options: HunterLocationSearch::DOG_OPTIONS,
-        license_options: HunterLocationSearch::LICENSE_OPTIONS
-      }
-      render partial: "index", locals:
+      render partial: "index", locals: {hunter_locations:}
+    end
+
+    def destroy
+      HunterLocation.find(params[:id]).destroy
+
+      render partial: "index", locals: {hunter_locations: HunterLocationSearch.call(search_params)}
     end
 
     private
