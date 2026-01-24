@@ -17,7 +17,7 @@ RSpec.describe "update plots", type: :system do
       select(new_person.full_name, from: "Владелец участка")
       select("продается", from: "Статус продажи")
       select("личная собственность", from: "Тип владения")
-      fill_in("form_description",	with: "Дополнительная информация")
+      fill_in("Дополнительная информация", with: "Дополнительная информация")
 
       click_button("Обновить")
 

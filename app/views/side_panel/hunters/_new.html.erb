@@ -19,18 +19,14 @@
             </div>
 
             <!-- Чекбоксы -->
-            <div class="space-y-4">
-                <label class="flex items-center space-x-3">
-                    <%= form.check_box :license,
-                          class: "w-4 h-4 text-indigo-500 rounded border-gray-300 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600" %>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">Лицензия</span>
-                </label>
+            <div>
+                <%= form.check_box :license, class: "w-4 h-4 text-indigo-500 rounded border-gray-300 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600" %>
+                <%= form.label :license, "Лицензия", class: "text-sm text-gray-700 dark:text-gray-300 mb-4" %>
+            </div>
 
-                <label class="flex items-center space-x-3">
-                    <%= form.check_box :dog,
-                          class: "w-4 h-4 text-indigo-500 rounded border-gray-300 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600" %>
-                    <span class="text-sm text-gray-700 dark:text-gray-300">С собакой</span>
-                </label>
+            <div>
+                <%= form.check_box :dog, class: "w-4 h-4 text-indigo-500 rounded border-gray-300 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600" %>
+                <%= form.label :dog, "Собака", class: "text-sm text-gray-700 dark:text-gray-300" %>
             </div>
 
             <!-- Описание -->
