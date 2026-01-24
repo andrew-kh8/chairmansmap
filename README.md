@@ -2,20 +2,27 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/andrew-kh8/chairmansmap/badge)](https://www.codefactor.io/repository/github/andrew-kh8/chairmansmap)
 
-## Stack
+
+![Rails](https://img.shields.io/badge/rails-%23CC0000.svg?style=for-the-badge&logo=ruby-on-rails&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+
+
+# Stack
 
 Rails + PostGIS (PostgreSQL) + Leaflet\
-also Hotwire Turbo & Stimulus, Tailwind
+Hotwire Turbo & Stimulus, Tailwind
+
 
 # Start
 
 ```bash
 ./bin/dev
 ```
-visit http://127.0.0.1:3000
+
 
 # Setup
-
 ## install GEOS
 [rgeo doc](https://github.com/rgeo/rgeo/blob/main/doc/Installing-GEOS.md)
 ```bash
@@ -31,12 +38,12 @@ bundle install
 ```
 
 ## install PROJ
-need for projection [gem rgeo-proj4](https://github.com/rgeo/rgeo-proj4)
+need for projection gem [rgeo-proj4](https://github.com/rgeo/rgeo-proj4)
 ```bash
 sudo apt install libproj-dev proj-bin
 ```
 
-check docs folder
+check [docs](./docs/postgis_hints.md#transform-unproject-coordinates) folder to read about projection
 
 ## install strong migrations
 ```bash
@@ -44,31 +51,28 @@ bundle exec rails generate strong_migrations:install
 ```
 
 
+# Configuration
+
+copy `.env.sample` to `.env` and fill the file
+
+if you wanna use other values in test environment copy `.env.sample` to `.env.test` and rewrite some variables
+
 # Testing
 
-chrome for testing link: https://googlechromelabs.github.io/chrome-for-testing/#stable
-Install Chromedriver Ubuntu 20.04 link: https://skolo.online/documents/webscrapping/
-chrome webdriver 131.0.6778.139 link: https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.139/linux64/chromedriver-linux64.zip
+Rspec + Capybara
 
-you can use `bin/install_chromedriver`
+you can check [docs](./docs/test.md#chromedriver) for more
 
-To prepare test plots run `bin/prepare_test_plots`
+you can use `bin/install_chromedriver` to install chromedriver manually
 
-* Configuration
-
-copy .env.sample to .env and fill the file
-
-copy .env.sample to .env.test and rewrite some variables if you wanna use other values in test environment
 
 # Linters
 
-## Views
-Use [erb-lint](https://github.com/Shopify/erb_lint) with config file
-
-Maybe onetime i will use herb
-
-# Js
-
-deadcode ??
-
-* ...
+Use GitHub actions for CI
+* brakeman
+* bundler-audit
+* erb_lint
+* fasterer
+* rails_best_practices
+* reek
+* standardrb
