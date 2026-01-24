@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe HunterLocation, type: :model do
   describe "validations" do
     subject { create(:hunter_location) }

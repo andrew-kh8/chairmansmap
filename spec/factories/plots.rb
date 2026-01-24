@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :plot do
     sequence(:gid) { |n| n }
+    sequence(:number) { |n| n }
     area { FFaker::Number.decimal(whole_digits: 3) }
     perimeter { FFaker::Number.decimal(whole_digits: 2) }
     description { FFaker::Lorem.sentence }
@@ -30,14 +31,6 @@ FactoryBot.define do
           ])
         )
       ])
-    end
-
-    after(:build) do |plot|
-      plot.number = FFaker::Number.number(digits: 4)
-    end
-
-    after(:create) do |plot|
-      plot.update(number: FFaker::Number.number(digits: 4))
     end
   end
 end

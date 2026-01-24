@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe "update plots", type: :system do
   let(:plot) { create(:plot) }
   let!(:new_person) { create(:person) }

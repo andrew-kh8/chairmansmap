@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe Geo::TransformPointSrid do
   subject(:result) { described_class.call(lng, lat, from_srid) }
 

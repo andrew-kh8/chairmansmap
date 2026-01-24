@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe PlotUpdater do
   subject(:result) { described_class.new.call(plot_id, person_id, plot_data) }
 

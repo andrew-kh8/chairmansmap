@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe "people", type: :system do
   let!(:person) { create(:person) }
 

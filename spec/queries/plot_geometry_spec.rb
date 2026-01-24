@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe PlotGeometry do
   subject { described_class.call(plot_ids) }
 

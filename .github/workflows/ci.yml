@@ -55,7 +55,7 @@ jobs:
       - name: Precompile assets
         run: bundle exec rails assets:precompile
       - name: Goofy ahh tests
-        run: bundle exec rspec
+        run: SIMPLECOV=true bundle exec rspec
 
   bundler_auditor_cheeker_breeker:
     runs-on: ubuntu-latest

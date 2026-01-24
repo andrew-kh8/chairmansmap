@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe CreateHunterLocation do
   subject(:result) { described_class.call(params) }
 

@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe HunterLocationGeometry do
   describe ".call" do
     subject { described_class.call }

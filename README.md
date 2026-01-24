@@ -57,16 +57,19 @@ copy `.env.sample` to `.env` and fill the file
 
 if you wanna use other values in test environment copy `.env.sample` to `.env.test` and rewrite some variables
 
+
 # Testing
 
 Rspec + Capybara
+
+SimpleCov for coverage
 
 you can check [docs](./docs/test.md#chromedriver) for more
 
 you can use `bin/install_chromedriver` to install chromedriver manually
 
 
-# Linters
+# Linters and Checkers
 
 Use GitHub actions for CI
 * brakeman

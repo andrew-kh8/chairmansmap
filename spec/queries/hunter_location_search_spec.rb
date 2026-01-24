@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe HunterLocationSearch do
   subject { described_class.call(filters) }
 

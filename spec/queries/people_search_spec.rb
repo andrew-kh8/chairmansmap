@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe PeopleSearch do
   subject { described_class.call(filters) }
   describe ".call" do
