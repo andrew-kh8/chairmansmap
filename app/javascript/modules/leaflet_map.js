@@ -2,7 +2,7 @@ import { isDarkMode } from "./map_styles";
 
 export class LeafletMap {
   constructor(container, options = {}) {
-    if (options["attributionControl"] == undefined) {
+    if (options["attributionControl"] === undefined) {
       options["attributionControl"] = false;
     }
 

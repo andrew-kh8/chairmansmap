@@ -6,7 +6,6 @@ export default class extends Controller {
 
   connect() {
     this.disableButton();
-    console.log("cadastral_number 2");
   }
 
   check() {
@@ -21,7 +20,7 @@ export default class extends Controller {
     this.showResult("Проверяем...", "loading");
     fetch(
       "/api/plots/check_cadastral_number?" +
-        new URLSearchParams({ cadastral_number: cadastral_number })
+        new URLSearchParams({ cadastral_number: cadastral_number }),
     )
       .then((response) => {
         if (response.ok) {
@@ -49,8 +48,8 @@ export default class extends Controller {
       type === "success"
         ? "text-green-600"
         : type === "error"
-        ? "text-red-600"
-        : "text-gray-600"
+          ? "text-red-600"
+          : "text-gray-600"
     }`;
   }
 
@@ -59,13 +58,13 @@ export default class extends Controller {
     this.submitTarget.classList.remove(
       "bg-gray-400",
       "text-gray-200",
-      "cursor-not-allowed"
+      "cursor-not-allowed",
     );
     this.submitTarget.classList.add(
       "bg-indigo-500",
       "text-white",
       "cursor-pointer",
-      "hover:bg-indigo-600"
+      "hover:bg-indigo-600",
     );
   }
 
@@ -75,12 +74,12 @@ export default class extends Controller {
       "bg-indigo-500",
       "text-white",
       "cursor-pointer",
-      "hover:bg-indigo-600"
+      "hover:bg-indigo-600",
     );
     this.submitTarget.classList.add(
       "bg-gray-400",
       "text-gray-200",
-      "cursor-not-allowed"
+      "cursor-not-allowed",
     );
   }
 }

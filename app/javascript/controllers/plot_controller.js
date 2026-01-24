@@ -22,7 +22,7 @@ export default class extends Controller {
       .then((response) => response.json())
       .then((geojson) => {
         L.geoJson(geojson, {
-          style: function (_) {
+          style: function () {
             return defaultPlotStyle;
           },
         }).addTo(this.map);
@@ -36,7 +36,7 @@ export default class extends Controller {
       .then((response) => response.json())
       .then((geojson) => {
         let wfs_hunter_layer = L.geoJson(geojson, {
-          pointToLayer: function (_, latlng) {
+          pointToLayer: function (_feature, latlng) {
             return new L.CircleMarker(latlng, circleMarkerStyle);
           },
           onEachFeature: function (feature, layer) {
