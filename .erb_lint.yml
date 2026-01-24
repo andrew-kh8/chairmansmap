@@ -22,3 +22,5 @@ linters:
         Enabled: false
       AllCops:
         DisabledByDefault: true
+  PlainHtmlLinter:
+    enabled: true
