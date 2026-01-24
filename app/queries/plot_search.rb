@@ -24,6 +24,14 @@ class PlotSearch
       where(area: min..max)
     end
 
+    def by_owner_type(owner_type)
+      owner_type.blank? ? self : where(owner_type:)
+    end
+
+    def by_sale_status(sale_status)
+      sale_status.blank? ? self : where(sale_status:)
+    end
+
     def by_sort
       order(:number)
     end
@@ -34,6 +42,8 @@ class PlotSearch
       .extending(Scopes)
       .by_person(filters[:people])
       .by_area(filters[:area_min], filters[:area_max])
+      .by_owner_type(filters[:owner_type])
+      .by_sale_status(filters[:sale_status])
       .by_sort
   end
 
@@ -41,6 +51,14 @@ class PlotSearch
     participants = {PARTICIPANTS => people_options}
 
     GENERAL_OPTIONS.merge(participants)
+  end
+
+  def self.sale_statuses
+    Plot.sale_statuses.keys.unshift(nil)
+  end
+
+  def self.owner_types
+    Plot.owner_types.keys.unshift(nil)
   end
 
   private_class_method
