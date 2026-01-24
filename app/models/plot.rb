@@ -4,7 +4,7 @@ class Plot < ApplicationRecord
   enum :sale_status, {"не продается" => "nothing", "продается" => "for_sale"}
   enum :owner_type, {"личная собственность" => "personal", "государственная собственность" => "state"}
 
-  has_many :owners
+  has_many :owners, dependent: :destroy
   has_one :owner, -> { where(active_to: nil) }
   has_many :persons, through: :owners
   has_one :person, through: :owner
