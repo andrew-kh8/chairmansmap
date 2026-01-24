@@ -28,14 +28,14 @@ module SidePanel
       if plot.success?
         render partial: "side_panel/plots/data", locals: {plot: plot.success}, notice: "good"
       else
-        render partial: "side_panel/plots/data", locals: {plot: plot.failure}, alert: "bad"
+        render partial: "index", alert: plot.failure
       end
     end
 
     private
 
     def owner_person_id
-      params.require(:owner).permit(:person_id)[:person_id].to_i
+      params.require(:plot).permit(:person)[:person].to_i
     end
 
     def plot_params

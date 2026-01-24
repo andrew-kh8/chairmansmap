@@ -1,42 +1,31 @@
 <%= turbo_frame_tag "side_panel_plot_data" do %>
     <div class="flex flex-col h-full">
-        <%= form_for(:plot, url: side_panel_plot_path(plot), method: :patch, remote: true, html: {class: "h-full flex flex-col"}) do |f| %>
+        <%= form_for(plot, url: side_panel_plot_path(plot), method: :patch, remote: true, html: {class: "h-full flex flex-col"}) do |form| %>
             <div class="flex-auto space-y-6">
                 <div>
-                    <label for="form_person_id" class="block text-sm font-medium text-gray-700 mb-2">Владелец участка</label>
-                    <select name="owner[person_id]" id="form_person_id" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200">
-                        <%= options_for_select(people.map { ["#{_1.surname} #{_1.first_name} #{_1.middle_name}", _1.id] }) %>
-                    </select>
+                    <%= form.label :person, "Владелец участка", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                    <%= form.select :person, options_for_select(people.map { ["#{_1.surname} #{_1.first_name} #{_1.middle_name}", _1.id] }, plot.person.id), {}, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200" %>
                 </div>
 
                 <div>
-                    <label for="form_sale_status" class="block text-sm font-medium text-gray-700 mb-2">Статус продажи</label>
-                    <select name="plot[sale_status]" id="form_sale_status" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200">
-                        <%= options_for_select(["не продается", "продается"]) %>
-                    </select>
+                    <%= form.label :sale_status, "Статус продажи", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                    <%= form.select :sale_status, options_for_select(Plot.sale_statuses.keys, plot.sale_status), {}, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200" %>
                 </div>
 
                 <div>
-                    <label for="form_owner_type" class="block text-sm font-medium text-gray-700 mb-2">Тип владения</label>
-                    <select name="plot[owner_type]" id="form_owner_type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200">
-                        <%= options_for_select(["личная собственность", "государственная собственность"]) %>
-                    </select>
+                    <%= form.label :owner_type, "Тип владения", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                    <%= form.select :owner_type, options_for_select(Plot.owner_types.keys, plot.owner_type), {}, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200" %>
                 </div>
 
                 <div>
-                    <label for="form_description" class="block text-sm font-medium text-gray-700 mb-2">Дополнительная информация</label>
-                    <textarea name="plot[description]" id="form_description" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 resize-none"></textarea>
+                    <%= form.label :description, "Дополнительная информация", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                    <%= form.text_area :description, size: "4", class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 resize-none" %>
                 </div>
             </div>
 
             <div class="flex justify-between space-x-3 mt-6 pt-6 border-t border-gray-200">
-                <button type="submit" class="flex-1 px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium">
-                    Обновить
-                </button>
-                <button type="reset" class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200 font-medium">
-                    Сброс
-                </button>
-
+                <%= form.submit "Обновить", class: "flex-1 px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium"%>
+                <%= form.submit "Сбросить", type: :reset, class: "flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200 font-medium" %>
                 <%= link_to "Отмена", side_panel_plot_path(plot), class: "flex-1 px-6 py-3 text-center cursor-pointer border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200 font-medium" %>
             </div>
         <% end %>
