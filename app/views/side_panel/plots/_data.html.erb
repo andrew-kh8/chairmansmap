@@ -30,7 +30,7 @@
                     <div><span class="font-medium dark:text-inherit">Периметр:</span> <span class="text-indigo-600 dark:text-inherit"><%= plot.perimeter %></span> м</div>
                     <div><span class="font-medium dark:text-inherit">Статус продажи:</span> <span class="text-indigo-600 dark:text-inherit"><%= plot.sale_status %></span></div>
                     <div>
-                        <% if plot.description.present? %>
+                        <% if plot.description? %>
                             <div class="font-medium mb-2 dark:text-white">Дополнительная информация:</div>
                             <div class="text-gray-600 bg-gray-50 p-3 rounded-lg dark:bg-zinc-200">
                                 <%= plot.description %>
