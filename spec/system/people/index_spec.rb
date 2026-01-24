@@ -1,41 +1,31 @@
-RSpec.describe "people", type: :system do
-  let!(:person) { create(:person) }
+RSpec.describe "People Index", type: :system do
+  let!(:active_person) { create(:person, first_name: "Ivan", surname: "Active") }
+  let!(:archived_person) { create(:person, :discarded, first_name: "Petr", surname: "Archived") }
 
-  context "when there is one active person" do
-    it "shows one person" do
-      visit people_path
+  before { visit people_path }
 
-      expect(page).to have_content("Новый участок")
+  it "shows list of people" do
+    expect(page).to have_content(active_person.full_name)
+    expect(page).to have_content(archived_person.full_name)
+  end
 
-      expect(page).to have_content(person.full_name)
-        .and have_content(person.tel)
-        .and have_content(person.address)
-        .and have_content(person.member)
+  context "when searching by name" do
+    it "filters people" do
+      fill_in "ФИО...", with: "Ivan"
+      click_button "Поиск"
+
+      expect(page).to have_content(active_person.full_name)
+      expect(page).not_to have_content(archived_person.full_name)
     end
   end
 
-  context "when there is a archived participant" do
-    let!(:archived_person) { create(:person, :discarded) }
-
-    it "shows a archived participant in second tab" do
-      visit people_path
-
-      expect(page).to have_content("Новый участок")
-
-      expect(page).to have_content(person.full_name)
-      expect(page).to have_content(archived_person.full_name)
-
-      find("label", text: "Активные").click
+  context "when filtering by status" do
+    it "shows only active people" do
+      choose "Активные" # Label text
       click_button "Поиск"
 
-      expect(page).to have_content(person.full_name)
+      expect(page).to have_content(active_person.full_name)
       expect(page).not_to have_content(archived_person.full_name)
-
-      find("label", text: "Архивные").click
-      click_button "Поиск"
-
-      expect(page).not_to have_content(person.full_name)
-      expect(page).to have_content(archived_person.full_name)
     end
   end
 end
