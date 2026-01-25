@@ -56,6 +56,12 @@ jobs:
         run: bundle exec rails assets:precompile
       - name: Goofy ahh tests
         run: SIMPLECOV=true bundle exec rspec
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
 
   bundler_auditor_cheeker_breeker:
     runs-on: ubuntu-latest
