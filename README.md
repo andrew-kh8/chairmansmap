@@ -62,7 +62,7 @@ if you wanna use other values in test environment copy `.env.sample` to `.env.te
 
 Rspec + Capybara
 
-SimpleCov for coverage
+SimpleCov for coverage (env 'COVERAGE')
 
 you can check [docs](./docs/test.md#chromedriver) for more
 

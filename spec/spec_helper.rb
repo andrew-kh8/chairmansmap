@@ -1,4 +1,4 @@
-if ENV["SIMPLECOV"] == "true"
+if ENV["COVERAGE"] == "true"
   require "simplecov"
 end
 

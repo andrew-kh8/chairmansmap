@@ -55,7 +55,7 @@ jobs:
       - name: Precompile assets
         run: bundle exec rails assets:precompile
       - name: Goofy ahh tests
-        run: SIMPLECOV=true bundle exec rspec
+        run: COVERAGE=true bundle exec rspec
       - name: Upload coverage report
         if: always()
         uses: actions/upload-artifact@v4
