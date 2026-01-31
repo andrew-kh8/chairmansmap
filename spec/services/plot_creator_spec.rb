@@ -1,11 +1,12 @@
 require "rails_helper"
 
 RSpec.describe PlotCreator do
-  subject { described_class.new(params).call }
+  subject { described_class.call(params) }
 
   let(:person) { create(:person) }
   let(:plot_number) { 123 }
   let(:cadastral_number) { "11:22:33:44" }
+  let(:person_id) { person.id }
   let(:params) do
     {
       number: plot_number,
@@ -13,7 +14,7 @@ RSpec.describe PlotCreator do
       sale_status: "for_sale",
       owner_type: "personal",
       cadastral_number: "11:22:33:44",
-      person_id: person.id
+      person_id:
     }
   end
   let(:coords) { [[0, 0], [10, 0], [0, 10], [0, 0]] }
@@ -37,7 +38,7 @@ RSpec.describe PlotCreator do
 
       it "returns Failure due to validation errors (empty plot)" do
         expect(subject).to be_failure
-        expect(subject.failure).to include("Number can't be blank")
+        expect(subject.failure).to eq "Failed to get coordinates"
       end
     end
 
@@ -46,7 +47,7 @@ RSpec.describe PlotCreator do
 
       it "returns failure" do
         expect(subject).to be_failure
-        expect(subject.failure).to include("Number can't be blank")
+        expect(subject.failure).to eq "Failed to build polygon"
       end
     end
 
@@ -64,7 +65,16 @@ RSpec.describe PlotCreator do
 
       it "returns failure" do
         expect(subject).to be_failure
-        expect(subject.failure).to match_array(["Number can't be blank", "Number is not a number"])
+        expect(subject.failure).to eq "Validation failed: Number can't be blank, Number is not a number"
+      end
+    end
+
+    context "when person_id is invalid" do
+      let(:person_id) { "person.id" }
+
+      it "returns failure" do
+        expect(subject).to be_failure
+        expect(subject.failure).to eq "Person not found"
       end
     end
   end

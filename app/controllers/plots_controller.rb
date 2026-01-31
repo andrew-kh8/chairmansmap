@@ -20,7 +20,7 @@ class PlotsController < ApplicationController
   end
 
   def create
-    plot_result = PlotCreator.new(permitted_params).call
+    plot_result = PlotCreator.call(permitted_params)
 
     if plot_result.success?
       redirect_to plot_path(plot_result.success)
