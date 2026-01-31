@@ -4,12 +4,11 @@
     <title>Chairmansmap</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Leaflet CSS and JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <%= favicon_link_tag 'favicon.png', skip_pipeline: true %>
+    <%= favicon_link_tag "favicon.png", skip_pipeline: true %>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -17,40 +16,50 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-
-    <body data-geoserver-url="<%= ENV['GEOSERVER_URL'] %>">
-    <body data-geoserver-plots-layer="<%= ENV['PLOTS_LAYER_NAME'] %>">
   </head>
 
-  <body class="h-screen max-h-screen flex flex-col">
+  <body class="h-screen max-h-screen flex flex-col <%= (cookies[:dark_theme] == "1") ? "dark" : "" %> dark:bg-gray-900">
 
     <%= render "application/flashes" %>
 
-    <header class='w-full text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font'>
-      <div class='container flex flex-col items-start justify-between p-6 mx-auto md:flex-row'>
-        <a class='flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0'>
-        </a>
-        <nav class='flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto'>
-            <%= link_to "Карта", root_path, class: 'mr-5 font-medium hover:text-gray-900' %>
-            <%= link_to "Участки", plots_path, class: 'mr-5 font-medium hover:text-gray-900' %>
-            <%= link_to "Участники", people_path, class: 'mr-5 font-medium hover:text-gray-900' %>
+    <header class="w-full bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+
+      <div class="container mx-auto px-6 py-4">
+        <nav class='flex items-center justify-between'>
+          <div></div>
+          <div class="flex items-center space-x-8">
+            <%= link_to "Карта", root_path, class: "text-gray-600 hover:text-indigo-500 font-medium transition duration-200 dark:text-zinc-400" %>
+            <%= link_to "Участки", plots_path, class: "text-gray-600 hover:text-indigo-500 font-medium transition duration-200 dark:text-zinc-400" %>
+            <%= link_to "Участники", people_path, class: "text-gray-600 hover:text-indigo-500 font-medium transition duration-200 dark:text-zinc-400" %>
+          </div>
+
+          <div>
+            <!-- Кнопка темы -->
+            <%= button_tag type: "button", data: {controller: "theme", action: "click->theme#toggle", theme_target: "button"}, class: "p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200" do %>
+              <!-- Солнце (светлая тема) -->
+              <svg data-theme-target="sunIcon" class="w-5 h-5 <%= "hidden" if cookies[:dark_theme] == "1" %>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              <!-- Луна (темная тема) -->
+              <svg data-theme-target="moonIcon" class="w-5 h-5 <%= "hidden" unless cookies[:dark_theme] == "1" %>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            <% end %>
+          </div>
         </nav>
       </div>
     </header>
 
-    <main class="m-6 w-full-8 flex-auto">
+    <main class="w-full flex-auto dark:bg-gray-900">
       <%= yield %>
     </main>
 
-    <footer class="p-2 bg-gray-300 text-gray-800">
+    <footer class="pt-1 bg-gray-300 text-gray-800 dark:bg-gray-900 dark:text-zinc-400">
       <div class="text-sm text-center">
         <p>
           Copyright © 2023 - Andrew
         </p>
       </div>
     </footer>
-
-    <!-- Leaflet Geoserver wfs -->
-    <%= javascript_include_tag "L.Geoserver" %>
   </body>
 </html>

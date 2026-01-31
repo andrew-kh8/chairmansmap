@@ -1,0 +1,50 @@
+---
+
+### Generic smell configuration
+
+detectors:
+  IrresponsibleModule:
+    enabled: false
+  DataClump:
+    max_copies: 3
+    min_clump_size: 3
+  DuplicateMethodCall:
+    max_calls: 2
+  TooManyStatements:
+    max_statements: 15
+    exclude:
+    - initialize
+  UtilityFunction:
+    exclude:
+    - perform
+
+
+### Directory specific configuration
+directories:
+  "app/controllers":
+    FeatureEnvy:
+      enabled: false
+  "app/queries":
+    NilCheck:
+      enabled: false
+    ControlParameter:
+      enabled: false
+  "db":
+    TooManyStatements:
+      enabled: false
+    UtilityFunction:
+      enabled: false
+    UncommunicativeVariableName:
+      enabled: false
+    FeatureEnvy:
+      enabled: false
+
+
+### Excluding directories
+# Directories and files below will not be scanned at all
+exclude_paths:
+  - coverage
+  - log
+  - node_modules
+  - tmp
+  - vendor

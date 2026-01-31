@@ -1,7 +1,5 @@
-require "rails_helper"
-
 RSpec.describe CreateHunterLocation do
-  subject(:result) { described_class.new.call(params) }
+  subject(:result) { described_class.call(params) }
 
   describe "#call" do
     context "when params are valid" do
@@ -25,7 +23,7 @@ RSpec.describe CreateHunterLocation do
         expect(hunter_location.license).to eq false
         expect(hunter_location.dog).to eq false
         expect(hunter_location.description).to eq description
-        expect(hunter_location.location.to_s).to eq "POINT (3737839.2018714654 5544415.830816836)"
+        expect(hunter_location.location).to has_xy_coords 3737839.2018714654, 5544415.830816836
       end
     end
   end

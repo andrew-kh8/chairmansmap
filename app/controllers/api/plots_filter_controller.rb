@@ -1,33 +1,15 @@
 class Api::PlotsFilterController < ApplicationController
-  NO_MATTER = "не важно"
-
   def index
-    query = create_query
-
-    if query.present?
-      plots_numbers = PlotDatum.eager_load(:plot).where(query).map { _1.plot.number }
-      render json: {plots: plots_numbers}, status: :ok
+    if search_params.present?
+      render json: {plots: PlotSearch.call(search_params).map(&:number)}
     else
-      render json: {}, status: :ok
+      render json: {}
     end
   end
 
   private
 
-  # param object
-  def which_owner
-    (params.require(:owner_type) == NO_MATTER) ? false : params.require(:owner_type)
-  end
-
-  def which_sale_status
-    (params.require(:sale_status) == NO_MATTER) ? false : params.require(:sale_status)
-  end
-
-  def create_query
-    query = {}
-    query[:owner_type] = which_owner if which_owner
-    query[:sale_status] = which_sale_status if which_sale_status
-
-    query
+  def search_params
+    params.permit(:owner_type, :sale_status).compact_blank
   end
 end

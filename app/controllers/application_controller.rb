@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   def unprocessable_entity
     render json: {
       message: "something went wrong"
-    }, status: :unprocessable_entity
+    }, status: :unprocessable_content
   end
 
   def not_found

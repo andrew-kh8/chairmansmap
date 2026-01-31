@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_23_085416) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_31_105929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
   enable_extension "postgis"
 
-  create_table "public.data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
-  create_table "public.hunter_locations", force: :cascade do |t|
+  create_table "hunter_locations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "date", null: false
     t.text "description"
@@ -29,7 +29,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_23_085416) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "public.owners", force: :cascade do |t|
+  create_table "owners", force: :cascade do |t|
     t.date "active_from"
     t.date "active_to"
     t.datetime "created_at", null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_23_085416) do
     t.index ["person_id"], name: "index_owners_on_person_id"
   end
 
-  create_table "public.people", force: :cascade do |t|
+  create_table "people", force: :cascade do |t|
     t.string "address"
     t.date "birth"
     t.datetime "created_at", null: false
@@ -53,29 +53,21 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_23_085416) do
     t.index ["discarded_at"], name: "index_people_on_discarded_at"
   end
 
-  create_table "public.plot_data", force: :cascade do |t|
+  create_table "plots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.float "area", null: false
     t.string "cadastral_number"
     t.datetime "created_at", null: false
     t.string "description"
+    t.geometry "geom", limit: {:srid=>3857, :type=>"multi_polygon"}, null: false
+    t.integer "number", null: false
     t.string "owner_type"
-    t.uuid "plot_id"
+    t.float "perimeter", null: false
     t.string "sale_status"
     t.datetime "updated_at", null: false
-    t.index ["cadastral_number"], name: "index_plot_data_on_cadastral_number", unique: true
-  end
-
-  create_table "public.plots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.float "area", null: false
-    t.datetime "created_at", null: false
-    t.geometry "geom", limit: {:srid=>3857, :type=>"multi_polygon"}, null: false
-    t.serial "gid", null: false
-    t.integer "number", null: false
-    t.float "perimeter", null: false
-    t.datetime "updated_at", null: false
+    t.index ["cadastral_number"], name: "index_plots_on_cadastral_number", unique: true
     t.index ["number"], name: "index_plots_on_number", unique: true
   end
 
-  add_foreign_key "public.owners", "public.people"
-  add_foreign_key "public.owners", "public.plots"
-  add_foreign_key "public.plot_data", "public.plots"
+  add_foreign_key "owners", "people"
+  add_foreign_key "owners", "plots"
 end

@@ -6,12 +6,17 @@ require_relative "../config/environment"
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 # Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
 # that will avoid rails generators crashing because migrations haven't been run yet
-# return unless Rails.env.test?
+return unless Rails.env.test?
 require "rspec/rails"
-require "support/factory_bot"
-require "custom_matchers"
 # require "capybara/rails"
 require "capybara/rspec"
+
+require "support/matchers/custom_matchers"
+require "support/matchers/geo_matchers"
+require "support/factory_bot"
+require "support/database_cleaner"
+require "support/vcr"
+require "support/helpers/request_helpers"
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -39,13 +44,13 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = Rails.root.join("spec/fixtures")
+  # config.fixture_paths = [Rails.root.join("spec/fixtures")]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = false
-
+  config.example_status_persistence_file_path = "rspec_results.txt"
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 
@@ -69,34 +74,12 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  # https://github.com/DatabaseCleaner/database_cleaner?tab=readme-ov-file#rspec-with-capybara-example
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-  end
-
-  config.before(:each, type: :system) do
-    driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
-
-    if !driver_shares_db_connection_with_specs
-      DatabaseCleaner.strategy = :truncation
-    end
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.append_after(:each) do
-    DatabaseCleaner.clean
-  end
-
   config.before(:each, type: :system) do
     driven_by :selenium_chrome_headless
+    page.driver.browser.manage.window.resize_to(1920, 1080)
   end
+
+  config.include RequestHelpers, type: :request
 end
 
 Shoulda::Matchers.configure do |config|

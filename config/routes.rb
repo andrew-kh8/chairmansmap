@@ -9,22 +9,19 @@ Rails.application.routes.draw do
   resources :plots, only: %i[index show new create destroy]
 
   namespace :side_panel do
-    resources :plots, only: [:index]
-    resources :hunters, only: [:index, :new, :create]
+    resources :plots, only: [:index, :show, :edit, :update]
+    resources :hunters, only: [:index, :new, :create, :destroy]
   end
 
   namespace :api do
-    resources :plots, only: %i[show update] do
-      collection do
-        get "filter", to: "plots_filter#index"
-        get "check_cadastral_number"
-      end
+    namespace :plots do
+      get "filter", to: "/api/plots_filter#index"
+      get "check_cadastral_number"
     end
+  end
 
-    scope module: :people do
-      resources :people, only: ["index"]
-      resources :active_people, only: ["index"]
-      resources :archive_people, only: ["index"]
-    end
+  namespace :geometry do
+    resources :hunters, only: [:index]
+    resources :plots, only: [:index, :show]
   end
 end

@@ -11,18 +11,4 @@ Plot.all.find_each do |plot|
   if plot.owners.blank?
     Owner.create(plot: plot, person: person, active_from: person.member_from)
   end
-
-  if plot.plot_datum.nil?
-    PlotDatum.create(
-      plot: plot,
-      sale_status: ["не продается", "продается"].sample,
-      owner_type: ["личная собственность", "государственная собственность"].sample,
-      cadastral_number: [
-        FFaker::Number.number,
-        FFaker::Number.number,
-        FFaker::Number.number(digits: 3),
-        FFaker::Number.number(digits: 6)
-      ].join(":")
-    )
-  end
 end

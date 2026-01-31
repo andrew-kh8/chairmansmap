@@ -3,27 +3,26 @@ class PlotUpdater
 
   class UpdateError < StandardError; end
 
-  def call(plot_id, person_id, plot_data)
-    begin
-      plot = Plot.find(plot_id)
-    rescue ActiveRecord::RecordNotFound => e
-      return Failure("Не получилось найти участок")
-    end
+  def self.call(plot_id, person_id, plot_data)
+    plot = Plot.find(plot_id)
 
     current_date = Date.current
 
     ActiveRecord::Base.transaction do
-      plot.owner.update!(active_to: current_date) if plot.owner.present?
+      if person_id.present?
+        plot.owner.presence&.update!(active_to: current_date)
+        plot.owners.create!(person_id: person_id, active_from: current_date)
+      end
 
-      plot.owners.create!(person_id: person_id, active_from: current_date) if person_id.present?
-
-      plot.plot_datum.update!(plot_data) if plot_data.present?
-    rescue => e
-      raise UpdateError, "При обновлении данных произошла ошибка. #{e}"
+      plot.update!(plot_data) if plot_data.present?
+    rescue => error
+      raise UpdateError, "При обновлении данных произошла ошибка. #{error}"
     end
 
-    Success(plot)
+    Dry::Monads::Success(plot)
+  rescue ActiveRecord::RecordNotFound => _error
+    Dry::Monads::Failure("Не получилось найти участок")
   rescue UpdateError => error
-    Failure(error.message)
+    Dry::Monads::Failure(error.message)
   end
 end

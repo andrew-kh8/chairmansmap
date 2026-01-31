@@ -1,5 +1,5 @@
 class MaintenancesController < ApplicationController
-  before_action :check_work_mode
+  before_action :check_work_mode, if: -> { ENV["MAINTENANCE_MODE"].nil? }
   def show
     recover_date = ENV["MAINTENANCE_MODE"].to_datetime
     render :show, layout: "empty", locals: {recover_date: recover_date}
@@ -8,6 +8,6 @@ class MaintenancesController < ApplicationController
   private
 
   def check_work_mode
-    redirect_to root_path if ENV["MAINTENANCE_MODE"].nil?
+    redirect_to root_path
   end
 end

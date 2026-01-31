@@ -13,6 +13,6 @@ class Person < ApplicationRecord
   end
 
   def short_name
-    "#{surname} #{first_name.first}. #{middle_name.first}"
+    "#{surname} #{first_name.first}. #{middle_name.first}."
   end
 end

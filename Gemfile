@@ -23,7 +23,6 @@ gem "turbo-rails"
 gem "tailwindcss-rails", "~> 2.0"
 
 # database / models
-gem "data_migrate"
 gem "discard", "~> 1.4"
 gem "ffaker", "~> 2.25"
 
@@ -38,9 +37,13 @@ gem "dry-monads"
 # geo
 gem "activerecord-postgis-adapter", "~> 11.0"
 gem "rgeo", "~> 3.0"
+gem "rgeo-geojson"
+gem "rgeo-proj4"
 
 # web
 gem "faraday"
+gem "faraday-http-cache"
+gem "faraday-retry"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -52,6 +55,7 @@ group :development, :test do
   # lint
   gem "standard"
   gem "standard-rails"
+  gem "erb_lint", require: false
 end
 
 group :development do
@@ -62,12 +66,16 @@ group :development do
   gem "rack-mini-profiler"
   gem "stackprof"
 
-  gem "brakeman", require: false
-  gem "bundler-audit"
-  gem "fasterer", "~> 0.11.0"
-  gem "rails_best_practices"
-  gem "rubycritic", require: false
   gem "strong_migrations"
+  gem "ruby-lsp-rspec", require: false
+
+  # checkers
+  gem "brakeman", require: false
+  gem "bundler-audit", require: false
+  gem "fasterer", "~> 0.11.0", require: false
+  gem "rails_best_practices", require: false
+  gem "reek", require: false
+  gem "rubycritic", require: false
 end
 
 group :test do
@@ -76,4 +84,5 @@ group :test do
   gem "selenium-webdriver"
   gem "shoulda-matchers"
   gem "simplecov", require: false
+  gem "vcr"
 end

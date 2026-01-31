@@ -6,10 +6,12 @@ on:
     branches: [ "main" ]
 
 env:
+  RUBY_VERSION: 3.3.6
   RAILS_ENV: test
   BUNDLE_PATH: vendor/bundle
 
 jobs:
+# region test
   test:
     runs-on: ubuntu-latest
     services:
@@ -30,51 +32,124 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
+      - uses: ./.github/actions/setup
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          ruby-version: ${{ env.RUBY_VERSION }}
       - name: Set up database schema
         run: bin/rails db:schema:load
-      - name: Goofy ahh tests
-        run: bundle exec rspec
+      - name: Precompile assets
+        run: bundle exec rails assets:precompile
+      - name: Rspec with coverage
+        run: COVERAGE=true bundle exec rspec --format documentation
+      - name: Upload coverage report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+      - name: Upload rspec results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rspec_results
+          path: rspec_results.txt # rspec example_status_persistence_file_path
+# end region test
 
+# region security
   bundler_audit:
     runs-on: ubuntu-latest
+    needs: [fasterer, rails_best_practices, reek]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
+      - uses: ./.github/actions/setup
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          ruby-version: ${{ env.RUBY_VERSION }}
       - name: Bundler audit
         run: bundle exec bundler-audit --update
 
-  mr_brakeman:
+  brakeman:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-      - name: Mr. Brakeman
-        run: bundle exec brakeman -q -w2
+    needs: [test]
 
-  standard_english_mate_innit:
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
+      - uses: ./.github/actions/setup
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-      - name: Standard english mate, innit?
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Brakeman
+        run: bundle exec brakeman -q -w2
+# end region security
+
+# region lint
+  standardrb:
+    runs-on: ubuntu-latest
+    needs: [test]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Standardrb
         run: bundle exec standardrb
+
+  erb_lint:
+    runs-on: ubuntu-latest
+    needs: [test]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Erb lint
+        run: bundle exec erb_lint --lint-all
+# end region lint
+
+# region code check
+  fasterer:
+    runs-on: ubuntu-latest
+    needs: [standardrb, brakeman]
+    continue-on-error: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Fasterer
+        run: bundle exec fasterer
+
+  rails_best_practices:
+    runs-on: ubuntu-latest
+    needs: [standardrb, brakeman]
+    continue-on-error: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Rails best practices
+        run: bundle exec rails_best_practices
+
+  reek:
+    runs-on: ubuntu-latest
+    needs: [standardrb, brakeman]
+    continue-on-error: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Reek
+        run: bundle exec reek
+# end region code check
