@@ -3,7 +3,7 @@ class Api::PlotsController < ApplicationController
 
   def check_cadastral_number
     cadastral_number = params[:cadastral_number]
-    data = Apis::Geoplys::GetCoords.call(cadastral_number)
+    data = Geo::GetPlotCoords.call(cadastral_number)
 
     if data.success?
       render json: {message: "ok"}, status: 200

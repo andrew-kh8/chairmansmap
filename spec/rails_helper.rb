@@ -15,6 +15,7 @@ require "support/matchers/custom_matchers"
 require "support/matchers/geo_matchers"
 require "support/factory_bot"
 require "support/database_cleaner"
+require "support/vcr"
 
 # Add additional requires below this line. Rails is not loaded until this point!
 

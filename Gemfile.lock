@@ -523,6 +523,7 @@ GEM
     uniform_notifier (1.18.0)
     uri (1.1.1)
     useragent (0.16.11)
+    vcr (6.4.0)
     virtus (2.0.0)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -603,6 +604,7 @@ DEPENDENCIES
   tailwindcss-rails (~> 2.0)
   turbo-rails
   tzinfo-data
+  vcr
   web-console
 
 RUBY VERSION
