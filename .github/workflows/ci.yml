@@ -47,6 +47,12 @@ jobs:
         with:
           name: coverage-report
           path: coverage/
+      - name: Upload rspec results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rspec_results
+          path: rspec_results.txt # rspec example_status_persistence_file_path
 # end region test
 
 # region security
