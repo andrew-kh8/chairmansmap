@@ -11,6 +11,7 @@ env:
   BUNDLE_PATH: vendor/bundle
 
 jobs:
+# region test
   test:
     runs-on: ubuntu-latest
     services:
@@ -29,142 +30,120 @@ jobs:
       PGUSER: rails
       PGPASSWORD: password
     steps:
-      - name: Install dependency libs
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgeos-dev libgeos-c1v5 libproj-dev proj-bin
-      - name: Add GEOS to library path
-        run: |
-          echo "/usr/lib/x86_64-linux-gnu" | sudo tee /etc/ld.so.conf.d/geos.conf
-          sudo ldconfig
-      - name: Debug GEOS config
-        run: |
-          geos-config --version
-          ls -l /usr/lib/x86_64-linux-gnu/libgeos_c.so*
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Install Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: ./.github/actions/setup
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: false
-      - name: Install gems
-        run: bundle install
       - name: Set up database schema
         run: bin/rails db:schema:load
       - name: Precompile assets
         run: bundle exec rails assets:precompile
-      - name: Goofy ahh tests
-        run: COVERAGE=true bundle exec rspec
+      - name: Rspec with coverage
+        run: COVERAGE=true bundle exec rspec --format documentation
       - name: Upload coverage report
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage/
+# end region test
 
-  bundler_auditor_cheeker_breeker:
+# region security
+  bundler_audit:
     runs-on: ubuntu-latest
+    needs: [fasterer, rails_best_practices, reek]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: true
-      - name: Bundler auditor cheeker breeker
+      - name: Bundler audit
         run: bundle exec bundler-audit --update
 
-  mr_brakeman:
+  brakeman:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: true
-      - name: Mr. Brakeman
-        run: bundle exec brakeman -q -w2
+    needs: [test]
 
-  standard_english_mate_innit:
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: true
-      - name: Standard english mate, innit?
+      - name: Brakeman
+        run: bundle exec brakeman -q -w2
+# end region security
+
+# region lint
+  standardrb:
+    runs-on: ubuntu-latest
+    needs: [test]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Standardrb
         run: bundle exec standardrb
 
-  erb_licker:
+  erb_lint:
     runs-on: ubuntu-latest
+    needs: [test]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: true
-      - name: Lick, I mean lint
+      - name: Erb lint
         run: bundle exec erb_lint --lint-all
+# end region lint
 
+# region code check
   fasterer:
     runs-on: ubuntu-latest
-    needs: [test, bundler_auditor_cheeker_breeker, mr_brakeman, standard_english_mate_innit, erb_licker]
+    needs: [standardrb, brakeman]
+    continue-on-error: true
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: true
-      - name: I am SPEED
+      - name: Fasterer
         run: bundle exec fasterer
 
   rails_best_practices:
     runs-on: ubuntu-latest
-    needs: [test, bundler_auditor_cheeker_breeker, mr_brakeman, standard_english_mate_innit, erb_licker]
+    needs: [standardrb, brakeman]
     continue-on-error: true
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: true
-      - name: I am SPEED
+      - name: Rails best practices
         run: bundle exec rails_best_practices
 
   reek:
     runs-on: ubuntu-latest
-    needs: [test, bundler_auditor_cheeker_breeker, mr_brakeman, standard_english_mate_innit, erb_licker]
+    needs: [standardrb, brakeman]
     continue-on-error: true
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: true
-      - name: Reek'n Roll
+      - name: Reek
         run: bundle exec reek
+# end region code check

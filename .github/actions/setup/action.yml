@@ -1,6 +1,11 @@
 name: 'Setup environment'
 description: 'Install system dependencies'
 
+inputs:
+  ruby-version:
+    description: 'Ruby version'
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -8,4 +13,19 @@ runs:
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt-get install libproj-dev proj-bin
+        sudo apt-get install -y libgeos-dev libgeos-c1v5 libproj-dev proj-bin
+    - name: Add GEOS to library path
+      shell: bash
+      run: |
+        echo "/usr/lib/x86_64-linux-gnu" | sudo tee /etc/ld.so.conf.d/geos.conf
+        sudo ldconfig
+    - name: Debug GEOS config
+      shell: bash
+      run: |
+        geos-config --version
+        ls -l /usr/lib/x86_64-linux-gnu/libgeos_c.so*
+    - name: Install Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ inputs.ruby-version }}
+        bundler-cache: true
