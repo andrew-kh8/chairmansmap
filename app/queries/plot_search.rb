@@ -61,12 +61,14 @@ class PlotSearch
     Plot.owner_types.keys.unshift(nil)
   end
 
-  private_class_method
+  class << self
+    private
 
-  def self.people_options
-    Person
-      .select(:id, :surname, :first_name, :middle_name)
-      .map { |person| [person.short_name, person.id] }
-      .sort_by(&:first)
+    def people_options
+      Person
+        .select(:id, :surname, :first_name, :middle_name)
+        .map { |person| [person.short_name, person.id] }
+        .sort_by(&:first)
+    end
   end
 end

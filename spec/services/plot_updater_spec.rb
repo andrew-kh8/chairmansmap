@@ -1,5 +1,5 @@
 RSpec.describe PlotUpdater do
-  subject(:result) { described_class.new.call(plot_id, person_id, plot_data) }
+  subject(:result) { described_class.call(plot_id, person_id, plot_data) }
 
   let(:person) { create(:person) }
   let(:plot) { create(:plot, cadastral_number: "1:2:3:4") }

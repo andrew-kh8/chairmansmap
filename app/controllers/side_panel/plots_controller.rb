@@ -23,7 +23,7 @@ module SidePanel
     end
 
     def update
-      plot = PlotUpdater.new.call(params.require(:id), owner_person_id, plot_params)
+      plot = PlotUpdater.call(params.require(:id), owner_person_id, plot_params)
 
       if plot.success?
         render partial: "side_panel/plots/data", locals: {plot: plot.success}, notice: "good"

@@ -16,6 +16,7 @@ require "support/matchers/geo_matchers"
 require "support/factory_bot"
 require "support/database_cleaner"
 require "support/vcr"
+require "support/helpers/request_helpers"
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -77,6 +78,8 @@ RSpec.configure do |config|
     driven_by :selenium_chrome_headless
     page.driver.browser.manage.window.resize_to(1920, 1080)
   end
+
+  config.include RequestHelpers, type: :request
 end
 
 Shoulda::Matchers.configure do |config|

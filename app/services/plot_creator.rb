@@ -17,14 +17,14 @@ class PlotCreator
       ActiveRecord::Base.transaction do
         plot.save!
         owner.save!
-      rescue
-        raise Dry::Monads::Failure(plot.errors.full_messages)
       end
 
       Dry::Monads::Success(plot)
     else
-      Dry::Monads::Failure(plot.errors.full_messages)
+      Dry::Monads::Failure(plot.errors.full_messages + owner.errors.full_messages)
     end
+  rescue ActiveRecord::RecordNotUnique => error
+    Dry::Monads::Failure(error.message)
   end
 
   private

@@ -3,7 +3,7 @@ class PlotUpdater
 
   class UpdateError < StandardError; end
 
-  def call(plot_id, person_id, plot_data)
+  def self.call(plot_id, person_id, plot_data)
     plot = Plot.find(plot_id)
 
     current_date = Date.current
