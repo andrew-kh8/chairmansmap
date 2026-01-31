@@ -34,7 +34,6 @@ class PlotCreator
     multi_polygon_data = Geo::MultiPolygonCreator.call(coords).value_or { return Plot.new }
 
     Plot.new(
-      gid: rand(1..500),
       area: multi_polygon_data.area,
       perimeter: multi_polygon_data.perimeter,
       number: params.number,

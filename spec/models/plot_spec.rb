@@ -10,7 +10,6 @@ RSpec.describe Plot, type: :model do
     subject { FactoryBot.build(:plot) }
 
     it { is_expected.to validate_presence_of(:geom) }
-    it { is_expected.to validate_presence_of(:gid) }
     it { is_expected.to validate_presence_of(:area) }
     it { is_expected.to validate_presence_of(:perimeter) }
     it { is_expected.to validate_presence_of(:number) }

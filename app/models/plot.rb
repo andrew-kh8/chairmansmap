@@ -9,7 +9,7 @@ class Plot < ApplicationRecord
   has_many :persons, through: :owners
   has_one :person, through: :owner
 
-  validates :geom, :gid, :area, :perimeter, :number, presence: true
+  validates :geom, :area, :perimeter, :number, presence: true
   validates :number, numericality: true
   validates :cadastral_number, uniqueness: true, format: {with: /\A\d{1,2}:\d{1,2}:\d{1,7}:\d{1,9}\z/}
 

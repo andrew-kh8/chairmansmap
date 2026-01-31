@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_25_234353) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_31_105929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -59,7 +59,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_234353) do
     t.datetime "created_at", null: false
     t.string "description"
     t.geometry "geom", limit: {:srid=>3857, :type=>"multi_polygon"}, null: false
-    t.serial "gid", null: false
     t.integer "number", null: false
     t.string "owner_type"
     t.float "perimeter", null: false
