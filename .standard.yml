@@ -6,11 +6,13 @@ ruby_version: 3.3       # default: RUBY_VERSION
 
 plugins:
   - standard-rails
+  - standard-sorbet
 
 standard-rails:
   target_rails_version: 8.0
 
-# ignore:                 # default: []
+ignore:
+  - "sorbet/"
   # - 'vendor/**/*'
 # extend_config:          # default: []
 #   - .standard_ext.yml

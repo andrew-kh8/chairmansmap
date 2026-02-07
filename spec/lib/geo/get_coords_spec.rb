@@ -12,7 +12,7 @@ RSpec.describe Geo::GetPlotCoords do
 
   context "when client returns success" do
     it "returns coords" do
-      expect(Apis::Geoplys::Client).to receive(:plot_coords).with(cadaster_number).and_return(Dry::Monads::Success(coords))
+      expect(Apis::Geoplys::Client).to receive(:plot_coords).with(cadaster_number).and_return(DM::Success(coords))
 
       expect(subject).to be_success
       expect(subject.success).to eq coords
@@ -21,7 +21,7 @@ RSpec.describe Geo::GetPlotCoords do
 
   context "when client returns failure" do
     it "returns coords" do
-      expect(Apis::Geoplys::Client).to receive(:plot_coords).with(cadaster_number).and_return(Dry::Monads::Failure("example error"))
+      expect(Apis::Geoplys::Client).to receive(:plot_coords).with(cadaster_number).and_return(DM::Failure("example error"))
 
       expect(subject).to be_failure
       expect(subject.failure).to eq "example error"

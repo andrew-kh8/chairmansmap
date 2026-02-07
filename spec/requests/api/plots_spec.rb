@@ -5,7 +5,7 @@ RSpec.describe "Api::Plots", type: :request do
 
     context "when Geo::GetPlotCoords returns success" do
       it "returns success status" do
-        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Dry::Monads::Success.new([[1, 2], [3, 4]]))
+        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(DM::Success.new([[1, 2], [3, 4]]))
 
         get api_plots_check_cadastral_number_path, params: params
 
@@ -16,7 +16,7 @@ RSpec.describe "Api::Plots", type: :request do
 
     context "when Geo::GetPlotCoords returns failure" do
       it "returns not found status" do
-        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Dry::Monads::Failure.new("Error message"))
+        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(DM::Failure.new("Error message"))
 
         get api_plots_check_cadastral_number_path, params: params
 

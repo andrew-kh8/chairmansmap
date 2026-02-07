@@ -1,6 +1,4 @@
 class PlotUpdater
-  include Dry::Monads[:result]
-
   class UpdateError < StandardError; end
 
   def self.call(plot_id, person_id, plot_data)
@@ -19,10 +17,10 @@ class PlotUpdater
       raise UpdateError, "При обновлении данных произошла ошибка. #{error}"
     end
 
-    Dry::Monads::Success(plot)
+    DM::Success(plot)
   rescue ActiveRecord::RecordNotFound => _error
-    Dry::Monads::Failure("Не получилось найти участок")
+    DM::Failure("Не получилось найти участок")
   rescue UpdateError => error
-    Dry::Monads::Failure(error.message)
+    DM::Failure(error.message)
   end
 end

@@ -18,7 +18,7 @@ RSpec.describe PlotUpdater do
           .and not_change { plot.cadastral_number }
           .and change { plot.owners.count }.by(1)
 
-        expect(result).to eq Dry::Monads::Success(plot)
+        expect(result).to eq DM::Success(plot)
       end
 
       context "when person_id is nil" do
@@ -31,7 +31,7 @@ RSpec.describe PlotUpdater do
             .and not_change { plot.cadastral_number }
             .and not_change { plot.owners.count }
 
-          expect(result).to eq Dry::Monads::Success(plot)
+          expect(result).to eq DM::Success(plot)
         end
       end
 
@@ -45,7 +45,7 @@ RSpec.describe PlotUpdater do
             .and not_change { plot.cadastral_number }
             .and change { plot.owners.count }.by(1)
 
-          expect(result).to eq Dry::Monads::Success(plot)
+          expect(result).to eq DM::Success(plot)
         end
       end
     end
@@ -60,7 +60,7 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot }
 
-          expect(result).to eq Dry::Monads::Failure(failure_text)
+          expect(result).to eq DM::Failure(failure_text)
         end
       end
 
@@ -73,7 +73,7 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot }
 
-          expect(result).to eq Dry::Monads::Failure(failure_text)
+          expect(result).to eq DM::Failure(failure_text)
         end
       end
 
@@ -86,7 +86,7 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot }
 
-          expect(result).to eq Dry::Monads::Failure(failure_text)
+          expect(result).to eq DM::Failure(failure_text)
         end
       end
     end

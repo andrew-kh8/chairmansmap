@@ -6,8 +6,6 @@ require "oj"
 module Apis
   module Geoplys
     class Client
-      include Dry::Monads[:result]
-
       class RequestError < StandardError
       end
 
@@ -21,9 +19,9 @@ module Apis
         def plot_coords(cadaster_number)
           result = get(PKK_URL, {cn: cadaster_number})
 
-          Dry::Monads::Success(result[:coordinates].first)
+          DM::Success(result[:coordinates].first)
         rescue ResponseError, RequestError => error
-          Dry::Monads::Failure(error)
+          DM::Failure(error)
         end
 
         private

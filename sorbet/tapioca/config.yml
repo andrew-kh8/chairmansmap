@@ -1,0 +1,30 @@
+gem:
+  exclude:
+  - bundler-audit
+  - parser
+  - prism
+  - pry
+  - rbi
+  - rbs
+  - rdoc
+  - reek
+  - rubocop
+  - rubocop-ast
+  - ruby_parser
+  - simplecov
+  - sorbet
+  - sorbet-runtime
+  - spoom
+  - standard
+  - standardrb
+  - tapioca
+  - yaml
+  - yard
+  doc: true
+  workers: 1
+dsl:
+  # Add your `dsl` command parameters here:
+  #
+  # exclude:
+  # - SomeGeneratorName
+  # workers: 5
