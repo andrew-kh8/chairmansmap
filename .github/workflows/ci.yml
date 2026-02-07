@@ -110,7 +110,20 @@ jobs:
         run: bundle exec erb_lint --lint-all
 # end region lint
 
-# region code check
+# region check
+  sorbet:
+    runs-on: ubuntu-latest
+    needs: [test]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Sorbet type check
+        run: bundle exec srb tc
+
   fasterer:
     runs-on: ubuntu-latest
     needs: [standardrb, brakeman]
@@ -152,4 +165,4 @@ jobs:
           ruby-version: ${{ env.RUBY_VERSION }}
       - name: Reek
         run: bundle exec reek
-# end region code check
+# end region check
