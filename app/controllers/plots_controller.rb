@@ -1,19 +1,25 @@
-# typed: false
+# typed: strict
 
 class PlotsController < ApplicationController
+  extend T::Sig
   include Pagy::Method
 
+  sig { void }
   def index
     plots = PlotSearch.call(search_params)
 
-    @pagy, @plots = pagy(:offset, plots, limit: 20)
+    pagy, plots = pagy(:offset, plots, limit: 20)
+
+    render :index, locals: {pagy:, plots:}
   end
 
+  sig { void }
   def show
     plot = Plot.includes(:person).find(params[:id])
     render :show, locals: {plot: plot, person: plot.person}
   end
 
+  sig { void }
   def new
     plot = Plot.new
     people = Person.kept.map { |person| [person.short_name, person.id] }
@@ -21,6 +27,7 @@ class PlotsController < ApplicationController
     render :new, locals: {plot: plot, people: people}
   end
 
+  sig { void }
   def create
     plot_result = PlotCreator.call(permitted_params)
 
@@ -31,6 +38,7 @@ class PlotsController < ApplicationController
     end
   end
 
+  sig { void }
   def destroy
     plot_id = params[:id]
     plot = Plot.find(plot_id)
@@ -44,10 +52,12 @@ class PlotsController < ApplicationController
 
   private
 
+  sig { returns(ActionController::Parameters) }
   def permitted_params
     params.require(:plot).permit(:cadastral_number, :number, :person_id, :owner_type, :sale_status, :description) # :photos
   end
 
+  sig { returns(ActionController::Parameters) }
   def search_params
     params
       .permit(:area_min, :area_max, people: [])

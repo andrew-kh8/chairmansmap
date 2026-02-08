@@ -4,7 +4,7 @@
         <div class="bg-white rounded-xl border border-gray-200 p-8 dark:bg-zinc-500 dark:border-gray-700">
 
             <h1 class="text-3xl text-center font-bold text-gray-900">Редактирование профиля</h1>
-            <%= form_for :person, method: :patch, url: person_path(@person), class: "space-y-8" do |f| %>
+            <%= form_for person, method: :patch, url: person_path(person), class: "space-y-8" do |f| %>
 
             <!-- Фотография -->
             <div class="flex flex-col items-center">
@@ -57,7 +57,7 @@
 
             <!-- Кнопки действий -->
             <div class="flex justify-end space-x-4">
-                <%= link_to "Отмена", person_path(@person),
+                <%= link_to "Отмена", person_path(person),
                       class: "px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200 font-medium dark:text-black" %>
                 <%= f.submit "Сохранить изменения",
                       class: "px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium cursor-pointer dark:text-black" %>

@@ -32,7 +32,7 @@ gem "pagy", "~> 43.0"
 gem "panko_serializer"
 
 # dry
-gem "dry-monads"
+gem "dry-monads", require: "dry/monads/all"
 gem "sorbet-runtime"
 
 # geo

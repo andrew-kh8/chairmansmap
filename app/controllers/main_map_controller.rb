@@ -1,7 +1,10 @@
-# typed: false
+# typed: strict
 
 class MainMapController < ApplicationController
+  extend T::Sig
+
+  sig { void }
   def index
-    @people = Person.all.order(:surname)
+    render :index
   end
 end
