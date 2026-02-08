@@ -1,3 +1,5 @@
+# typed: false
+
 class ApplicationController < ActionController::Base
   before_action :check_maintenance_mode
 

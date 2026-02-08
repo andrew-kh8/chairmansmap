@@ -1,3 +1,5 @@
+# typed: false
+
 class PlotsController < ApplicationController
   include Pagy::Method
 

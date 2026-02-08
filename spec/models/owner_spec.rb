@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe Owner, type: :model do
   describe "associations" do
     it { is_expected.to belong_to(:plot).class_name("Plot") }

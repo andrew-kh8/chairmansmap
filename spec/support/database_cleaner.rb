@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.configure do |config|
   geo_tables = ["spatial_ref_sys"]
 

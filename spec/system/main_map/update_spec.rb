@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "update plots", type: :system do
   let(:plot) { create(:plot) }
   let!(:new_person) { create(:person) }

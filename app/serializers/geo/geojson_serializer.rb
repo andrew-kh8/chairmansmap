@@ -1,3 +1,5 @@
+# typed: false
+
 module Geo
   class GeojsonSerializer < Panko::Serializer
     FEATURE_COLLECTION = "FeatureCollection"

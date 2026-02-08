@@ -1,3 +1,5 @@
+# typed: false
+
 class PlotCoordsUpdateWorker
   def perform(plots = nil)
     result = {success: [], failure: []}

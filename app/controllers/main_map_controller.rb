@@ -1,3 +1,5 @@
+# typed: false
+
 class MainMapController < ApplicationController
   def index
     @people = Person.all.order(:surname)

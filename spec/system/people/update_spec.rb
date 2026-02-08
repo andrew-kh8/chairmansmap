@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "Update Person", type: :system do
   let!(:person) { create(:person) }
 

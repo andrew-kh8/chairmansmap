@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "Plots Destroy", type: :system do
   let(:plot) { create(:plot) }
   let!(:owner) { create(:owner, plot: plot, person: create(:person)) }

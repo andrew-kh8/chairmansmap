@@ -1,3 +1,5 @@
+# typed: false
+
 module Geo
   class TransformPointSrid
     SRID = 3857

@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe Person, type: :model do
   describe "associations" do
     it { is_expected.to have_many(:owners).class_name("Owner") }

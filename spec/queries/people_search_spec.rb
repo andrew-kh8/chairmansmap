@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe PeopleSearch do
   subject { described_class.call(filters) }
   describe ".call" do

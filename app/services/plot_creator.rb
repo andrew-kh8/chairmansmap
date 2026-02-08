@@ -1,3 +1,5 @@
+# typed: false
+
 class PlotCreator
   PlotParams = Struct.new(:number, :description, :sale_status, :owner_type, :cadastral_number, :person_id)
 

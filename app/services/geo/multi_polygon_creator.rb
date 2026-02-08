@@ -1,3 +1,5 @@
+# typed: false
+
 module Geo
   class MultiPolygonCreator
     MultiPolygonData = Struct.new(:multi_polygon, :area, :perimeter)

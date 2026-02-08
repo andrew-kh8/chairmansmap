@@ -1,3 +1,5 @@
+# typed: false
+
 class Api::PlotsFilterController < ApplicationController
   def index
     if search_params.present?

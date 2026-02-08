@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe PlotGeometry do
   subject { described_class.call(plot_ids) }
 

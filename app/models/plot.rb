@@ -1,3 +1,5 @@
+# typed: false
+
 class Plot < ApplicationRecord
   SRID = 3857
 

@@ -1,3 +1,5 @@
+# typed: false
+
 require "strong_migrations"
 
 # Mark existing migrations as safe

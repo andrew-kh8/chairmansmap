@@ -1,3 +1,5 @@
+# typed: false
+
 class MaintenancesController < ApplicationController
   before_action :check_work_mode, if: -> { ENV["MAINTENANCE_MODE"].nil? }
   def show

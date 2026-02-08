@@ -1,3 +1,5 @@
+# typed: false
+
 class Person < ApplicationRecord
   include Discard::Model
 

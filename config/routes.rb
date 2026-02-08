@@ -1,3 +1,5 @@
+# typed: false
+
 Rails.application.routes.draw do
   root "main_map#index"
   get "plots/plots", to: "plots#plots"

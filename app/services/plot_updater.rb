@@ -1,3 +1,5 @@
+# typed: false
+
 class PlotUpdater
   class UpdateError < StandardError; end
 

@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "index plots", type: :system do
   let!(:plot) { create(:plot) }
   let!(:person) { create(:person) }

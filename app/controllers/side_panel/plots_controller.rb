@@ -1,3 +1,5 @@
+# typed: false
+
 module SidePanel
   class PlotsController < ApplicationController
     def index

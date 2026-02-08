@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe HunterLocationSearch do
   subject { described_class.call(filters) }
 

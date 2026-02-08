@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe Geo::GetPlotCoords do
   subject { described_class.call(cadaster_number) }
 

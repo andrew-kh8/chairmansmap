@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe PlotUpdater do
   subject(:result) { described_class.call(plot_id, person_id, plot_data) }
 

@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "Plots Create", type: :system do
   let!(:person) { create(:person) }
   let(:cadaster_number) { "9:7:806:308631" }

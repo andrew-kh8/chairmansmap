@@ -1,3 +1,5 @@
+# typed: false
+
 class PlotCoordsUpdater
   def self.call(plot)
     coords = Geo::GetPlotCoords.call(plot.cadastral_number)

@@ -1,3 +1,5 @@
+# typed: false
+
 class CreateHunterLocation
   def self.call(params)
     HunterLocation.create!(parsed_params(params))

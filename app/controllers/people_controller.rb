@@ -1,3 +1,5 @@
+# typed: false
+
 class PeopleController < ApplicationController
   include Pagy::Method
   include PeopleHelper

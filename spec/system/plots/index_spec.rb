@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "Plots Index", type: :system do
   let!(:plot1) { create(:plot, number: 1, area: 100) }
   let!(:plot2) { create(:plot, number: 2, area: 200) }

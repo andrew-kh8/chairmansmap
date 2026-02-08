@@ -1,3 +1,5 @@
+# typed: false
+
 module Geo
   class GetPlotCoords
     def self.call(cadaster_number)

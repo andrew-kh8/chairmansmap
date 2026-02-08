@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "Api::Plots", type: :request do
   describe "GET /api/plots/check_cadastral_number" do
     let(:cadastral_number) { "11:22:333333:44" }

@@ -1,3 +1,5 @@
+# typed: false
+
 module SidePanel
   class HuntersController < ApplicationController
     def index

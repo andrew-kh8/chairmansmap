@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe PlotSearch do
   describe ".call" do
     subject { described_class.call(filters).to_a }

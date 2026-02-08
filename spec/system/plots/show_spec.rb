@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "plots", type: :system do
   let(:person) { create(:person) }
   let(:plot) { create(:plot) }

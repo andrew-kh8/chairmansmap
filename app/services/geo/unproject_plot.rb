@@ -1,3 +1,5 @@
+# typed: false
+
 module Geo
   class UnprojectPlot
     def self.call(plot)

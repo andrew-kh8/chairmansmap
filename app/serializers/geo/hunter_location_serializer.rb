@@ -1,3 +1,5 @@
+# typed: false
+
 module Geo
   class HunterLocationSerializer < Panko::Serializer
     FEATURE = "Feature"
