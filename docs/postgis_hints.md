@@ -42,3 +42,19 @@ factory = RGeo::Geographic.projected_factory(projection_srid: 3857)
 unprojected = factory.unproject(plot.geom)
 RGeo::GeoJSON.encode(unprojected)
 ```
+
+
+## Get Center of object(s)
+
+check postgis docs
+* [ST_Centroid](https://postgis.net/docs/ST_Centroid.html)
+* [ST_PointOnSurface](https://postgis.net/docs/ST_PointOnSurface.html)
+* [ST_GeometricMedian](https://postgis.net/docs/ST_GeometricMedian.html)
+
+```sql
+SELECT ST_AsText(ST_Transform(ST_Centroid(ST_Collect(geom)), 4326)) FROM plots;
+
+SELECT ST_X(res), ST_Y(res) from (
+  select ST_AsText(ST_Transform(ST_Centroid(ST_Collect(geom)), 4326)) as res FROM plots
+);
+```

@@ -19,10 +19,7 @@ export default class extends Controller {
   connect() {
     this.wfs_plots_layer = null;
 
-    this.leafletMap = new LeafletMap(this.mapTarget, {
-      zoom: 17,
-      center: [44.50861, 33.57975],
-    });
+    this.leafletMap = new LeafletMap(this.mapTarget);
     this.map = this.leafletMap.initMap();
     this.layerControls = L.control.layers(null, null).addTo(this.map);
 
@@ -102,6 +99,7 @@ export default class extends Controller {
         });
 
         this.wfs_plots_layer.addTo(this.map);
+        this.map.fitBounds(this.wfs_plots_layer.getBounds());
         this.layerControls.addOverlay(this.wfs_plots_layer, "Участки");
       });
   }
