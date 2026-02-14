@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import { LeafletMap } from "../modules/leaflet_map";
+import { OWMTile } from "../modules/weather/owm_tile";
 import {
   layerStyleNames,
   circleMarkerStyle,
@@ -23,8 +24,15 @@ export default class extends Controller {
     this.map = this.leafletMap.initMap();
     this.layerControls = L.control.layers(null, null).addTo(this.map);
 
-    this.showAllPlots();
-    this.showHunters();
+    this.#showAllPlots();
+    this.#showHunters();
+
+    new OWMTile(this.layerControls)
+      .addWind()
+      .addTemp()
+      .addClouds()
+      .addRain()
+      .addSnow();
 
     this.newHunterMarker = null;
     this.map.on("click", this.handleMapClick.bind(this));
@@ -83,7 +91,7 @@ export default class extends Controller {
 
   // private
 
-  showAllPlots() {
+  #showAllPlots() {
     fetch("/geometry/plots")
       .then((response) => response.json())
       .then((geojson) => {
@@ -104,7 +112,7 @@ export default class extends Controller {
       });
   }
 
-  showHunters() {
+  #showHunters() {
     fetch("/geometry/hunters")
       .then((response) => response.json())
       .then((geojson) => {

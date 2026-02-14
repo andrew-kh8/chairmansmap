@@ -17,6 +17,7 @@ export class LeafletMap {
     L.tileLayer(this.tile, {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      minZoom: 1,
       maxZoom: 23,
     }).addTo(this.map);
 
