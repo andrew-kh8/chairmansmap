@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "SidePanel::Hunters", type: :system do
   let!(:hunter_location) { create(:hunter_location, location: "POINT(10 10)") }
 

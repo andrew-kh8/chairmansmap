@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe CreateHunterLocation do
   subject(:result) { described_class.call(params) }
 

@@ -1,3 +1,5 @@
+# typed: false
+
 if ENV["COVERAGE"] == "true"
   require "simplecov"
 end

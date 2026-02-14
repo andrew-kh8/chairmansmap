@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "Plots Create", type: :system do
   let!(:person) { create(:person) }
   let(:cadaster_number) { "9:7:806:308631" }
@@ -6,7 +8,7 @@ RSpec.describe "Plots Create", type: :system do
   context "when coords are existed" do
     before do
       plot_coords = build(:plot).geom.coordinates.first.first
-      allow(Geo::GetPlotCoords).to receive(:call).with(cadaster_number).and_return(Dry::Monads::Success(plot_coords))
+      allow(Geo::GetPlotCoords).to receive(:call).with(cadaster_number).and_return(DM::Success(plot_coords))
     end
 
     it "creates a new plot successfully" do
@@ -29,7 +31,7 @@ RSpec.describe "Plots Create", type: :system do
 
   context "when cannot get coords" do
     before do
-      allow(Geo::GetPlotCoords).to receive(:call).with(cadaster_number).and_return(Dry::Monads::Failure("an error"))
+      allow(Geo::GetPlotCoords).to receive(:call).with(cadaster_number).and_return(DM::Failure("an error"))
     end
 
     it "fails to create plot with invalid data" do

@@ -12,6 +12,9 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+    colors: {
+      "btn-green": "rgb(56, 148, 105)",
+    }
     },
   },
   plugins: [

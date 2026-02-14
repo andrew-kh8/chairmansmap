@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "Plots Index", type: :system do
   let!(:plot1) { create(:plot, number: 1, area: 100) }
   let!(:plot2) { create(:plot, number: 2, area: 200) }
@@ -15,7 +17,7 @@ RSpec.describe "Plots Index", type: :system do
 
   context "when filtering plots" do
     it "filters by area" do
-      fill_in "От", with: "150"
+      fill_in "От", with: "1.1" # 100 in m2
 
       click_button "Применить"
 

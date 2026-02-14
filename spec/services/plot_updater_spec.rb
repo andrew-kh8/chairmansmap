@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe PlotUpdater do
   subject(:result) { described_class.call(plot_id, person_id, plot_data) }
 
@@ -18,7 +20,7 @@ RSpec.describe PlotUpdater do
           .and not_change { plot.cadastral_number }
           .and change { plot.owners.count }.by(1)
 
-        expect(result).to eq Dry::Monads::Success(plot)
+        expect(result).to eq DM::Success(plot)
       end
 
       context "when person_id is nil" do
@@ -31,7 +33,7 @@ RSpec.describe PlotUpdater do
             .and not_change { plot.cadastral_number }
             .and not_change { plot.owners.count }
 
-          expect(result).to eq Dry::Monads::Success(plot)
+          expect(result).to eq DM::Success(plot)
         end
       end
 
@@ -45,14 +47,14 @@ RSpec.describe PlotUpdater do
             .and not_change { plot.cadastral_number }
             .and change { plot.owners.count }.by(1)
 
-          expect(result).to eq Dry::Monads::Success(plot)
+          expect(result).to eq DM::Success(plot)
         end
       end
     end
 
     context "when result is negative" do
       context "when plot not found" do
-        let(:plot_id) { 0 }
+        let(:plot_id) { "0" }
         let(:person_id) { person.id }
         let(:plot_data) { {} }
         let(:failure_text) { "Не получилось найти участок" }
@@ -60,7 +62,7 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot }
 
-          expect(result).to eq Dry::Monads::Failure(failure_text)
+          expect(result).to eq DM::Failure(failure_text)
         end
       end
 
@@ -73,7 +75,7 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot }
 
-          expect(result).to eq Dry::Monads::Failure(failure_text)
+          expect(result).to eq DM::Failure(failure_text)
         end
       end
 
@@ -86,7 +88,7 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot }
 
-          expect(result).to eq Dry::Monads::Failure(failure_text)
+          expect(result).to eq DM::Failure(failure_text)
         end
       end
     end

@@ -1,3 +1,5 @@
+# typed: strict
+
 class HunterLocation < ApplicationRecord
   SRID = 3857
 

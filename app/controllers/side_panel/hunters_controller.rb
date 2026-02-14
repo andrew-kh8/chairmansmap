@@ -1,7 +1,9 @@
+# typed: false
+
 module SidePanel
   class HuntersController < ApplicationController
     def index
-      hunter_locations = HunterLocationSearch.call(search_params)
+      hunter_locations = HunterLocationSearch.new.call(search_params)
 
       render partial: "index", locals: {hunter_locations:}
     end
@@ -20,13 +22,13 @@ module SidePanel
     def destroy
       HunterLocation.find(params[:id]).destroy
 
-      render partial: "index", locals: {hunter_locations: HunterLocationSearch.call(search_params)}
+      render partial: "index", locals: {hunter_locations: HunterLocationSearch.new.call(search_params)}
     end
 
     private
 
     def hunter_params
-      params.require(:hunter_location).permit(:date, :license, :dog, :description, :location)
+      params.require(:hunter_location).permit(:date, :license, :dog, :description, :location).to_h
     end
 
     def search_params

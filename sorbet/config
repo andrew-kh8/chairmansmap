@@ -1,0 +1,7 @@
+--dir
+./
+--ignore=tmp/
+--ignore=vendor/
+--ignore=db/migrate
+--ignore=spec/
+--ignore=config/environments/development.rb

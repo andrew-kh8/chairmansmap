@@ -1,3 +1,5 @@
+# typed: false
+
 module Geometry
   class HuntersController < ApplicationController
     def index

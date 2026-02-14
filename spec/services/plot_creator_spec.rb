@@ -1,3 +1,5 @@
+# typed: false
+
 require "rails_helper"
 
 RSpec.describe PlotCreator do
@@ -20,7 +22,7 @@ RSpec.describe PlotCreator do
   let(:coords) { [[0, 0], [10, 0], [0, 10], [0, 0]] }
 
   describe "#call" do
-    before { allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Dry::Monads::Success(coords)) }
+    before { allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(DM::Success(coords)) }
 
     context "when plot is created" do
       it "creates plot and owner and returns Success" do
@@ -33,7 +35,7 @@ RSpec.describe PlotCreator do
 
     context "when cannot to get plot's coords" do
       before do
-        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Dry::Monads::Failure("an error"))
+        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(DM::Failure("an error"))
       end
 
       it "returns Failure due to validation errors (empty plot)" do
@@ -70,7 +72,7 @@ RSpec.describe PlotCreator do
     end
 
     context "when person_id is invalid" do
-      let(:person_id) { "person.id" }
+      let(:person_id) { 0 }
 
       it "returns failure" do
         expect(subject).to be_failure

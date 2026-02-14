@@ -3,9 +3,9 @@
         <!-- Площадь -->
         <div class="flex items-center gap-2 text-gray-600 dark:text-black">
             <span class="text-sm text-inherit">Площадь:</span>
-            <%= form.number_field :area_min, min: 0, step: 0.1, placeholder: "От", value: params[:area_min], class: "w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-200" %>
+            <%= form.number_field :area_min, min: 0, step: 0.1, placeholder: "От", value: params[:area_min], class: "w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-btn-green focus:border-btn-green dark:bg-zinc-200" %>
             <span class="text-inherit">-</span>
-            <%= form.number_field :area_max, min: 0, step: 0.1, placeholder: "До", value: params[:area_max], class: "w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-200" %>
+            <%= form.number_field :area_max, min: 0, step: 0.1, placeholder: "До", value: params[:area_max], class: "w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-btn-green focus:border-btn-green dark:bg-zinc-200" %>
             <span class="text-sm text-inherit">сот.</span>
         </div>
 
@@ -15,6 +15,6 @@
         </div>
 
         <!-- Кнопка применения фильтров -->
-        <%= button_tag "Применить", type: "submit", class: "px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium dark:text-black" %>
+        <%= button_tag "Применить", type: "submit", class: "px-4 py-2 bg-btn-green text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium dark:text-black" %>
     </div>
 <% end %>

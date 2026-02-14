@@ -1,13 +1,20 @@
+# typed: strict
+
 class MaintenancesController < ApplicationController
-  before_action :check_work_mode, if: -> { ENV["MAINTENANCE_MODE"].nil? }
+  extend T::Sig
+
+  before_action :redirect_to_root, if: -> { ENV["MAINTENANCE_MODE"].nil? }
+
+  sig { void }
   def show
-    recover_date = ENV["MAINTENANCE_MODE"].to_datetime
+    recover_date = T.must(ENV["MAINTENANCE_MODE"]).to_datetime
     render :show, layout: "empty", locals: {recover_date: recover_date}
   end
 
   private
 
-  def check_work_mode
+  sig { void }
+  def redirect_to_root
     redirect_to root_path
   end
 end

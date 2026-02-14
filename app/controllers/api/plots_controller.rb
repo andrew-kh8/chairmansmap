@@ -1,3 +1,5 @@
+# typed: false
+
 class Api::PlotsController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 

@@ -1,7 +1,8 @@
+# typed: false
+
 module SidePanel
   class PlotsController < ApplicationController
     def index
-      @people = Person.all.order(:surname)
       render partial: "index"
     end
 
@@ -39,7 +40,7 @@ module SidePanel
     end
 
     def plot_params
-      params.require(:plot).permit(:sale_status, :owner_type, :description)
+      params.require(:plot).permit(:sale_status, :owner_type, :description).to_h
     end
   end
 end

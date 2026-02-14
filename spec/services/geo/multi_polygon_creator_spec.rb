@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe Geo::MultiPolygonCreator do
   subject { described_class.call(coords) }
 

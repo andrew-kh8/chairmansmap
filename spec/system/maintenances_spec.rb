@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "Maintenances", type: :system do
   context "when maintenance mode is enabled" do
     let(:now) { Time.zone.now }

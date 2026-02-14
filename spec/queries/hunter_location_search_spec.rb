@@ -1,7 +1,9 @@
-RSpec.describe HunterLocationSearch do
-  subject { described_class.call(filters) }
+# typed: false
 
-  describe ".call" do
+RSpec.describe HunterLocationSearch do
+  subject { described_class.new.call(filters) }
+
+  describe "#call" do
     let(:filters) { {from: date_from, to: date_to, dog: dog_filter, license: license_filter} }
     let(:date_from) { nil }
     let(:date_to) { nil }

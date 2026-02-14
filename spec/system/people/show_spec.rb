@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "People Show", type: :system do
   let!(:person) { create(:person, first_name: "John", surname: "Doe", tel: "+1234567890", address: "Main St, 1") }
   let!(:plot) { create(:plot, number: 100) }

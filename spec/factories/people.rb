@@ -1,3 +1,5 @@
+# typed: false
+
 FactoryBot.define do
   factory :person do
     first_name { FFaker::NameRU.first_name }

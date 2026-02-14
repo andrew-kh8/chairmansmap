@@ -10,7 +10,7 @@
             <%= select_tag :owner_type, options_for_select(PlotSearch.owner_types), data: {main_map_target: "ownerType"}, class: "w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-200" %>
         </div>
 
-        <div data-action="click->main-map#filterPlots" class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium cursor-pointer dark:text-black">Фильтровать</div>
+        <div data-action="click->main-map#filterPlots" class="px-4 py-2 bg-btn-green text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium cursor-pointer dark:text-black">Фильтровать</div>
         <div data-action="click->main-map#resetFilter" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-200 text-sm font-medium cursor-pointer dark:text-black">Сбросить</div>
     </div>
 </div>

@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "People Index", type: :system do
   let!(:active_person) { create(:person, first_name: "Ivan", surname: "Active") }
   let!(:archived_person) { create(:person, :discarded, first_name: "Petr", surname: "Archived") }

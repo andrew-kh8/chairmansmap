@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe Apis::Geoplys::Client do
   describe ".plot_coords" do
     subject { described_class.plot_coords(cadaster_number) }

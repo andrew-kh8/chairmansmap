@@ -1,3 +1,5 @@
+# typed: false
+
 module Geo
   class PlotsSerializer < Panko::Serializer
     FEATURE = "Feature"

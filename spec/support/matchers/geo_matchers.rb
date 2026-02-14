@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec::Matchers.define :has_xy_coords do |x, y, tolerance = 8|
   match do |actual|
     actual.x.floor(tolerance) == x.floor(tolerance) &&

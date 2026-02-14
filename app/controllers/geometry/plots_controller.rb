@@ -1,3 +1,5 @@
+# typed: false
+
 module Geometry
   class PlotsController < ApplicationController
     def index

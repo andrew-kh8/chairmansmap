@@ -1,3 +1,5 @@
+# typed: false
+
 module PeopleHelper
   def table_headers
     [

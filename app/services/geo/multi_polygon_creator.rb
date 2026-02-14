@@ -1,12 +1,19 @@
+# typed: strict
+
 module Geo
   class MultiPolygonCreator
-    include Dry::Monads[:result]
+    extend T::Sig
 
-    MultiPolygonData = Struct.new(:multi_polygon, :area, :perimeter)
+    class MultiPolygonData < T::Struct
+      const :multi_polygon, RGeo::Geos::CAPIMultiPolygonImpl
+      const :area, Float
+      const :perimeter, Float
+    end
 
+    sig { params(coords: T::Array[T::Array[Float]], srid: Integer).returns(T.untyped) }
     def self.call(coords, srid: Plot::SRID)
       if coords.first != coords.last
-        return Dry::Monads::Failure("The coordinates are not closed in a circle")
+        return DM::Failure("The coordinates are not closed in a circle")
       end
 
       factory = RGeo::Geos.factory(srid: srid)
@@ -14,7 +21,7 @@ module Geo
       polygon = factory.polygon(ring)
       multi_polygon = factory.multi_polygon([polygon])
 
-      Dry::Monads::Success(MultiPolygonData.new(multi_polygon, multi_polygon.area, ring.length))
+      DM::Success(MultiPolygonData.new(multi_polygon:, area: multi_polygon.area, perimeter: ring.length))
     end
   end
 end

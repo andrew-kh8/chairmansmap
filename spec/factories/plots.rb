@@ -1,3 +1,5 @@
+# typed: false
+
 FactoryBot.define do
   factory :plot do
     sequence(:number) { |n| n }

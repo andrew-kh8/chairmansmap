@@ -1,7 +1,12 @@
+# typed: strict
+
 class Api::PlotsFilterController < ApplicationController
+  extend T::Sig
+
+  sig { void }
   def index
     if search_params.present?
-      render json: {plots: PlotSearch.call(search_params).map(&:number)}
+      render json: {plots: PlotSearch.new.call(search_params).map(&:number)}
     else
       render json: {}
     end
@@ -9,7 +14,8 @@ class Api::PlotsFilterController < ApplicationController
 
   private
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def search_params
-    params.permit(:owner_type, :sale_status).compact_blank
+    params.permit(:owner_type, :sale_status).compact_blank.to_h
   end
 end

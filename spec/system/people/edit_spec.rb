@@ -1,3 +1,5 @@
+# typed: false
+
 RSpec.describe "People Edit", type: :system do
   let!(:person) { create(:person, first_name: "Original", surname: "Name") }
 

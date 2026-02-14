@@ -32,7 +32,8 @@ gem "pagy", "~> 43.0"
 gem "panko_serializer"
 
 # dry
-gem "dry-monads"
+gem "dry-monads", require: "dry/monads/all"
+gem "sorbet-runtime"
 
 # geo
 gem "activerecord-postgis-adapter", "~> 11.0"
@@ -56,6 +57,9 @@ group :development, :test do
   gem "standard"
   gem "standard-rails"
   gem "erb_lint", require: false
+  gem "tapioca", require: false
+  gem "standard-sorbet"
+  gem "rspec-sorbet"
 end
 
 group :development do
@@ -70,6 +74,7 @@ group :development do
   gem "ruby-lsp-rspec", require: false
 
   # checkers
+  gem "sorbet"
   gem "brakeman", require: false
   gem "bundler-audit", require: false
   gem "fasterer", "~> 0.11.0", require: false
