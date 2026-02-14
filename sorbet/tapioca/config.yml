@@ -1,23 +1,64 @@
 gem:
   exclude:
+  - brakeman
+  - bullet
   - bundler-audit
+  - capybara
+  - database_cleaner-active_record
+  - database_cleaner-core
+  - docile
+  - erb_lint
+  - factory_bot
+  - factory_bot_rails
+  - fasterer
+  - flay
+  - flog
+  - launchy
+  - memory_profiler
   - parser
   - prism
   - pry
+  - rack-mini-profiler
+  - rails_best_practices
   - rbi
   - rbs
   - rdoc
   - reek
+  - rspec-core
+  - rspec-expectations
+  - rspec-mocks
+  - rspec-rails
+  - rspec-sorbet
+  - rspec-support
   - rubocop
   - rubocop-ast
+  - rubocop-rails
+  - rubocop-sorbet
   - ruby_parser
+  - ruby-lsp
+  - ruby-lsp-rspec
+  - rubycritic
+  - selenium-webdriver
+  - shoulda-matchers
   - simplecov
+  - simplecov_json_formatter
+  - simplecov-html
   - sorbet
   - sorbet-runtime
   - spoom
+  - stackprof
   - standard
+  - standard-rails
+  - standard-sorbet
   - standardrb
   - tapioca
+  - thor
+  - tty-which
+  - uniform_notifier
+  - vcr
+  - web-console
+  - webdrivers
+  - webmock
   - yaml
   - yard
   doc: true

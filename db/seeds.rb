@@ -7,8 +7,8 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 Plot.all.find_each do |plot|
-  person = FactoryBot.create(:person)
-  if plot.owners.blank?
-    Owner.create(plot: plot, person: person, active_from: person.member_from)
-  end
+  # person = FactoryBot.create(:person)
+  # if plot.owners.blank?
+  #   Owner.create(plot: plot, person: person, active_from: person.member_from)
+  # end
 end

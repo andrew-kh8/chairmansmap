@@ -22,6 +22,9 @@ module Dry::Monads
   extend ::Dry::Monads::Result::Mixin::Constructors
   extend ::Dry::Monads::Maybe::Mixin::Constructors
   extend ::Dry::Monads::Validated::Mixin::Constructors
+  extend ::Dry::Monads::Try::Mixin::Constructors
+  extend ::Dry::Monads::Lazy::Mixin::Constructors
+  extend ::Dry::Monads::Task::Mixin::Constructors
 
   class << self
     # Creates a module that has two methods: `Success` and `Failure`.
