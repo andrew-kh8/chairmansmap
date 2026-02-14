@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 
 class Owner < ApplicationRecord
   belongs_to :plot

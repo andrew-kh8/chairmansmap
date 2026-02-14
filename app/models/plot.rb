@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 
 class Plot < ApplicationRecord
   SRID = 3857
@@ -15,6 +15,7 @@ class Plot < ApplicationRecord
   validates :number, numericality: true
   validates :cadastral_number, uniqueness: true, format: {with: /\A\d{1,2}:\d{1,2}:\d{1,7}:\d{1,9}\z/}
 
+  sig { returns(T::Array[String]) }
   def photos
     []
   end
