@@ -1,6 +1,9 @@
-# typed: false
+# typed: strict
 
 class PlotCoordsUpdater
+  extend T::Sig
+
+  sig { params(plot: Plot).returns(T.any(DM::Success, DM::Failure)) }
   def self.call(plot)
     coords = Geo::GetPlotCoords.call(plot.cadastral_number)
     new_geom_data = Geo::MultiPolygonCreator.call(coords).value_or { |error| return DM::Failure(error) }

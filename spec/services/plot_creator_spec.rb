@@ -72,7 +72,7 @@ RSpec.describe PlotCreator do
     end
 
     context "when person_id is invalid" do
-      let(:person_id) { "person.id" }
+      let(:person_id) { 0 }
 
       it "returns failure" do
         expect(subject).to be_failure

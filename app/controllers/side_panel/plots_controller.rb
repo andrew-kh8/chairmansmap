@@ -40,7 +40,7 @@ module SidePanel
     end
 
     def plot_params
-      params.require(:plot).permit(:sale_status, :owner_type, :description)
+      params.require(:plot).permit(:sale_status, :owner_type, :description).to_h
     end
   end
 end

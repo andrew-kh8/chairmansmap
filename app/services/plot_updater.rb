@@ -1,8 +1,14 @@
-# typed: false
+# typed: strict
 
 class PlotUpdater
+  extend T::Sig
+
   class UpdateError < StandardError; end
 
+  sig do
+    params(plot_id: String, person_id: T.nilable(Integer), plot_data: T.nilable(T::Hash[Symbol, T.untyped]))
+      .returns(T.untyped)
+  end
   def self.call(plot_id, person_id, plot_data)
     plot = Plot.find(plot_id)
 

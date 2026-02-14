@@ -28,7 +28,7 @@ module SidePanel
     private
 
     def hunter_params
-      params.require(:hunter_location).permit(:date, :license, :dog, :description, :location)
+      params.require(:hunter_location).permit(:date, :license, :dog, :description, :location).to_h
     end
 
     def search_params

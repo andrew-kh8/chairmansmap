@@ -54,7 +54,7 @@ RSpec.describe PlotUpdater do
 
     context "when result is negative" do
       context "when plot not found" do
-        let(:plot_id) { 0 }
+        let(:plot_id) { "0" }
         let(:person_id) { person.id }
         let(:plot_data) { {} }
         let(:failure_text) { "Не получилось найти участок" }

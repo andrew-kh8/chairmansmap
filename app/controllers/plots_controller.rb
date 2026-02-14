@@ -52,9 +52,9 @@ class PlotsController < ApplicationController
 
   private
 
-  sig { returns(ActionController::Parameters) }
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def permitted_params
-    params.require(:plot).permit(:cadastral_number, :number, :person_id, :owner_type, :sale_status, :description) # :photos
+    params.require(:plot).permit(:cadastral_number, :number, :person_id, :owner_type, :sale_status, :description).to_h # :photos
   end
 
   sig { returns(T::Hash[Symbol, T.untyped]) }
