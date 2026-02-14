@@ -1,8 +1,9 @@
 # typed: false
 
 RSpec.describe PeopleSearch do
-  subject { described_class.call(filters) }
-  describe ".call" do
+  subject { described_class.new.call(filters) }
+
+  describe "#call" do
     let(:filters) { {full_name:, plot_presence:, active:, sort:} }
     let(:full_name) { nil }
     let(:plot_presence) { nil }

@@ -7,9 +7,7 @@ class PeopleController < ApplicationController
 
   sig { void }
   def index
-    people = PeopleSearch
-      .call(search_params)
-      .includes(owners: :plot)
+    people = PeopleSearch.new.call(search_params).includes(owners: :plot)
 
     pagy, people = pagy(:offset, people, limit: 10)
 
@@ -46,11 +44,11 @@ class PeopleController < ApplicationController
     params.require(:person).permit(:surname, :first_name, :middle_name, :tel, :address)
   end
 
-  sig { returns(ActionController::Parameters) }
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def search_params
     permitted = params.permit(:full_name, :active, :plot_presence, :sort)
     permitted[:active] = ActiveModel::Type::Boolean.new.cast(permitted[:active])
     permitted[:plot_presence] = ActiveModel::Type::Boolean.new.cast(permitted[:plot_presence])
-    permitted
+    permitted.to_h
   end
 end

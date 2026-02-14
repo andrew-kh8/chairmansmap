@@ -6,7 +6,7 @@ class PlotsController < ApplicationController
 
   sig { void }
   def index
-    plots = PlotSearch.call(search_params)
+    plots = PlotSearch.new.call(search_params)
 
     pagy, plots = pagy(:offset, plots, limit: 20)
 
@@ -57,7 +57,7 @@ class PlotsController < ApplicationController
     params.require(:plot).permit(:cadastral_number, :number, :person_id, :owner_type, :sale_status, :description) # :photos
   end
 
-  sig { returns(ActionController::Parameters) }
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def search_params
     params
       .permit(:area_min, :area_max, people: [])
@@ -66,5 +66,6 @@ class PlotsController < ApplicationController
         plot_params[:area_max] = plot_params[:area_max].blank? ? nil : plot_params[:area_max].to_f * 100
       end
       .compact_blank
+      .to_h
   end
 end
