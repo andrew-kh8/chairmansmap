@@ -16,7 +16,9 @@ class PlotsController < ApplicationController
   sig { void }
   def show
     plot = Plot.includes(:person).find(params[:id])
-    render :show, locals: {plot: plot, person: plot.person}
+    upc = Geo::UnprojectPlot.call(plot).centroid
+    weather = OpenWeather::Client.new.current_weather(lat: upc.lat, lon: upc.lon)
+    render :show, locals: {plot: plot, person: plot.person, weather:}
   end
 
   sig { void }

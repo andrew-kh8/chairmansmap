@@ -1,3 +1,5 @@
+<meta name="openweather-api-key" content="<%= ENV['OPEN_WEATHER_API_KEY'] %>">
+
 <div class="flex h-4/5">
     <!-- Левая часть - карта -->
     <div class="w-3/5 h-3/5">
@@ -52,6 +54,18 @@
                             <p class="text-sm text-gray-500 dark:text-black"><%= person.tel %></p>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <!-- Погода -->
+            <section class="bg-white rounded-lg border border-gray-200 px-6 dark:bg-gray-800 dark:border-gray-700">
+                <div class="flex items-center space-x-3">
+                    <span class="text-indigo-600 text-2xl dark:text-white"><%= weather["main"]["temp"].round(1) %>°C</span>
+                    <%= image_tag(weather["weather"][0]["icon_uri"].to_s) %>
+                    <span class="dark:text-white"><%= weather["weather"][0]["description"].capitalize %></span>
+                    <span class="dark:text-white"><%= weather["wind"]["speed"].round(1) %> м/с</span>
+                    <span class="dark:text-white"><%= weather["main"]["pressure"] %> гПа</span>
+                    <span class="dark:text-white"><%= weather["main"]["humidity"] %> %</span>
                 </div>
             </section>
 

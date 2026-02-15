@@ -1,6 +1,9 @@
 export class OWMTile {
   constructor(layerControls = null) {
     this.layerControls = layerControls;
+    this.apiKey = document.querySelector(
+      "meta[name='openweather-api-key']",
+    ).content;
   }
 
   addClouds() {
@@ -26,11 +29,7 @@ export class OWMTile {
   //   private
 
   #initOwmMap(layer_name) {
-    const apiKey = document.querySelector(
-      "meta[name='openweather-api-key']",
-    ).content;
-
-    let tile = `https://{s}.tile.openweathermap.org/map/${layer_name}/{z}/{x}/{y}.png?appid=${apiKey}`;
+    let tile = `https://{s}.tile.openweathermap.org/map/${layer_name}/{z}/{x}/{y}.png?appid=${this.apiKey}`;
     let layer = L.tileLayer(tile, {
       minZoom: 1,
       maxZoom: 23,

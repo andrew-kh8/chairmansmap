@@ -40,6 +40,7 @@ gem "activerecord-postgis-adapter", "~> 11.0"
 gem "rgeo", "~> 3.0"
 gem "rgeo-geojson"
 gem "rgeo-proj4"
+gem "open-weather-ruby-client"
 
 # web
 gem "faraday"
