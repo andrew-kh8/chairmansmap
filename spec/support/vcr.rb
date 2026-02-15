@@ -6,4 +6,6 @@ VCR.configure do |config|
   config.hook_into :faraday
   config.default_cassette_options = {record: ENV["COVERAGE"] ? :none : :once}
   config.ignore_localhost = true
+
+  config.filter_sensitive_data("<APPID>") { ENV["OPEN_WEATHER_API_KEY"] }
 end
