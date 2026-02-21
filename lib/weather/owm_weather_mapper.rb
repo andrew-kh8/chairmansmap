@@ -2,6 +2,9 @@
 
 module Weather
   class OwmWeatherMapper
+    WIND_DIRECTIONS = ["С", "СВ", "В", "ЮВ", "Ю", "ЮЗ", "З", "СЗ"]
+    OCTANT_DEGREE = 45
+
     class << self
       extend T::Sig
 
@@ -50,31 +53,10 @@ module Weather
 
       sig { params(raw_wind_data: OpenWeather::Models::Wind).returns(::Weather::Weather::Wind) }
       def get_wind_from_raw(raw_wind_data)
-        wind_direction = case raw_wind_data.deg
-        when 0..22.5, 337.5..360
-          "С"
-        when 22.5..67.5
-          "СВ"
-        when 67.5..112.5
-          "В"
-        when 112.5..157.5
-          "ЮВ"
-        when 157.5..202.5
-          "Ю"
-        when 202.5..247.5
-          "ЮЗ"
-        when 247.5..292.5
-          "З"
-        when 292.5..337.5
-          "СЗ"
-        else
-          "-"
-        end
-
         ::Weather::Weather::Wind.new(
           speed: raw_wind_data.speed.round(1),
           deg: raw_wind_data.deg,
-          direction: wind_direction
+          direction: get_wind_direction(raw_wind_data.deg)
         )
       end
 
@@ -86,6 +68,13 @@ module Weather
           min: raw_main_data.temp_min.round(1),
           max: raw_main_data.temp_max.round(1)
         )
+      end
+
+      sig { params(deg: T.any(Integer, Float)).returns(String) }
+      def get_wind_direction(deg)
+        octant = ((deg + (OCTANT_DEGREE / 2.0)) / OCTANT_DEGREE).floor
+        wind_direction = (octant > 7) ? octant - 8 : octant
+        T.must(WIND_DIRECTIONS[wind_direction])
       end
     end
   end

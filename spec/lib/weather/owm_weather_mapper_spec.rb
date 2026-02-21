@@ -51,4 +51,38 @@ RSpec.describe Weather::OwmWeatherMapper do
       end
     end
   end
+
+  describe "#get_wind_direction" do
+    subject { described_class.send(:get_wind_direction, deg) }
+
+    context "when deg is 0" do
+      let(:deg) { 0 }
+      it { is_expected.to eq "С" }
+    end
+
+    context "when deg is 22.4" do
+      let(:deg) { 22.4 }
+      it { is_expected.to eq "С" }
+    end
+
+    context "when deg is 22.5" do
+      let(:deg) { 22.5 }
+      it { is_expected.to eq "СВ" }
+    end
+
+    context "when deg is 157.4" do
+      let(:deg) { 157.4 }
+      it { is_expected.to eq "ЮВ" }
+    end
+
+    context "when deg is 157.5" do
+      let(:deg) { 157.5 }
+      it { is_expected.to eq "Ю" }
+    end
+
+    context "when deg is 359" do
+      let(:deg) { 359 }
+      it { is_expected.to eq "С" }
+    end
+  end
 end
