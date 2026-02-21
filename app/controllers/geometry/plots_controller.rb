@@ -11,7 +11,7 @@ module Geometry
 
     def show
       plot = Plot.find(params[:id])
-      unprojected_plot_geom = Geo::UnprojectPlot.call(plot)
+      unprojected_plot_geom = Geo::UnprojectGeom.call(plot.geom)
 
       feature = Geo::PlotSerializer.new.serialize(unprojected_plot_geom)
 

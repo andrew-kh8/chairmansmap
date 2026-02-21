@@ -13,7 +13,7 @@ class Plot < ApplicationRecord
 
   validates :geom, :area, :perimeter, :number, presence: true
   validates :number, numericality: true
-  validates :cadastral_number, uniqueness: true, format: {with: /\A\d{1,2}:\d{1,2}:\d{1,7}:\d{1,9}\z/}
+  validates :cadastral_number, uniqueness: true, format: {with: CadastralConst::NUMBER_REGEX}
 
   sig { returns(T::Array[String]) }
   def photos
