@@ -31,6 +31,9 @@ module GeneratedUrlHelpersModule
   def geometry_plots_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def geometry_village_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def maintenance_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -167,4 +170,7 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def update_rails_disk_service_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def village_url(*args); end
 end

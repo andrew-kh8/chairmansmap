@@ -31,6 +31,9 @@ module GeneratedPathHelpersModule
   def geometry_plots_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def geometry_village_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def maintenance_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -167,4 +170,7 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def update_rails_disk_service_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def village_path(*args); end
 end
