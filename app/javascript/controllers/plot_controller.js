@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import { LeafletMap } from "../modules/leaflet_map";
 import { circleMarkerStyle, defaultPlotStyle } from "../modules/map_styles";
+import { OWMTile } from "../modules/weather/owm_tile";
 
 export default class extends Controller {
   static values = {
@@ -12,6 +13,14 @@ export default class extends Controller {
   connect() {
     this.leafletMap = new LeafletMap(this.mapTarget);
     this.map = this.leafletMap.initMap();
+    this.layerControls = L.control.layers(null, null).addTo(this.map);
+
+    new OWMTile(this.layerControls)
+      .addWind()
+      .addTemp()
+      .addClouds()
+      .addRain()
+      .addSnow();
 
     this.showPlot();
     this.showHunters();
@@ -45,7 +54,7 @@ export default class extends Controller {
         });
 
         wfs_hunter_layer.addTo(this.map);
-        L.control.layers(null, { Охотники: wfs_hunter_layer }).addTo(this.map);
+        this.layerControls.addOverlay(wfs_hunter_layer, "Охотники");
       });
   }
 }

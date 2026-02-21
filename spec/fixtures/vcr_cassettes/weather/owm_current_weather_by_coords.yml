@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openweathermap.org/data/2.5/weather?appid=<APPID>&lang=ru&lat=69.123&lon=67.456&units=metric
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json; charset=utf-8
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenWeather Ruby Client/0.6.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Sun, 15 Feb 2026 14:26:27 GMT
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '474'
+      connection:
+      - keep-alive
+      x-cache-key:
+      - "/data/2.5/weather?lang=ru&lat=69.12&lon=67.46&units=metric"
+      access-control-allow-origin:
+      - "*"
+      access-control-allow-credentials:
+      - 'true'
+      access-control-allow-methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '{
+        "coord": {
+            "lon": 67.456,
+            "lat": 69.123
+        },
+        "weather": [
+            {
+              "id":802,
+              "main":"Clouds",
+              "description":"переменная облачность",
+              "icon":"03d"
+            }
+        ],
+        "base": "stations",
+        "main": {
+            "temp": 13.28,
+            "feels_like": 11.79,
+            "temp_min": -20.27,
+            "temp_max": 13.28,
+            "pressure": 1009,
+            "humidity": 94,
+            "sea_level": 1021,
+            "grnd_level": 910
+        },
+        "visibility": 10000,
+        "wind": {
+            "speed": 4.09,
+            "deg": 121,
+            "gust": 3.47
+        },
+        "rain": {
+            "1h": 2.73
+        },
+        "clouds": {
+            "all": 83
+        },
+        "dt": 1726660758,
+        "sys": {
+            "type": 1,
+            "id": 6736,
+            "country": "IT",
+            "sunrise": 1726636384,
+            "sunset": 1726680975
+        },
+        "timezone": 7200,
+        "id": 3165523,
+        "name": "Province of Turin",
+        "cod": 200
+      }'
+  recorded_at: Sun, 15 Feb 2026 14:26:27 GMT
+recorded_with: VCR 6.4.0

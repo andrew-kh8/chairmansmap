@@ -1,3 +1,5 @@
+<meta name="openweather-api-key" content="<%= ENV["OPEN_WEATHER_API_KEY"] %>">
+
 <div class="flex h-4/5">
     <!-- Левая часть - карта -->
     <div class="w-3/5 h-3/5">
@@ -41,7 +43,6 @@
 
             <!-- Владельцы -->
             <section class="bg-white rounded-lg border border-gray-200 p-6 dark:bg-zinc-500 dark:border-gray-700">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Владелец</h2>
                 <div class="space-y-4">
                     <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center dark:bg-gray-100">
@@ -55,19 +56,22 @@
                 </div>
             </section>
 
+            <!-- Погода -->
+            <section class="bg-white rounded-lg border border-gray-200 p-6 dark:bg-gray-800 dark:border-gray-700">
+                <% if weather.present? %>
+                  <%= render "plots/show/weather", weather: weather %>
+                <% else %>
+                  <%= render "plots/show/no_content" %>
+                <% end %>
+            </section>
+
             <!-- Фотографии -->
-            <section class="bg-white rounded-lg border border-gray-200 p-6 dark:bg-zinc-500 dark:border-gray-700">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-900">Фотографии</h2>
-                    <%= button_tag "Добавить фото", type: "button", class: "text-indigo-500 hover:text-indigo-600 text-sm font-medium dark:text-black" %>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                  <% plot.photos.each do |photo| %>
-                    <div class="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
-                        <%= image_tag("https://picsum.photos/400/400") %>
-                    </div>
-                  <% end %>
-                </div>
+            <section class="bg-white rounded-lg border border-gray-200 p-6 dark:bg-gray-800 dark:border-gray-700">
+                <% if plot.photos.any? %>
+                  <%= render "plots/show/photos", photos: plot.photos %>
+                <% else %>
+                  <%= render "plots/show/no_content" %>
+                <% end %>
             </section>
 
             <!-- История изменений -->
