@@ -4,6 +4,18 @@
 module Apis
   module Agromonitoring
     class Client
+      class AgromonitoringError < StandardError
+        FIELD_REGEX = /("\w+")/
+
+        attr_reader :name, :field
+
+        def initialize(body)
+          @name = body[:name]
+          @field = body[:message].match(FIELD_REGEX)[1]
+          super(body[:message])
+        end
+      end
+
       def initialize(api_key = nil)
         api_key ||= ENV.fetch("AGROMONITORING_API_KEY")
         @connection = Connection.new(api_key).build
@@ -18,7 +30,12 @@ module Apis
       end
 
       def create_polygon(name:, geo_json:)
-        @connection.post("polygons", {name:, geo_json:}).body
+        result = @connection.post("polygons", {name:, geo_json:})
+        result.success? ? Polygon.new(**result.body) : raise(AgromonitoringError.new(result.body))
+      end
+
+      def delete_polygon(id)
+        @connection.delete("polygons/#{id}").body
       end
     end
   end

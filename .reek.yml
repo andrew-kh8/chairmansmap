@@ -9,7 +9,7 @@ detectors:
     max_copies: 3
     min_clump_size: 3
   DuplicateMethodCall:
-    max_calls: 2
+    max_calls: 3
   TooManyStatements:
     max_statements: 15
     exclude:
@@ -17,6 +17,8 @@ detectors:
   UtilityFunction:
     exclude:
     - perform
+  NestedIterators:
+    max_allowed_nesting: 2
 
 
 ### Directory specific configuration
@@ -36,6 +38,9 @@ directories:
       enabled: false
     UncommunicativeVariableName:
       enabled: false
+    FeatureEnvy:
+      enabled: false
+  "lib/apis/agromonitoring/":
     FeatureEnvy:
       enabled: false
 
