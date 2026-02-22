@@ -7,7 +7,7 @@ RSpec.describe "Plots Create", type: :system do
 
   context "when coords are existed" do
     before do
-      plot_coords = build(:plot).geom.coordinates.first.first
+      plot_coords = build(:plot).geom.coordinates.first
       allow(Geo::GetPlotCoords).to receive(:call).with(cadaster_number).and_return(DM::Success(plot_coords))
     end
 

@@ -5,7 +5,7 @@ require "faraday"
 require "oj"
 
 module Apis
-  module Geoplys
+  module Cadaster
     class Client
       class RequestError < StandardError
       end
@@ -20,7 +20,7 @@ module Apis
         def plot_coords(cadaster_number)
           result = get(PKK_URL, {cn: cadaster_number})
 
-          DM::Success(result[:coordinates].first)
+          DM::Success(result[:coordinates])
         rescue ResponseError, RequestError => error
           DM::Failure(error)
         end

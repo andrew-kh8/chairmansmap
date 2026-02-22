@@ -10,18 +10,24 @@ module Geo
       const :perimeter, Float
     end
 
-    sig { params(coords: T::Array[T::Array[Float]], srid: Integer).returns(T.untyped) }
-    def self.call(coords, srid: Plot::SRID)
-      if coords.first != coords.last
+    sig { params(coords: T::Array[T::Array[T::Array[Float]]], srid: Integer).returns(T.untyped) }
+    def self.call(coords, srid: GeoConst::DEFAULT_DB_SRID)
+      if coords.any? { |polygon_coords| polygon_coords.first != polygon_coords.last }
         return DM::Failure("The coordinates are not closed in a circle")
       end
 
+      perimeter = 0.0
       factory = RGeo::Geos.factory(srid: srid)
-      ring = factory.linear_ring(coords.map { |x_coord, y_coord| factory.point(x_coord, y_coord) })
-      polygon = factory.polygon(ring)
-      multi_polygon = factory.multi_polygon([polygon])
 
-      DM::Success(MultiPolygonData.new(multi_polygon:, area: multi_polygon.area, perimeter: ring.length))
+      polygons = coords.map do |polygon_coords|
+        ring = factory.linear_ring(polygon_coords.map { |x_coord, y_coord| factory.point(x_coord, y_coord) })
+        perimeter += ring.length
+        factory.polygon(ring)
+      end
+
+      multi_polygon = factory.multi_polygon(polygons)
+
+      DM::Success(MultiPolygonData.new(multi_polygon:, area: multi_polygon.area, perimeter: perimeter))
     end
   end
 end

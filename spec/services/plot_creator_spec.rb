@@ -19,12 +19,28 @@ RSpec.describe PlotCreator do
       person_id:
     }
   end
-  let(:coords) { [[0, 0], [10, 0], [0, 10], [0, 0]] }
+  let(:coords) { [[[0, 0], [10, 0], [0, 10], [0, 0]]] }
 
   describe "#call" do
     before { allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(DM::Success(coords)) }
 
     context "when plot is created" do
+      it "creates plot and owner and returns Success" do
+        expect { subject }.to change(Plot, :count).by(1)
+          .and change(Owner, :count).by(1)
+
+        expect(subject).to be_success
+      end
+    end
+
+    context "when plot contains several rings" do
+      let(:coords) do
+        [
+          [[0, 0], [0, 4], [4, 0], [0, 0]],
+          [[1, 5], [5, 5], [5, 1], [1, 5]]
+        ]
+      end
+
       it "creates plot and owner and returns Success" do
         expect { subject }.to change(Plot, :count).by(1)
           .and change(Owner, :count).by(1)
@@ -45,7 +61,7 @@ RSpec.describe PlotCreator do
     end
 
     context "when coords are invalid" do
-      let(:coords) { [[0, 0], [10, 0], [0, 10]] }
+      let(:coords) { [[[0, 0], [10, 0], [0, 10]]] }
 
       it "returns failure" do
         expect(subject).to be_failure

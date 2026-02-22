@@ -9,9 +9,9 @@ RSpec.describe PlotCoordsUpdater do
 
   describe ".call" do
     context "when GetPlotCoords and MultiPolygonCreator succeed" do
-      let(:coords) { [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]] }
+      let(:coords) { [[[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]] }
 
-      before { allow(Geo::GetPlotCoords).to receive(:call).with(plot.cadastral_number).and_return(coords) }
+      before { allow(Geo::GetPlotCoords).to receive(:call).with(plot.cadastral_number).and_return(DM::Success(coords)) }
 
       it "updates the plot geom and returns Success" do
         expect { subject }.to change { plot.reload.geom }
@@ -24,9 +24,9 @@ RSpec.describe PlotCoordsUpdater do
     end
 
     context "when MultiPolygonCreator fails" do
-      let(:coords) { [[0, 0], [10, 0]] }
+      let(:coords) { [[[0, 0], [10, 0]]] }
 
-      before { allow(Geo::GetPlotCoords).to receive(:call).with(plot.cadastral_number).and_return(coords) }
+      before { allow(Geo::GetPlotCoords).to receive(:call).with(plot.cadastral_number).and_return(DM::Success(coords)) }
 
       it "returns Failure" do
         expect { subject }.to not_change { plot.reload.geom }
