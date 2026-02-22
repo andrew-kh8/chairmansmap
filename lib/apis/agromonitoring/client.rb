@@ -35,7 +35,8 @@ module Apis
       end
 
       def delete_polygon(id)
-        @connection.delete("polygons/#{id}").body
+        result = @connection.delete("polygons/#{id}")
+        result.success? ? result.body : raise(AgromonitoringError.new(result.body))
       end
     end
   end

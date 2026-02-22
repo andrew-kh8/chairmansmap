@@ -1,7 +1,7 @@
 # typed: false
 
 module Agromonitoring
-  class CreatePolygonFromVillage
+  class CreatePolygonVillage
     extend T::Sig
 
     sig { params(village: Village).returns(T.any(DM::Success, DM::Failure)) }

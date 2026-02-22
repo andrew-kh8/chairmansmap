@@ -2,12 +2,10 @@
 
 module Agromonitoring
   class GeojsonSerializer < Panko::Serializer
-    FEATURE = "Feature"
-
     attributes :type, :geometry, :properties
 
     def type
-      FEATURE
+      GeoConst::FEATURE
     end
 
     def geometry
