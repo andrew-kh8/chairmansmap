@@ -8,4 +8,5 @@ VCR.configure do |config|
   config.ignore_localhost = true
 
   config.filter_sensitive_data("<APPID>") { ENV["OPEN_WEATHER_API_KEY"] }
+  config.filter_sensitive_data("<AGROMONITORING_API_KEY>") { ENV["AGROMONITORING_API_KEY"] }
 end

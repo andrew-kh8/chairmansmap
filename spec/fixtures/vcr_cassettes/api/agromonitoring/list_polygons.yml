@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.agromonitoring.com/agro/1.0/polygons?appid=<AGROMONITORING_API_KEY>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby on rails
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - openresty
+      date:
+      - Sat, 28 Feb 2026 19:20:07 GMT
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '6886'
+      connection:
+      - keep-alive
+      access-control-allow-origin:
+      - "*"
+      access-control-allow-credentials:
+      - 'true'
+      access-control-allow-methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      access-control-allow-headers:
+      - origin, content-type, accept
+    body:
+      encoding: UTF-8
+      string: '[
+        {"id":"6988b0fe1be1fb0008fa3b65","geo_json":{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-93.258176,42.077633],[-93.258433,42.077569],[-93.258669,42.077617],[-93.258777,42.077569],[-93.259656,42.077569],[-93.254743,42.072759],[-93.254764,42.071469],[-93.254592,42.070736],[-93.254507,42.070577],[-93.254592,42.070449],[-93.254828,42.070577],[-93.254828,42.070704],[-93.255107,42.071246],[-93.255,42.071405],[-93.255107,42.0715],[-93.255107,42.072775],[-93.255193,42.073014],[-93.25603,42.073762],[-93.256137,42.073969],[-93.257318,42.074845],[-93.257253,42.074973],[-93.257253,42.075116],[-93.257661,42.075546],[-93.257854,42.075897],[-93.258111,42.076852],[-93.258111,42.077457],[-93.258176,42.077633]]]}},"name":"Iowa Demo Field","center":[-93.2617,42.0715],"area":202.9805,"user_id":"6988b0fe1be1fb0008fa3b62","created_at":1770565886},
+        {"id":"69a339e65a63918c24b2b3ae","geo_json":{"id":"12_2300_1111:777","type":"Feature","properties":{"area":1064,"class":100,"id":"12_2300_1111:777","cdid":"75","cdpr":171,"cdsm":271,"ndvi_ts":"0.3984,0.42,0.3873,0.3574,0.1654,0.3636,0.3432,0.3526,0.2731,0.3557,0.36,0.3515,0.3621,0.3334,0.3448,0.3358,0.3305,0.3274,0.3343,0.3307,0.3303,0.3501,0.3517,0.1391,0.3821,0.3531,0.3932,0.3678,0.3728,0.384,0.3632,0.3585,0.3668,0.36","ndvi_dt":"1525824000,1526256000,1526688000,1527552000,1531008000,1533168000,1536192000,1550448000,1551312000,1551744000,1552176000","ndvi_high":0.4035458356142044,"ndvi_low":0.3275584280490875},"geometry":{"type":"Polygon","coordinates":[[[22.278906,37.494026],[22.278616,37.493626],[22.278063,37.493626],[22.27779,37.493822],[22.277741,37.493779],[22.277446,37.493294],[22.277328,37.492469],[22.27964,37.493516],[22.279506,37.493958],[22.278906,37.494026]]]}},"name":"Valtstsi","center":[22.279041516129111,37.492279516129111],"area":5.2192,"user_id":"6988b0fe1be1111008f1111","created_at":1772304870}
+        ]'
+  recorded_at: Sat, 28 Feb 2026 19:20:07 GMT
+recorded_with: VCR 6.4.0
