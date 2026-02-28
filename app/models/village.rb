@@ -1,6 +1,8 @@
 # typed: strict
 
 class Village < ApplicationRecord
+  has_many :agromonitoring_tiles, dependent: :destroy
+
   validates :name, presence: true
   validates :cadastral_number, uniqueness: true, format: {with: CadastralConst::QUARTER_REGEX}, allow_nil: true
   validates :agromonitoring_id, uniqueness: true, allow_nil: true
