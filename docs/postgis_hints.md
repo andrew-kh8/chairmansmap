@@ -44,6 +44,16 @@ RGeo::GeoJSON.encode(unprojected)
 ```
 
 
+### with RGeo Feature
+
+```ruby
+factory_3857 = RGeo::Geos.factory(srid: 3857)
+geo_3857 = factory_3857.point(100, 500) # any type of geometry
+
+factory_for_db = RGeo::Geos.factory(srid: GeoConst::DEFAULT_DB_SRID)
+RGeo::Feature.cast(geo_3857, factory: factory_for_db, project: true)
+```
+
 ## Get Center of object(s)
 
 check postgis docs

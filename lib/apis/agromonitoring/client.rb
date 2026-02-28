@@ -26,7 +26,8 @@ module Apis
       end
 
       def polygon(id)
-        @connection.get("polygons/#{id}").body
+        result = @connection.get("polygons/#{id}")
+        result.success? ? Polygon.new(**result.body) : raise(AgromonitoringError.new(result.body))
       end
 
       def create_polygon(name:, geo_json:)
@@ -37,6 +38,16 @@ module Apis
       def delete_polygon(id)
         result = @connection.delete("polygons/#{id}")
         result.success? ? result.body : raise(AgromonitoringError.new(result.body))
+      end
+
+      def polygon_images(id, from, to)
+        result = @connection.get("image/search", {polyid: id, start: from.to_i, end: to.to_i})
+
+        if result.success?
+          Mappers::ToImageData.from_api(result.body)
+        else
+          raise(AgromonitoringError.new(result.body))
+        end
       end
     end
   end

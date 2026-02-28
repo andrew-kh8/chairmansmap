@@ -4,19 +4,9 @@ module Geo
   class UnprojectGeom
     extend T::Sig
 
-    sig {
-      params(geom: T.any(
-        RGeo::Geos::CAPIPointImpl,
-        RGeo::Geos::CAPIPolygonImpl,
-        RGeo::Geos::CAPIMultiPolygonImpl
-      )).returns(T.any(
-        RGeo::Geographic::ProjectedPointImpl,
-        RGeo::Geographic::ProjectedPolygonImpl,
-        RGeo::Geographic::ProjectedMultiPolygonImpl
-      ))
-    }
+    sig { params(geom: RgeoTypes::GeosCAPI).returns(RgeoTypes::GeoProjected) }
     def self.call(geom)
-      factory = RGeo::Geographic.projected_factory(projection_srid: Plot::SRID)
+      factory = RGeo::Geographic.projected_factory(projection_srid: GeoConst::DEFAULT_DB_SRID)
       factory.unproject(geom)
     end
   end
