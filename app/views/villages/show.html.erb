@@ -1,92 +1,84 @@
-<div class="flex h-4/5">
+<div class="flex h-full min-h-0" data-controller="village" data-village-id-value="<%= village.id %>">
     <!-- Левая часть - карта -->
-    <div class="w-3/5 m-6">
-        <div class="w-full h-full rounded-xl"
-             data-controller="village"
-             data-village-target="map"
-             data-village-id-value="<%= village.id %>">
-        </div>
+    <div class="w-3/5 h-full min-h-0 p-4">
+        <div class="w-full h-full rounded-xl" data-village-target="map"></div>
     </div>
 
     <!-- Правая часть - информация -->
-    <div class="w-2/5 overflow-y-auto bg-white dark:bg-gray-900">
-        <div class="p-6 space-y-6">
-            <!-- Основная информация -->
-            <section class="bg-white rounded-lg border border-gray-200 p-6 dark:bg-gray-800 dark:border-gray-700">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4 dark:text-white">Основная информация</h2>
-                <div class="space-y-3">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600 dark:text-white">Название</span>
-                        <span class="font-medium dark:text-white"><%= village.name %></span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600 dark:text-white">Площадь:</span>
-                        <span class="font-medium dark:text-white"><%= village.geom.area.round(2) %> м</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600 dark:text-white">Кадастровый номер:</span>
-                        <span class="font-medium dark:text-white"><%= village.cadastral_number %></span>
-                    </div>
+    <div class="w-2/5 flex flex-col h-full min-h-0 p-4 space-y-6">
+        <!-- Основная информация -->
+        <section class="bg-white rounded-lg border border-gray-200 p-6 dark:bg-gray-800 dark:border-gray-700">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4 dark:text-white">Основная информация</h2>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-white">Название</span>
+                    <span class="font-medium dark:text-white"><%= village.name %></span>
                 </div>
-            </section>
+                <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-white">Площадь:</span>
+                    <span class="font-medium dark:text-white"><%= village.geom.area.round(2) %> м</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-white">Кадастровый номер:</span>
+                    <span class="font-medium dark:text-white"><%= village.cadastral_number %></span>
+                </div>
+            </div>
+        </section>
 
-            <section class="bg-white rounded-lg border border-gray-200 p-6 dark:bg-gray-800 dark:border-gray-700">
+        <section class="bg-white rounded-lg border border-gray-200 p-6 dark:bg-gray-800 dark:border-gray-700">
+            <div class="flex flex-row justify-between mb-4">
                 <h2 class="text-xl font-semibold text-gray-900 mb-4 dark:text-white">Агромониторинг</h2>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center pb-2 border-b border-gray-100 dark:border-gray-700">
-                        <span class="text-gray-600 dark:text-gray-400">Интеграция</span>
-                        <span class="px-2 py-1 text-xs font-medium rounded-full <%= village.agromonitoring_integration? ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300" %>">
-                            <%= village.agromonitoring_integration? ? "Активна" : "Неактивна" %>
-                        </span>
-                    </div>
+                <span class="flex items-center px-2 py-1 text-s font-medium rounded-full <%= village.agromonitoring_integration? ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300" %>">
+                    <%= village.agromonitoring_integration? ? "Активно" : "Неактивна" %>
+                </span>
+            </div>
 
-                    <% if village.agromonitoring_tiles.any? %>
-                        <div class="space-y-4 overflow-y-auto">
-                            <% village.agromonitoring_tiles.order(date: :desc).group_by { |t| t.date.to_date }.each do |date, tiles| %>
-                                <div class="space-y-2">
-                                    <div class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        <%= l(date, format: :long) %>
-                                    </div>
-                                    <div class="divide-y divide-gray-100 dark:divide-gray-700 border border-gray-100 dark:border-gray-700 rounded-lg overflow-hidden">
-                                        <% tiles.each do |tile| %>
-                                            <div class="p-3 bg-gray-50/50 dark:bg-gray-800/50">
-                                                <div class="flex justify-between items-center mb-2">
-                                                    <span class="text-sm font-medium text-gray-900 dark:text-white">
-                                                        <%= tile.satellite %>
+            <% if village.agromonitoring_tiles.any? %>
+                <div class="space-y-4 overflow-y-auto max-h-96">
+                    <% village.agromonitoring_tiles.order(date: :desc).group_by { |t| t.date.to_date }.each do |date, tiles| %>
+                        <div class="space-y-2">
+                            <div class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <%= l(date, format: :long) %>
+                            </div>
+                            <div class="divide-y divide-gray-100 dark:divide-gray-700 border border-gray-100 dark:border-gray-700 rounded-lg overflow-hidden">
+                                <% tiles.each do |tile| %>
+                                    <div class="p-3 bg-gray-50/50 dark:bg-gray-800/50">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="text-sm font-medium text-gray-900 dark:text-white">
+                                                <%= tile.satellite %>
+                                            </span>
+                                            <% if tile.normal_view? %>
+                                                <span class="text-[10px] px-1.5 py-0.5 bg-indigo-100 text-indigo-700 rounded dark:bg-indigo-900/30 dark:text-indigo-300 uppercase font-bold">Чистое небо</span>
+                                            <% end %>
+                                        </div>
+                                        <div class="flex flex-wrap gap-1.5">
+                                            <% {
+                                                    truecolor_url: "Спутниковый снимок",
+                                                    falsecolor_url: "False Color",
+                                                    ndvi_url: "NDVI",
+                                                    evi_url: "EVI",
+                                                    evi2_url: "EVI2",
+                                                    nri_url: "NRI"
+                                                }.each do |attr, label| %>
+                                                <% if tile.send(attr).present? %>
+                                                    <span
+                                                    data-action="click->village#showTile"
+                                                    data-tile-value="<%= tile.send(attr) %>"
+                                                    class="cursor-pointer px-2 py-0.5 bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded text-sm font-medium">
+                                                        <%= label %>
                                                     </span>
-                                                    <% if tile.normal_view? %>
-                                                        <span class="text-[10px] px-1.5 py-0.5 bg-indigo-100 text-indigo-700 rounded dark:bg-indigo-900/30 dark:text-indigo-300 uppercase font-bold">Чистое небо</span>
-                                                    <% end %>
-                                                </div>
-                                                <div class="flex flex-wrap gap-1.5">
-                                                    <% {
-                                                         truecolor_url: "True Color",
-                                                         falsecolor_url: "False Color",
-                                                         ndvi_url: "NDVI",
-                                                         evi_url: "EVI",
-                                                         evi2_url: "EVI2",
-                                                         nri_url: "NRI",
-                                                         dswi_url: "DSWI",
-                                                         ndwi_url: "NDWI"
-                                                       }.each do |attr, label| %>
-                                                        <% if tile.send(attr).present? %>
-                                                            <span class="px-2 py-0.5 bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded text-[10px] font-medium">
-                                                                <%= label %>
-                                                            </span>
-                                                        <% end %>
-                                                    <% end %>
-                                                </div>
-                                            </div>
-                                        <% end %>
+                                                <% end %>
+                                            <% end %>
+                                        </div>
                                     </div>
-                                </div>
-                            <% end %>
+                                <% end %>
+                            </div>
                         </div>
-                    <% else %>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 italic">Снимки отсутствуют</p>
                     <% end %>
                 </div>
-            </section>
-        </div>
+            <% else %>
+                <p class="text-sm text-gray-500 dark:text-gray-400 italic">Снимки отсутствуют</p>
+            <% end %>
+        </section>
     </div>
 </div>
