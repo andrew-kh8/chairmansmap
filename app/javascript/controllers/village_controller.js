@@ -8,7 +8,6 @@ export default class extends Controller {
   };
 
   static targets = ["map", "tile"];
-  tileReg = /{z}\/{x}\/{y}/;
 
   connect() {
     this.leafletMap = new LeafletMap(this.mapTarget);
@@ -64,48 +63,8 @@ export default class extends Controller {
 
   #addExtraTileLayer() {
     let tile_url = this.extraTileBtn.dataset.tileValue;
-    if (this.tileReg.test(tile_url)) {
-      this.extraTileLayer = L.tileLayer(tile_url);
-      this.extraTileLayer.addTo(this.map);
-    } else {
-      fetch(tile_url)
-        .then((response) => response.arrayBuffer())
-        .then((arrayBuffer) => {
-          parseGeoraster(arrayBuffer).then((georaster) => {
-            this.extraTileLayer = new GeoRasterLayer({
-              georaster: georaster,
-              opacity: 0.7,
-              pixelValuesToColorFn: (values) => {
-                switch (true) {
-                  case values[0] <= 0.0:
-                    return "rgba(0,0,0,0)"; // красный
-                  case values[0] <= 0.1:
-                    return "rgb(255,64,0)";
-                  case values[0] <= 0.2:
-                    return "rgb(255,128,0)";
-                  case values[0] <= 0.3:
-                    return "rgb(255,192,0)";
-                  case values[0] <= 0.4:
-                    return "rgb(255,255,0)"; // жёлтый
-                  case values[0] <= 0.5:
-                    return "rgb(192,255,0)";
-                  case values[0] <= 0.6:
-                    return "rgb(128,255,0)";
-                  case values[0] <= 0.7:
-                    return "rgb(64,255,0)";
-                  case values[0] <= 1.0:
-                    return "rgb(0,255,0)"; // зелёный
-                  default:
-                    return "rgb(0,0,0)"; // fallback (чёрный)
-                }
-              },
-              resolution: 64, // optional parameter for adjusting display resolution
-            });
-
-            this.extraTileLayer.addTo(this.map);
-          });
-        });
-    }
+    this.extraTileLayer = L.tileLayer(tile_url);
+    this.extraTileLayer.addTo(this.map);
   }
 
   #removeExtraTileLayer() {
