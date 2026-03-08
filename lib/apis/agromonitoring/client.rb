@@ -10,8 +10,13 @@ module Apis
         attr_reader :name, :field
 
         def initialize(body)
-          @name = body[:name]
-          @field = body[:message].match(FIELD_REGEX)[1]
+          if body.key?(:name)
+            @name = body[:name]
+            @field = body[:message].match(FIELD_REGEX)[1]
+          else
+            @name = body[:title]
+            @field = nil
+          end
           super(body[:message])
         end
       end

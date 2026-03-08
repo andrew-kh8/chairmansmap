@@ -23,6 +23,7 @@ module Apis
         Faraday.new(options, request: request_options) do |faraday|
           faraday.use :http_cache, store: Rails.cache
           faraday.request :json
+          faraday.request :retry, retry_options
           faraday.response :logger
           faraday.response :json, parser_options: {decoder: Oj, symbol_keys: true}
           faraday.adapter Faraday.default_adapter
@@ -47,6 +48,17 @@ module Apis
       def request_options
         {
           timeout: 2
+        }
+      end
+
+      def retry_options
+        {
+          max: 2,
+          interval: 0.05,
+          interval_randomness: 0.5,
+          backoff_factor: 2,
+          methods: [:get],
+          exceptions: [Faraday::ConnectionFailed]
         }
       end
     end

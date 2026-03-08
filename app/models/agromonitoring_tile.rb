@@ -1,8 +1,8 @@
 # typed: strict
 
 class AgromonitoringTile < ApplicationRecord
-  NORMAL_CLOUD_COVERAGE = 50
-  NORMAL_VALID_DATA_COVERAGE = 50
+  NORMAL_CLOUD_COVERAGE = 70
+  NORMAL_VALID_DATA_COVERAGE = 30
 
   belongs_to :village
 
