@@ -1,7 +1,6 @@
 # typed: strict
 
 class PlotsController < ApplicationController
-  extend T::Sig
   include Pagy::Method
 
   sig { void }

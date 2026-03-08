@@ -1,0 +1,15 @@
+<div class="relative flex max-h-full flex-col justify-center overflow-hidden py-6 h-full">
+    <!-- Сетка участков -->
+    <div class="mx-auto max-w-screen-xl px-4 w-full flex-grow">
+        <div class="grid w-full sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            <%= render partial: "village_card", collection: villages, as: :village %>
+        </div>
+    </div>
+
+    <!-- Пагинация -->
+    <% if pagy.last > 1 %>
+        <div class="flex-none flex justify-center items-center mt-8">
+            <%== pagy.series_nav %>
+        </div>
+    <% end %>
+</div>
