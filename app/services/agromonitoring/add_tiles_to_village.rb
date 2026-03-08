@@ -35,8 +35,8 @@ module Agromonitoring
           evi_url: image_date.tile.evi,
           evi2_url: image_date.tile.evi2,
           nri_url: image_date.tile.nri,
-          dswi_url: image_date.data.dswi,
-          ndwi_url: image_date.data.ndwi
+          dswi_url: image_date.tile.dswi,
+          ndwi_url: image_date.tile.ndwi
         )
 
         if tile.valid?

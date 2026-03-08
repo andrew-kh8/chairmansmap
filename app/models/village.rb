@@ -13,6 +13,11 @@ class Village < ApplicationRecord
     agromonitoring_id.present?
   end
 
+  sig { returns(T::Hash[Date, T::Array[AgromonitoringTile]]) }
+  def agromonitoring_tiles_by_date
+    agromonitoring_tiles.order(date: :desc).group_by { |t| t.date.to_date }
+  end
+
   private
 
   sig { void }
