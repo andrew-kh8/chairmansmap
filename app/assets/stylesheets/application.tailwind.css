@@ -2,12 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-
 @layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+  .card {
+    @apply bg-white rounded-xl border border-gray-200 dark:text-white dark:bg-gray-800 dark:border-gray-700;
+  }
+
+  .passive_btn_colors {
+    @apply bg-white text-gray-600 border-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600;
+  }
+
+  .active_btn_colors {
+    @apply bg-btn-green text-white border-btn-green dark:bg-btn-green dark:text-white dark:border-btn-green;
   }
 }
-
-*/

@@ -38,6 +38,8 @@ export const defaultPlotStyle = {
   fillOpacity: 0.2,
 };
 
+export const transparentPlotStyle = {fillOpacity: 0};
+
 let hunterMarkerSize = 32;
 export const newHunterMarkerStyle = {
   className: "marker",

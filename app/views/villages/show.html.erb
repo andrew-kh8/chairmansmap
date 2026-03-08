@@ -1,3 +1,4 @@
+<script src="https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js"></script>
 <div class="flex h-full min-h-0" data-controller="village" data-village-id-value="<%= village.id %>">
     <!-- Левая часть - карта -->
     <div class="w-3/5 h-full min-h-0 p-4">
@@ -58,13 +59,14 @@
                                                     ndvi_url: "NDVI",
                                                     evi_url: "EVI",
                                                     evi2_url: "EVI2",
-                                                    nri_url: "NRI"
+                                                    nri_url: "NRI",
+                                                    ndwi_url: "nwdi"
                                                 }.each do |attr, label| %>
                                                 <% if tile.send(attr).present? %>
                                                     <span
                                                     data-action="click->village#showTile"
                                                     data-tile-value="<%= tile.send(attr) %>"
-                                                    class="cursor-pointer px-2 py-0.5 bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded text-sm font-medium">
+                                                    class="passive_btn_colors px-2 py-0.5 cursor-pointer border rounded text-sm font-medium">
                                                         <%= label %>
                                                     </span>
                                                 <% end %>
