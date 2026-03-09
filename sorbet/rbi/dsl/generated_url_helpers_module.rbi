@@ -10,6 +10,9 @@ module GeneratedUrlHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def add_tiles_village_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_plots_check_cadastral_number_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -173,4 +176,7 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def village_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def villages_url(*args); end
 end

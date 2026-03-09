@@ -25,20 +25,20 @@
             </div>
         </section>
 
-        <section class="bg-white rounded-lg border border-gray-200 p-6 dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex flex-row justify-between mb-4">
+        <section class="space-y-4 bg-white rounded-lg border border-gray-200 p-6 dark:bg-gray-800 dark:border-gray-700">
+            <div class="flex flex-row justify-between">
                 <h2 class="text-xl font-semibold text-gray-900 mb-4 dark:text-white">Агромониторинг</h2>
                 <span class="flex items-center px-2 py-1 text-s font-medium rounded-full <%= village.agromonitoring_integration? ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300" %>">
                     <%= village.agromonitoring_integration? ? "Активно" : "Неактивна" %>
                 </span>
             </div>
 
-            <% if village.agromonitoring_tiles.any? %>
-                <div class="space-y-4 overflow-y-auto max-h-96">
-                    <%= render partial: "satellite_tile", collection: village.agromonitoring_tiles_by_date, as: :tile_data %>
-                </div>
-            <% else %>
-                <p class="text-sm text-gray-500 dark:text-gray-400 italic">Снимки отсутствуют</p>
+            <%= render "agromonitoring_tiles", village: %>
+
+            <%= form_with url: add_tiles_village_path(village), method: :post do |form| %>
+                <%= form.date_field :from, label: "С", value: 1.week.ago.to_date %>
+                <%= form.date_field :to, label: "По", value: Date.current %>
+                <%= form.submit "Добавить снимки", class: "bg-btn-green hover:bg-indigo-600 text-white py-2 px-4 rounded" %>
             <% end %>
         </section>
     </div>

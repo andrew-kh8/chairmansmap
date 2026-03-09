@@ -9,7 +9,9 @@ Rails.application.routes.draw do
 
   resources :people, only: %i[index show edit update]
   resources :plots, only: %i[index show new create destroy]
-  resources :villages, only: [:index, :show]
+  resources :villages, only: [:index, :show] do
+    post :add_tiles, on: :member
+  end
 
   namespace :side_panel do
     resources :plots, only: [:index, :show, :edit, :update]
