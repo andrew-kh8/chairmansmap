@@ -41,6 +41,6 @@ class ApplicationController < ActionController::Base
 
   sig { returns(ActiveSupport::SafeBuffer) }
   def flash_turbo_stream
-    turbo_stream.replace(:flashes, partial: "application/flashes")
+    turbo_stream.prepend(:flashes, partial: "application/flashes")
   end
 end
