@@ -12,7 +12,7 @@ class AgromonitoringTile < ApplicationRecord
 
   sig { returns(T::Boolean) }
   def normal_view?
-    cloud_coverage <= NORMAL_CLOUD_COVERAGE && valid_data_coverage > NORMAL_VALID_DATA_COVERAGE
+    cloud_coverage <= NORMAL_CLOUD_COVERAGE && valid_data_coverage >= NORMAL_VALID_DATA_COVERAGE
   end
 
   sig { returns(T::Hash[Symbol, String]) }

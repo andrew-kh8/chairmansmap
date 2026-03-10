@@ -23,41 +23,43 @@ RSpec.describe AgromonitoringTile, type: :model do
   end
 
   describe "#normal_view?" do
+    subject { tile.normal_view? }
+
     let(:tile) { build(:agromonitoring_tile, cloud_coverage: cloud, valid_data_coverage: valid_data) }
 
-    context "when cloud coverage is low and valid data coverage is high" do
-      let(:cloud) { 20 }
-      let(:valid_data) { 80 }
+    context "when values are more than the limits" do
+      let(:cloud) { 69 }
+      let(:valid_data) { 31 }
 
-      it { expect(tile.normal_view?).to be true }
+      it { is_expected.to be true }
     end
 
-    context "when cloud coverage is exactly at the limit" do
-      let(:cloud) { 30 }
-      let(:valid_data) { 80 }
+    context "when values are exactly at the limits" do
+      let(:cloud) { 70 }
+      let(:valid_data) { 30 }
 
-      it { expect(tile.normal_view?).to be true }
+      it { is_expected.to be true }
     end
 
     context "when cloud coverage is high" do
-      let(:cloud) { 40 }
-      let(:valid_data) { 80 }
+      let(:cloud) { 71 }
+      let(:valid_data) { 30 }
 
-      it { expect(tile.normal_view?).to be false }
+      it { is_expected.to be false }
     end
 
     context "when valid data coverage is low" do
-      let(:cloud) { 10 }
-      let(:valid_data) { 60 }
+      let(:cloud) { 70 }
+      let(:valid_data) { 29 }
 
-      it { expect(tile.normal_view?).to be false }
+      it { is_expected.to be false }
     end
 
-    context "when valid data coverage is exactly at the limit" do
-      let(:cloud) { 10 }
-      let(:valid_data) { 70 }
+    context "when both values are outside the limits" do
+      let(:cloud) { 71 }
+      let(:valid_data) { 29 }
 
-      it { expect(tile.normal_view?).to be false }
+      it { is_expected.to be false }
     end
   end
 end
