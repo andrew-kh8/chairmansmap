@@ -301,13 +301,13 @@ GEM
       ast (~> 2.4.1)
       racc
     path_expander (2.0.1)
-    pg (1.6.3)
     pg (1.6.3-aarch64-linux)
     pg (1.6.3-aarch64-linux-musl)
     pg (1.6.3-arm64-darwin)
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
+    polyfill (1.9.0)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -470,6 +470,7 @@ GEM
       tty-which (~> 0.5.0)
       virtus (~> 2.0)
     rubyzip (3.2.2)
+    safe_type (1.1.1)
     securerandom (0.4.1)
     selenium-webdriver (4.39.0)
       base64 (~> 0.2)
@@ -489,6 +490,10 @@ GEM
     smart_properties (1.17.0)
     sorbet (0.6.12925)
       sorbet-static (= 0.6.12925)
+    sorbet-coerce (0.7.0)
+      polyfill (~> 1.8)
+      safe_type (~> 1.1, >= 1.1.1)
+      sorbet-runtime (>= 0.4.4704)
     sorbet-runtime (0.6.12925)
     sorbet-static (0.6.12925-aarch64-linux)
     sorbet-static (0.6.12925-universal-darwin)
@@ -647,6 +652,7 @@ DEPENDENCIES
   shoulda-matchers
   simplecov
   sorbet
+  sorbet-coerce
   sorbet-runtime
   sprockets-rails
   stackprof

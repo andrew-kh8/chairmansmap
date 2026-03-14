@@ -34,6 +34,7 @@ gem "panko_serializer"
 # dry
 gem "dry-monads", require: "dry/monads/all"
 gem "sorbet-runtime"
+gem "sorbet-coerce"
 
 # geo
 gem "activerecord-postgis-adapter", "~> 11.0"

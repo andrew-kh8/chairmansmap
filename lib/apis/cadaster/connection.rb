@@ -40,8 +40,12 @@ module Apis
       sig { params(uri: URI::HTTPS).returns(Net::HTTP) }
       def net(uri)
         net = Net::HTTP.new(uri.host, uri.port)
+
         net.use_ssl = true
         net.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+        net.set_debug_output(Rails.logger)
+
         net.open_timeout = 3
         net.read_timeout = 3
 

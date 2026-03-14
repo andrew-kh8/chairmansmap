@@ -1,6 +1,6 @@
 # typed: strict
 
-module RgeoTypes
+module GeoTypes
   GeosCAPI = T.type_alias {
     T.any(
       RGeo::Geos::CAPIPointImpl,
@@ -15,4 +15,6 @@ module RgeoTypes
       RGeo::Geographic::ProjectedMultiPolygonImpl
     )
   }
+
+  PolygonCoordinates = T.type_alias { T::Array[T::Array[T::Array[Float]]] }
 end
