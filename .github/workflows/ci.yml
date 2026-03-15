@@ -14,6 +14,8 @@ jobs:
 # region test
   test:
     runs-on: ubuntu-latest
+    needs: [standardrb, sorbet, erb_lint]
+
     services:
       postgres:
         image: postgis/postgis:latest
@@ -58,7 +60,8 @@ jobs:
 # region security
   bundler_audit:
     runs-on: ubuntu-latest
-    needs: [fasterer, rails_best_practices, reek]
+    needs: [standardrb, sorbet, erb_lint]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -70,7 +73,7 @@ jobs:
 
   brakeman:
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [standardrb, sorbet, erb_lint]
 
     steps:
       - name: Checkout code
@@ -85,7 +88,6 @@ jobs:
 # region lint
   standardrb:
     runs-on: ubuntu-latest
-    needs: [test]
 
     steps:
       - name: Checkout code
@@ -98,7 +100,6 @@ jobs:
 
   erb_lint:
     runs-on: ubuntu-latest
-    needs: [test]
 
     steps:
       - name: Checkout code
@@ -113,7 +114,6 @@ jobs:
 # region check
   sorbet:
     runs-on: ubuntu-latest
-    needs: [test]
 
     steps:
       - name: Checkout code
@@ -126,7 +126,7 @@ jobs:
 
   fasterer:
     runs-on: ubuntu-latest
-    needs: [standardrb, brakeman]
+    needs: [test]
     continue-on-error: true
 
     steps:
@@ -140,7 +140,7 @@ jobs:
 
   rails_best_practices:
     runs-on: ubuntu-latest
-    needs: [standardrb, brakeman]
+    needs: [test]
     continue-on-error: true
 
     steps:
@@ -154,7 +154,7 @@ jobs:
 
   reek:
     runs-on: ubuntu-latest
-    needs: [standardrb, brakeman]
+    needs: [test]
     continue-on-error: true
 
     steps:
