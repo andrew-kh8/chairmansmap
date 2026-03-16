@@ -101,10 +101,10 @@
                 <%= button_tag "Редактировать информацию", type: "button", class: "w-full bg-btn-green text-white py-3 px-4 rounded-lg hover:bg-indigo-600 transition duration-200 font-medium dark:text-white dark:border-gray-700" %>
                 <%= button_tag "Скачать документы", type: "button", class: "w-full border border-indigo-500 text-indigo-500 py-3 px-4 rounded-lg hover:bg-indigo-50 transition duration-200 font-medium dark:text-white dark:border-gray-700 dark:hover:bg-zinc-700" %>
                 <%= button_to "Удалить участок и все записи о нем",
-                        plot_path(plot),
-                        method: :delete,
-                        form: {data: {turbo_confirm: "Нажмите 'OK' чтобы удалить участок"}},
-                        class: "w-full border border-red-300 text-red-700 py-3 px-4 rounded-lg hover:bg-red-50 transition duration-200 font-medium dark:bg-red-950 dark:text-red-600 dark:border-gray-700 dark:hover:bg-zinc-700" %>
+                      plot_path(plot),
+                      method: :delete,
+                      form: {data: {turbo_confirm: "Нажмите 'OK' чтобы удалить участок"}},
+                      class: "w-full border border-red-300 text-red-700 py-3 px-4 rounded-lg hover:bg-red-50 transition duration-200 font-medium dark:bg-red-950 dark:text-red-600 dark:border-gray-700 dark:hover:bg-zinc-700" %>
             </div>
         </section>
     </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_28_142459) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_16_201808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -32,6 +32,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_28_142459) do
     t.datetime "updated_at", null: false
     t.integer "valid_data_coverage", null: false
     t.uuid "village_id", null: false
+    t.index ["village_id", "date", "satellite"], name: "idx_on_village_id_date_satellite_7800ff56f7", unique: true
     t.index ["village_id"], name: "index_agromonitoring_tiles_on_village_id"
   end
 
