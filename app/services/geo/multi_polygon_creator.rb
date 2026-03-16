@@ -3,6 +3,7 @@
 module Geo
   class MultiPolygonCreator
     extend T::Sig
+    extend Dry::Monads::Result::Mixin
 
     class MultiPolygonData < T::Struct
       const :multi_polygon, RGeo::Geos::CAPIMultiPolygonImpl
@@ -13,7 +14,7 @@ module Geo
     sig { params(coords: T::Array[T::Array[T::Array[Float]]], srid: Integer).returns(T.untyped) }
     def self.call(coords, srid: GeoConst::DEFAULT_DB_SRID)
       if coords.any? { |polygon_coords| polygon_coords.first != polygon_coords.last }
-        return DM::Failure("The coordinates are not closed in a circle")
+        return Failure("The coordinates are not closed in a circle")
       end
 
       perimeter = 0.0
@@ -27,7 +28,7 @@ module Geo
 
       multi_polygon = factory.multi_polygon(polygons)
 
-      DM::Success(MultiPolygonData.new(multi_polygon:, area: multi_polygon.area, perimeter: perimeter))
+      Success(MultiPolygonData.new(multi_polygon:, area: multi_polygon.area, perimeter: perimeter))
     end
   end
 end

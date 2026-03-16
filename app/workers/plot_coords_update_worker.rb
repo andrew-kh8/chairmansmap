@@ -1,6 +1,9 @@
-# typed: false
+# typed: strict
 
 class PlotCoordsUpdateWorker
+  extend T::Sig
+
+  sig { params(plots: T.nilable(T::Array[Plot])).returns(T::Hash[Symbol, T.untyped]) }
   def perform(plots = nil)
     result = {success: [], failure: []}
 

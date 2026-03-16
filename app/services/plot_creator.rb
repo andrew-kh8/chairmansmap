@@ -2,6 +2,7 @@
 
 class PlotCreator
   extend T::Sig
+  extend Dry::Monads::Result::Mixin
 
   class PlotParams < T::Struct
     const :number, T.nilable(Integer)
@@ -14,6 +15,7 @@ class PlotCreator
 
   class << self
     extend T::Sig
+    extend Dry::Monads::Result::Mixin
 
     sig { params(plot_params: T::Hash[Symbol, T.untyped]).returns(T.untyped) }
     def call(plot_params)
@@ -27,28 +29,28 @@ class PlotCreator
       )
       person = Person.find(params.person_id)
 
-      plot = build_plot(params).value_or { |error| return DM::Failure(error) }
+      plot = build_plot(params).value_or { |error| return Failure(error) }
 
       ActiveRecord::Base.transaction do
         plot.save!
         build_owner(plot, person).save!
       end
 
-      DM::Success(plot)
+      Success(plot)
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => error
-      DM::Failure(error.message)
+      Failure(error.message)
     rescue ActiveRecord::RecordNotFound => _error
-      DM::Failure("Person not found")
+      Failure("Person not found")
     end
 
     private
 
     sig { params(params: PlotParams).returns(T.untyped) }
     def build_plot(params)
-      coords = Geo::GetPlotCoords.call(params.cadastral_number).value_or { return DM::Failure("Failed to get coordinates") }
-      multi_polygon_data = Geo::MultiPolygonCreator.call(coords).value_or { return DM::Failure("Failed to build polygon") }
+      coords = Geo::GetPlotCoords.call(params.cadastral_number).value_or { return Failure("Failed to get coordinates") }
+      multi_polygon_data = Geo::MultiPolygonCreator.call(coords).value_or { return Failure("Failed to build polygon") }
 
-      DM::Success(
+      Success(
         Plot.new(
           area: multi_polygon_data.area,
           perimeter: multi_polygon_data.perimeter,

@@ -5,6 +5,7 @@ module Apis
   module Cadaster
     class Client
       extend T::Sig
+      include Dry::Monads::Result::Mixin
 
       class RequestError < StandardError
       end
@@ -23,18 +24,26 @@ module Apis
         @connection = T.let(Connection.new, Connection)
       end
 
-      sig { params(cadaster_number: String).returns(Plot) }
+      sig { params(cadaster_number: String).returns(Dry::Monads::Result[Net::HTTPResponse, Plot]) }
       def get_plot(cadaster_number)
         response = connection.get(params: {thematicSearchId: PLOT_SEARCH_ID, query: cadaster_number})
 
-        build_plot_from_body(T.cast(response.body, T::Hash[Symbol, T.untyped]))
+        if response.is_a?(Net::HTTPSuccess)
+          Success(build_plot_from_body(T.cast(response.body, T::Hash[Symbol, T.untyped])))
+        else
+          Failure(response)
+        end
       end
 
-      sig { params(cadaster_number: String).returns(Plot) }
+      sig { params(cadaster_number: String).returns(Dry::Monads::Result[Net::HTTPResponse, Plot]) }
       def get_quarter(cadaster_number)
         response = connection.get(params: {thematicSearchId: QUARTER_SEARCH_ID, query: cadaster_number})
 
-        build_plot_from_body(T.cast(response.body, T::Hash[Symbol, T.untyped]))
+        if response.is_a?(Net::HTTPSuccess)
+          Success(build_plot_from_body(T.cast(response.body, T::Hash[Symbol, T.untyped])))
+        else
+          Failure(response)
+        end
       end
 
       private

@@ -2,6 +2,7 @@
 
 class PlotUpdater
   extend T::Sig
+  extend Dry::Monads::Result::Mixin
 
   class UpdateError < StandardError; end
 
@@ -25,10 +26,10 @@ class PlotUpdater
       raise UpdateError, "При обновлении данных произошла ошибка. #{error}"
     end
 
-    DM::Success(plot)
+    Success(plot)
   rescue ActiveRecord::RecordNotFound => _error
-    DM::Failure("Не получилось найти участок")
+    Failure("Не получилось найти участок")
   rescue UpdateError => error
-    DM::Failure(error.message)
+    Failure(error.message)
   end
 end

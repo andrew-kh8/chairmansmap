@@ -22,7 +22,7 @@ RSpec.describe PlotCreator do
   let(:coords) { [[[0, 0], [10, 0], [0, 10], [0, 0]]] }
 
   describe "#call" do
-    before { allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(DM::Success(coords)) }
+    before { allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Dry::Monads::Success(coords)) }
 
     context "when plot is created" do
       it "creates plot and owner and returns Success" do
@@ -51,7 +51,7 @@ RSpec.describe PlotCreator do
 
     context "when cannot to get plot's coords" do
       before do
-        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(DM::Failure("an error"))
+        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Dry::Monads::Failure("an error"))
       end
 
       it "returns Failure due to validation errors (empty plot)" do

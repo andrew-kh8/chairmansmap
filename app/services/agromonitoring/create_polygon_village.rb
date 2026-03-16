@@ -3,8 +3,9 @@
 module Agromonitoring
   class CreatePolygonVillage
     extend T::Sig
+    extend Dry::Monads::Result::Mixin
 
-    sig { params(village: Village).returns(T.any(DM::Success, DM::Failure)) }
+    sig { params(village: Village).returns(Dry::Monads::Result[Apis::Agromonitoring::Polygon, Village]) }
     def self.call(village)
       polygon_geom = village.geom.first # TODO: handle multiple geoms
       unprojected_geom = Geo::UnprojectGeom.call(polygon_geom)
@@ -14,10 +15,10 @@ module Agromonitoring
 
       village.update!(agromonitoring_id: agro_polygon.id)
 
-      DM::Success(agro_polygon)
+      Success(agro_polygon)
     rescue Apis::Agromonitoring::Client::AgromonitoringError => error
       Rails.logger.error("Failed to create Agromonitoring polygon. Error: #{error.name} #{error.message}")
-      DM::Failure(village)
+      Failure(village)
     end
   end
 end
