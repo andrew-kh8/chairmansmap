@@ -31,10 +31,10 @@ gem "oj"
 gem "pagy", "~> 43.0"
 gem "panko_serializer"
 
-# dry
-gem "dry-monads", require: "dry/monads/all"
+# sorbet
 gem "sorbet-runtime"
 gem "sorbet-coerce"
+gem "sorbet-result"
 
 # geo
 gem "activerecord-postgis-adapter", "~> 11.0"

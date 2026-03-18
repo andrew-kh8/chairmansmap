@@ -2,13 +2,12 @@
 
 class PlotUpdater
   extend T::Sig
-  extend Dry::Monads::Result::Mixin
 
   class UpdateError < StandardError; end
 
   sig do
     params(plot_id: String, person_id: T.nilable(Integer), plot_data: T.nilable(T::Hash[Symbol, T.untyped]))
-      .returns(T.untyped)
+      .returns(Typed::Result[Plot, String])
   end
   def self.call(plot_id, person_id, plot_data)
     plot = Plot.find(plot_id)
@@ -26,10 +25,10 @@ class PlotUpdater
       raise UpdateError, "При обновлении данных произошла ошибка. #{error}"
     end
 
-    Success(plot)
+    Typed::Success.new(plot)
   rescue ActiveRecord::RecordNotFound => _error
-    Failure("Не получилось найти участок")
+    Typed::Failure.new("Не получилось найти участок")
   rescue UpdateError => error
-    Failure(error.message)
+    Typed::Failure.new(error.message)
   end
 end

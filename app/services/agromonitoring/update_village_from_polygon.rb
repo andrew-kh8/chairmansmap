@@ -20,9 +20,9 @@ module Agromonitoring
     def self.call(polygon_id, village)
       polygon = Apis::Agromonitoring::Client.new.polygon(polygon_id)
       raw_coords = polygon.coords
-      agro_geom = Geo::MultiPolygonCreator.call(raw_coords, srid: GeoConst::AGROMONITORING_SRID).value_or do
+      agro_geom = Geo::MultiPolygonCreator.call(raw_coords, srid: GeoConst::AGROMONITORING_SRID).on_error do
         raise StandardError.new("Failed to create multi polygon")
-      end
+      end.payload
       geom = Geo::TransformGeomSrid.call(agro_geom.multi_polygon)
 
       village.update!(agromonitoring_id: polygon.id, geom:)

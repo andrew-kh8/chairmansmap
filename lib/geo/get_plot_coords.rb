@@ -3,16 +3,15 @@
 module Geo
   class GetPlotCoords
     extend T::Sig
-    extend Dry::Monads::Result::Mixin
 
-    sig { params(cadaster_number: String).returns(Dry::Monads::Result[String, GeoTypes::PolygonCoordinates]) }
+    sig { params(cadaster_number: String).returns(Typed::Result[GeoTypes::PolygonCoordinates, String]) }
     def self.call(cadaster_number)
       res = Apis::Cadaster::Client.new.get_plot(cadaster_number)
 
       if res.success?
-        Success(res.success.coordinates)
+        Typed::Success.new(res.payload.coordinates)
       else
-        Failure("Response body is empty")
+        Typed::Failure.new("Response body is empty")
       end
     end
   end

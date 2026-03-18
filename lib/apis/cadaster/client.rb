@@ -5,12 +5,13 @@ module Apis
   module Cadaster
     class Client
       extend T::Sig
-      include Dry::Monads::Result::Mixin
 
       class RequestError < StandardError
       end
 
-      class ResponseError < StandardError
+      class BadResponse < T::Struct
+        const :code, Integer
+        const :message, String
       end
 
       PLOT_SEARCH_ID = 1
@@ -24,43 +25,48 @@ module Apis
         @connection = T.let(Connection.new, Connection)
       end
 
-      sig { params(cadaster_number: String).returns(Dry::Monads::Result[Net::HTTPResponse, Plot]) }
+      sig { params(cadaster_number: String).returns(Typed::Result[Polygon, BadResponse]) }
       def get_plot(cadaster_number)
         response = connection.get(params: {thematicSearchId: PLOT_SEARCH_ID, query: cadaster_number})
 
-        if response.is_a?(Net::HTTPSuccess)
-          Success(build_plot_from_body(T.cast(response.body, T::Hash[Symbol, T.untyped])))
+        if !response.ok?
+          return Typed::Failure.new(BadResponse.new(code: response.code.to_i, message: response.message))
+        end
+
+        plot = build_polygon_from_body(response.body)
+        if plot.success?
+          Typed::Success.new(plot.payload)
         else
-          Failure(response)
+          Typed::Failure.new(BadResponse.new(code: response.code.to_i, message: plot.error))
         end
       end
 
-      sig { params(cadaster_number: String).returns(Dry::Monads::Result[Net::HTTPResponse, Plot]) }
+      sig { params(cadaster_number: String).returns(Typed::Result[Polygon, BadResponse]) }
       def get_quarter(cadaster_number)
         response = connection.get(params: {thematicSearchId: QUARTER_SEARCH_ID, query: cadaster_number})
 
-        if response.is_a?(Net::HTTPSuccess)
-          Success(build_plot_from_body(T.cast(response.body, T::Hash[Symbol, T.untyped])))
+        if !response.ok?
+          return Typed::Failure.new(BadResponse.new(code: response.code.to_i, message: response.message))
+        end
+
+        plot = build_polygon_from_body(response.body)
+        if plot.success?
+          Typed::Success.new(plot.payload)
         else
-          Failure(response)
+          Typed::Failure.new(BadResponse.new(code: response.code.to_i, message: plot.error))
         end
       end
 
       private
 
-      sig { params(response_body: T::Hash[Symbol, T.untyped]).returns(Plot) }
-      def build_plot_from_body(response_body)
+      sig { params(response_body: T::Hash[Symbol, T.untyped]).returns(Typed::Result[Polygon, String]) }
+      def build_polygon_from_body(response_body)
         features = response_body.dig(:data, :features)
 
-        if features.blank?
-          raise ResponseError, "Response body is empty"
-        end
+        return Typed::Failure.new("Response body is empty") if features.blank?
+        return Typed::Failure.new("Response body contains multiple features") if features.size != 1
 
-        if features.size != 1
-          raise ResponseError, "Response body contains multiple features"
-        end
-
-        PlotMapper.build_plot(features.first)
+        Typed::Success.new(PolygonMapper.build_polygon(features.first))
       end
     end
   end

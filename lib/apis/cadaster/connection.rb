@@ -14,6 +14,24 @@ module Apis
       JSON_CONTENT_TYPE = "application/json"
       REFERER = "Referer"
 
+      class Response < T::Struct
+        extend T::Sig
+
+        const :code, Integer
+        const :message, String
+        const :body, T::Hash[Symbol, T.untyped]
+
+        sig { returns(T::Boolean) }
+        def ok?
+          code.between?(200, 299)
+        end
+
+        sig { returns(Integer) }
+        def features_size
+          body.dig(:data, :features)&.size || 0
+        end
+      end
+
       sig { void }
       def initialize
         uri = T.cast(URI.parse(BASE_HOST), URI::HTTPS)
@@ -21,7 +39,7 @@ module Apis
         @net = T.let(net(@base_uri), Net::HTTP)
       end
 
-      sig { params(path: String, params: ParameterType).returns(Net::HTTPResponse) }
+      sig { params(path: String, params: ParameterType).returns(Response) }
       def get(path: BASE_PATH, params: {})
         get_request = Net::HTTP::Get.new(uri(path, params).to_s)
         get_request["Accept"] = JSON_CONTENT_TYPE
@@ -32,7 +50,7 @@ module Apis
           response.body = JSON.parse(response.body, symbolize_names: true)
         end
 
-        response
+        TypeCoerce[Response].new.from({code: response.code, message: response.message, body: response.body})
       end
 
       private

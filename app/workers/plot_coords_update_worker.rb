@@ -13,9 +13,9 @@ class PlotCoordsUpdateWorker
       result_plot = PlotCoordsUpdater.call(plot)
 
       if result_plot.success?
-        result[:success] << result_plot.success
+        result[:success] << result_plot.payload
       else
-        result[:failure] << result_plot.failure
+        result[:failure] << result_plot.error
       end
     end
 

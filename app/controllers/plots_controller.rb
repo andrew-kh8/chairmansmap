@@ -33,9 +33,9 @@ class PlotsController < ApplicationController
     plot_result = PlotCreator.call(permitted_params)
 
     if plot_result.success?
-      redirect_to plot_path(plot_result.success)
+      redirect_to plot_path(plot_result.payload)
     else
-      redirect_to new_plot_path, alert: plot_result.failure
+      redirect_to new_plot_path, alert: plot_result.error
     end
   end
 

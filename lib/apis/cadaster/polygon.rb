@@ -3,7 +3,7 @@
 
 module Apis
   module Cadaster
-    class Plot < T::Struct
+    class Polygon < T::Struct
       extend T::Sig
 
       # there are more fields, but these are essential

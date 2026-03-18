@@ -2,7 +2,6 @@
 
 class PlotCreator
   extend T::Sig
-  extend Dry::Monads::Result::Mixin
 
   class PlotParams < T::Struct
     const :number, T.nilable(Integer)
@@ -15,9 +14,8 @@ class PlotCreator
 
   class << self
     extend T::Sig
-    extend Dry::Monads::Result::Mixin
 
-    sig { params(plot_params: T::Hash[Symbol, T.untyped]).returns(T.untyped) }
+    sig { params(plot_params: T::Hash[Symbol, T.untyped]).returns(Typed::Result[Plot, String]) }
     def call(plot_params)
       params = PlotParams.new(
         number: plot_params[:number]&.to_i,
@@ -29,28 +27,28 @@ class PlotCreator
       )
       person = Person.find(params.person_id)
 
-      plot = build_plot(params).value_or { |error| return Failure(error) }
+      plot = build_plot(params).on_error { |error| return Typed::Failure.new(error) }.payload
 
       ActiveRecord::Base.transaction do
         plot.save!
         build_owner(plot, person).save!
       end
 
-      Success(plot)
+      Typed::Success.new(plot)
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => error
-      Failure(error.message)
+      Typed::Failure.new(error.message)
     rescue ActiveRecord::RecordNotFound => _error
-      Failure("Person not found")
+      Typed::Failure.new("Person not found")
     end
 
     private
 
-    sig { params(params: PlotParams).returns(T.untyped) }
+    sig { params(params: PlotParams).returns(Typed::Result[Plot, String]) }
     def build_plot(params)
-      coords = Geo::GetPlotCoords.call(params.cadastral_number).value_or { return Failure("Failed to get coordinates") }
-      multi_polygon_data = Geo::MultiPolygonCreator.call(coords).value_or { return Failure("Failed to build polygon") }
+      coords = Geo::GetPlotCoords.call(params.cadastral_number).value_or { return Typed::Failure.new("Failed to get coordinates") }
+      multi_polygon_data = Geo::MultiPolygonCreator.call(coords).value_or { return Typed::Failure.new("Failed to build polygon") }
 
-      Success(
+      Typed::Success.new(
         Plot.new(
           area: multi_polygon_data.area,
           perimeter: multi_polygon_data.perimeter,
