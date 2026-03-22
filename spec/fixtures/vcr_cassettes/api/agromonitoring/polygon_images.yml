@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.agromonitoring.com/agro/1.0/image/search?appid=<AGROMONITORING_API_KEY>&end=1767992400&polyid=687946sdfsdf68e4s65dg4&start=1767560400
+    uri: http://api.agromonitoring.com/agro/1.0/image/search?appid=<AGROMONITORING_API_KEY>&end=1768003200&polyid=687946sdfsdf68e4s65dg4&start=1767571200
     body:
       encoding: US-ASCII
       string: ''

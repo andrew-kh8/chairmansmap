@@ -55,7 +55,7 @@ RSpec.describe Apis::Agromonitoring::Client do
   describe "#polygon_images" do
     it "qwe" do
       VCR.use_cassette("api/agromonitoring/polygon_images") do
-        result = instance.polygon_images(polygon_id, Time.new(2026, 1, 5).in_time_zone, Time.new(2026, 1, 10).in_time_zone)
+        result = instance.polygon_images(polygon_id, Time.utc(2026, 1, 5), Time.utc(2026, 1, 10))
         expect(result).to be_present
       end
     end

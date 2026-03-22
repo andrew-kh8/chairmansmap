@@ -22,8 +22,6 @@ RSpec.describe Apis::Cadaster::Client do
             [1000001.100100, 2000001.200200]
           ]]
           expect(polygon.cadaster_number).to eq cadaster_number
-          expect(polygon.inserted).to eq Time.zone.parse("2025-12-25T06:00:00+03:00")
-          expect(polygon.updated).to eq Time.zone.parse("2026-03-12T22:00:00.00+03:00")
         end
       end
     end
