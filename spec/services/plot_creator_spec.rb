@@ -22,7 +22,7 @@ RSpec.describe PlotCreator do
   let(:coords) { [[[0, 0], [10, 0], [0, 10], [0, 0]]] }
 
   describe "#call" do
-    before { allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Dry::Monads::Success(coords)) }
+    before { allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Typed::Success.new(coords)) }
 
     context "when plot is created" do
       it "creates plot and owner and returns Success" do
@@ -51,12 +51,12 @@ RSpec.describe PlotCreator do
 
     context "when cannot to get plot's coords" do
       before do
-        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Dry::Monads::Failure("an error"))
+        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Typed::Failure.new("an error"))
       end
 
       it "returns Failure due to validation errors (empty plot)" do
         expect(subject).to be_failure
-        expect(subject.failure).to eq "Failed to get coordinates"
+        expect(subject.error).to eq "Failed to get coordinates"
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe PlotCreator do
 
       it "returns failure" do
         expect(subject).to be_failure
-        expect(subject.failure).to eq "Failed to build polygon"
+        expect(subject.error).to eq "Failed to get coordinates"
       end
     end
 
@@ -74,7 +74,7 @@ RSpec.describe PlotCreator do
 
       it "returns failure" do
         expect(subject).to be_failure
-        expect(subject.failure).to include("duplicate key value violates unique constraint \"index_plots_on_number\"")
+        expect(subject.error).to include("duplicate key value violates unique constraint \"index_plots_on_number\"")
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe PlotCreator do
 
       it "returns failure" do
         expect(subject).to be_failure
-        expect(subject.failure).to eq "Validation failed: Number can't be blank, Number is not a number"
+        expect(subject.error).to eq "Validation failed: Number can't be blank, Number is not a number"
       end
     end
 
@@ -92,7 +92,7 @@ RSpec.describe PlotCreator do
 
       it "returns failure" do
         expect(subject).to be_failure
-        expect(subject.failure).to eq "Person not found"
+        expect(subject.error).to eq "Person not found"
       end
     end
   end

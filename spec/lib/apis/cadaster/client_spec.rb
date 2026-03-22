@@ -2,44 +2,41 @@
 
 RSpec.describe Apis::Cadaster::Client do
   describe ".plot_coords" do
-    subject { described_class.plot_coords(cadaster_number) }
+    subject { instance.get_plot(cadaster_number) }
 
-    let(:cadaster_number) { "123:123:456:789" }
+    let(:instance) { described_class.new }
+    let(:cadaster_number) { "12:12:123123:999" }
 
     context "when response has coords" do
       it "returns success with coords" do
         VCR.use_cassette("api/cadaster/get_plot_coords") do
           expect(subject).to be_success
-          expect(subject.success).to eq [[
+          expect(subject.payload).to be_an Apis::Cadaster::Polygon
+
+          polygon = subject.payload
+          expect(polygon.coordinates).to eq [[
             [1000001.100100, 2000001.200200],
             [1000002.100100, 2000002.200200],
             [1000003.100100, 2000003.200200],
             [1000004.100100, 2000004.200200],
             [1000001.100100, 2000001.200200]
           ]]
+          expect(polygon.cadaster_number).to eq cadaster_number
+          expect(polygon.inserted).to eq Time.parse("2025-12-25T06:00:00+03:00")
+          expect(polygon.updated).to eq Time.parse("2026-03-12T22:00:00.00+03:00")
         end
       end
     end
 
-    context "when response body is a text" do
+    context "when response is error" do
+      let(:cadaster_number) { "12:12:123123:99999999" }
+
       it "returns failure with error" do
         VCR.use_cassette("api/cadaster/fail_get_plot_coords") do
           expect(subject).to be_failure
-          expect(subject.failure).to be_instance_of described_class::ResponseError
-          expect(subject.failure.message).to eq "Couldn't send request"
+          expect(subject.error.code).to eq 404
+          expect(subject.error.message).to eq "Not Found"
         end
-      end
-    end
-
-    context "when there is timeout error" do
-      let(:fake_connection) { double }
-
-      it "returns failure with error" do
-        allow(fake_connection).to receive(:get).and_raise(Net::ReadTimeout, "test timeout")
-        allow(described_class).to receive(:connection).and_return(fake_connection)
-
-        expect(subject.failure).to be_instance_of described_class::RequestError
-        expect(subject.failure.message).to eq "Net::ReadTimeout with \"test timeout\""
       end
     end
   end

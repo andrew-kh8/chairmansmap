@@ -6,7 +6,7 @@ RSpec.describe Geo::MultiPolygonCreator do
   describe ".call" do
     context "when coordinates are valid and form a closed ring" do
       let(:coords) { [[[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]] }
-      let(:result) { subject.success }
+      let(:result) { subject.payload }
 
       it "returns success" do
         expect(subject).to be_success
@@ -22,7 +22,7 @@ RSpec.describe Geo::MultiPolygonCreator do
 
       it "returns failure" do
         expect(subject).to be_failure
-        expect(subject.failure).to eq "The coordinates are not closed in a circle"
+        expect(subject.error).to eq "The coordinates are not closed in a circle"
       end
     end
 
@@ -33,7 +33,7 @@ RSpec.describe Geo::MultiPolygonCreator do
           [[15, 5], [20, 5], [20, 10], [15, 10], [15, 5]]
         ]
       end
-      let(:result) { subject.success }
+      let(:result) { subject.payload }
 
       it "returns success" do
         expect(subject).to be_success

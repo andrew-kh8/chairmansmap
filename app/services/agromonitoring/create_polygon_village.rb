@@ -17,7 +17,7 @@ module Agromonitoring
       Typed::Success.new(agro_polygon)
     rescue Apis::Agromonitoring::Client::AgromonitoringError => error
       Rails.logger.error("Failed to create Agromonitoring polygon. Error: #{error.name} #{error.message}")
-      Typed::Failure.new.blank
+      Typed::Failure.blank
     end
   end
 end

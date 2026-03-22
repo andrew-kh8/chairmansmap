@@ -45,8 +45,10 @@ class PlotCreator
 
     sig { params(params: PlotParams).returns(Typed::Result[Plot, String]) }
     def build_plot(params)
-      coords = Geo::GetPlotCoords.call(params.cadastral_number).value_or { return Typed::Failure.new("Failed to get coordinates") }
-      multi_polygon_data = Geo::MultiPolygonCreator.call(coords).value_or { return Typed::Failure.new("Failed to build polygon") }
+      multi_polygon_data = Geo::GetPlotCoords.call(params.cadastral_number)
+        .and_then { |coords| Geo::MultiPolygonCreator.call(coords) }
+        .on_error { return Typed::Failure.new("Failed to get coordinates") }
+        .payload
 
       Typed::Success.new(
         Plot.new(

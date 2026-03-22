@@ -23,7 +23,7 @@ class PlotsController < ApplicationController
   sig { void }
   def new
     plot = Plot.new
-    people = Person.kept.map { |person| [person.short_name, person.id] }
+    people = Person.kept.map { |person| [person.short_name, person.id] }.sort
 
     render :new, locals: {plot: plot, people: people}
   end

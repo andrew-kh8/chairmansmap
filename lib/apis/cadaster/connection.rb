@@ -25,11 +25,6 @@ module Apis
         def ok?
           code.between?(200, 299)
         end
-
-        sig { returns(Integer) }
-        def features_size
-          body.dig(:data, :features)&.size || 0
-        end
       end
 
       sig { void }
@@ -45,12 +40,19 @@ module Apis
         get_request["Accept"] = JSON_CONTENT_TYPE
         get_request[REFERER] = REFERER
 
-        response = @net.request(get_request)
-        if response["content-type"] == JSON_CONTENT_TYPE
-          response.body = JSON.parse(response.body, symbolize_names: true)
+        response_data = Rails.cache.fetch(get_request.path, expires_in: 10.minutes) do
+          response = @net.request(get_request)
+          if response["content-type"] == JSON_CONTENT_TYPE
+            response.body = JSON.parse(response.body, symbolize_names: true)
+          end
+
+          Rails.logger.info "Cadaster API response: code - #{response.code}, message - #{response.message}"
+          {code: response.code, message: response.message, body: response.body}
         end
 
-        TypeCoerce[Response].new.from({code: response.code, message: response.message, body: response.body})
+        TypeCoerce[Response].new.from(response_data)
+      rescue Net::OpenTimeout => error
+        TypeCoerce[Response].new.from({code: 408, message: error.message, body: {}})
       end
 
       private

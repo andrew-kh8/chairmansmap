@@ -54,6 +54,7 @@ group :development, :test do
   gem "dotenv"
   gem "factory_bot_rails"
   gem "rspec-rails", "~> 7.0.0"
+  gem "webmock"
 
   # lint
   gem "standard"

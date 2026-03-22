@@ -2,60 +2,59 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.roscadastres.com/pkk_files/geo2.php?cn=123%3A123%3A456%3A789
+    uri: https://nspd.gov.ru/api/geoportal/v2/search/geoportal?query=12:12:123123:999&thematicSearchId=1
     body:
       encoding: US-ASCII
       string: ''
     headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - application/json
       User-Agent:
-      - Ruby on rails
+      - Ruby
+      Referer:
+      - Referer
   response:
     status:
       code: 200
       message: OK
     headers:
-      server:
-      - openresty
-      date:
-      - Sat, 31 Jan 2026 12:27:17 GMT
-      content-type:
-      - text/html; charset=UTF-8
-      content-length:
-      - '189'
-      connection:
-      - keep-alive
-      x-powered-by:
-      - PHP/8.2.29
-      vary:
-      - Accept-Encoding
-      content-encoding:
-      - gzip
-      access-control-allow-origin:
-      - "*"
-      access-control-allow-headers:
-      - origin, x-requested-with, content-type
-      access-control-allow-methods:
-      - PUT, GET, POST, DELETE, OPTIONS
-      cache-control:
-      - max-age=1209600, public, immutable
-      x-served-by:
-      - api.roscadastres.com
+      Date:
+      - Sun, 22 Mar 2026 11:26:07 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - close
+      X-Request-Id:
+      - 97b0e29d7c58d91747f5a38b99206717
+      X-Backend:
+      - dc1-gw-8-1
+      X-Request-Time:
+      - '0.043'
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      - OPTIONS, HEAD, GET, PUT, POST, DELETE
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type
+      - Authorization,Origin,X-Requested-With,Accept,DNT,Keep-Alive,User-Agent,If-Modified-Since,Cache-Control,Content-Type,X-Public-User
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubdomains
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Access-Control-Max-Age:
+      - '86400'
+      Vary:
+      - Origin
+      X-Api-Header:
+      - af
+      X-Accel-Buffering:
+      - 'no'
     body:
-      encoding: UTF-8
-      string: '{
-        "coordinates":[
-          [
-            [1000001.100100,2000001.200200],
-            [1000002.100100,2000002.200200],
-            [1000003.100100,2000003.200200],
-            [1000004.100100,2000004.200200],
-            [1000001.100100,2000001.200200]
-          ]
-        ],
-        "crs":{"properties":{"name":"EPSG:3857"},"type":"name"},
-        "type":"Polygon"
-      }'
-  recorded_at: Sat, 31 Jan 2026 12:27:17 GMT
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJkYXRhIjp7InR5cGUiOiJGZWF0dXJlQ29sbGVjdGlvbiIsImZlYXR1cmVzIjpbeyJpZCI6NDE5MDA4ODY1LCJ0eXBlIjoiRmVhdHVyZSIsImdlb21ldHJ5Ijp7InR5cGUiOiJQb2x5Z29uIiwiY29vcmRpbmF0ZXMiOltbWzEwMDAwMDEuMTAwMSwgMjAwMDAwMS4yMDAyXSwgWzEwMDAwMDIuMTAwMSwgMjAwMDAwMi4yMDAyXSwgWzEwMDAwMDMuMTAwMSwgMjAwMDAwMy4yMDAyXSwgWzEwMDAwMDQuMTAwMSwgMjAwMDAwNC4yMDAyXSwgWzEwMDAwMDEuMTAwMSwgMjAwMDAwMS4yMDAyXV1dLCJjcnMiOnsidHlwZSI6Im5hbWUiLCJwcm9wZXJ0aWVzIjp7Im5hbWUiOiJFUFNHOjM4NTcifX19LCJwcm9wZXJ0aWVzIjp7ImNhZGFzdHJhbERpc3RyaWN0c0NvZGUiOjEyLCJjYXRlZ29yeSI6MzYzNjgsImNhdGVnb3J5TmFtZSI6ItCX0LXQvNC10LvRjNC90YvQtSDRg9GH0LDRgdGC0LrQuCDQldCT0KDQnSIsImRlc2NyIjoiMTI6MTI6MTIzMTIzOjk5OSIsImV4dGVybmFsS2V5IjoiMTI6MTI6MTIzMTIzOjk5OSIsImludGVyYWN0aW9uSWQiOjQwMTQ4MzI1MCwibGFiZWwiOiIxMjoxMjoxMjMxMjM6OTk5Iiwib3B0aW9ucyI6eyJhcmVhIjpudWxsLCJjYWRfbnVtIjoiMTI6MTI6MTIzMTIzOjk5OSIsImNvc3RfYXBwbGljYXRpb25fZGF0ZSI6IjIwMjMtMTEtMDMiLCJjb3N0X2FwcHJvdmVtZW50X2RhdGUiOiIiLCJjb3N0X2RldGVybWluYXRpb25fZGF0ZSI6IjIwMjItMDEtMDEiLCJjb3N0X2luZGV4IjoxNzQ2LjQ4LCJjb3N0X3JlZ2lzdHJhdGlvbl9kYXRlIjoiMjAyMy0xMS0yMCIsImNvc3RfdmFsdWUiOjc3NTQzOS4wOCwiZGVjbGFyZWRfYXJlYSI6bnVsbCwibGFuZF9yZWNvcmRfY2F0ZWdvcnlfdHlwZSI6ItCX0LXQvNC70Lgg0L3QsNGB0LXQu9C10L3QvdGL0YUg0L/Rg9C90LrRgtC+0LIiLCJsYW5kX3JlY29yZF9yZWdfZGF0ZSI6IjIwMTUtMDgtMjgiLCJsYW5kX3JlY29yZF9zdWJ0eXBlIjoi0JfQtdC80LvQtdC/0L7Qu9GM0LfQvtCy0LDQvdC40LUiLCJsYW5kX3JlY29yZF90eXBlIjoi0JfQtdC80LXQu9GM0L3Ri9C5INGD0YfQsNGB0YLQvtC6Iiwib3duZXJzaGlwX3R5cGUiOiLQp9Cw0YHRgtC90LDRjyIsInBlcm1pdHRlZF91c2VfZXN0YWJsaXNoZWRfYnlfZG9jdW1lbnQiOiLQtNC70Y8g0LLQtdC00LXQvdC40Y8g0YHQsNC00L7QstC+0LTRgdGC0LLQsCIsInF1YXJ0ZXJfY2FkX251bWJlciI6IjEyOjEyOjEyMzEyMyIsInJlYWRhYmxlX2FkZHJlc3MiOiLQo9C7LiDQn9GD0YjQutC40L3QsCwg0LTQvtC8INC60L7Qu9C+0YLRg9GI0LrQuNC90LAiLCJzcGVjaWZpZWRfYXJlYSI6NDQ0LCJzdGF0dXMiOiLQoNCw0L3QtdC1INGD0YfRgtC10L3QvdGL0LkifSwic3ViY2F0ZWdvcnkiOjUsInN5c3RlbUluZm8iOnsiaW5zZXJ0ZWQiOiIyMDI1LTEyLTI1VDA2OjAwOjAwLjAwMDAwMCIsInVwZGF0ZWQiOiIyMDI2LTAzLTEyVDIyOjAwOjAwLjAwMDAwMCJ9fX1dfSwibWV0YSI6W3sidG90YWxDb3VudCI6MSwiY2F0ZWdvcnlJZCI6MzYzNjh9XX0=
+  recorded_at: Sun, 22 Mar 2026 11:26:07 GMT
 recorded_with: VCR 6.4.0
