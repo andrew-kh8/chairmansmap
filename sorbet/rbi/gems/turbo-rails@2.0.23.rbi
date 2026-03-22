@@ -27,64 +27,64 @@ module ActionController::Base::HelperMethods
   include ::Turbo::Streams::ActionHelper
 end
 
-# source://turbo-rails//lib/turbo/engine.rb#3
+# pkg:gem/turbo-rails#lib/turbo/engine.rb:3
 module Turbo
   extend ::ActiveSupport::Autoload
 
-  # source://turbo-rails//lib/turbo-rails.rb#9
+  # pkg:gem/turbo-rails#lib/turbo-rails.rb:9
   def current_request_id; end
 
-  # source://turbo-rails//lib/turbo-rails.rb#9
+  # pkg:gem/turbo-rails#lib/turbo-rails.rb:9
   def current_request_id=(obj); end
 
-  # source://turbo-rails//lib/turbo-rails.rb#7
+  # pkg:gem/turbo-rails#lib/turbo-rails.rb:7
   def draw_routes; end
 
-  # source://turbo-rails//lib/turbo-rails.rb#7
+  # pkg:gem/turbo-rails#lib/turbo-rails.rb:7
   def draw_routes=(val); end
 
   class << self
-    # source://turbo-rails//lib/turbo-rails.rb#9
+    # pkg:gem/turbo-rails#lib/turbo-rails.rb:9
     def current_request_id; end
 
-    # source://turbo-rails//lib/turbo-rails.rb#9
+    # pkg:gem/turbo-rails#lib/turbo-rails.rb:9
     def current_request_id=(obj); end
 
-    # source://turbo-rails//lib/turbo-rails.rb#7
+    # pkg:gem/turbo-rails#lib/turbo-rails.rb:7
     def draw_routes; end
 
-    # source://turbo-rails//lib/turbo-rails.rb#7
+    # pkg:gem/turbo-rails#lib/turbo-rails.rb:7
     def draw_routes=(val); end
 
-    # source://turbo-rails//lib/turbo/engine.rb#5
+    # pkg:gem/turbo-rails#lib/turbo/engine.rb:5
     def railtie_helpers_paths; end
 
-    # source://turbo-rails//lib/turbo/engine.rb#5
+    # pkg:gem/turbo-rails#lib/turbo/engine.rb:5
     def railtie_namespace; end
 
-    # source://turbo-rails//lib/turbo/engine.rb#5
+    # pkg:gem/turbo-rails#lib/turbo/engine.rb:5
     def railtie_routes_url_helpers(include_path_helpers = T.unsafe(nil)); end
 
-    # source://turbo-rails//lib/turbo-rails.rb#14
+    # pkg:gem/turbo-rails#lib/turbo-rails.rb:14
     def signed_stream_verifier; end
 
-    # source://turbo-rails//lib/turbo-rails.rb#18
+    # pkg:gem/turbo-rails#lib/turbo-rails.rb:18
     def signed_stream_verifier_key; end
 
     # Sets the attribute signed_stream_verifier_key
     #
     # @param value the value to set the attribute signed_stream_verifier_key to.
     #
-    # source://turbo-rails//lib/turbo-rails.rb#12
+    # pkg:gem/turbo-rails#lib/turbo-rails.rb:12
     def signed_stream_verifier_key=(_arg0); end
 
-    # source://turbo-rails//lib/turbo/engine.rb#5
+    # pkg:gem/turbo-rails#lib/turbo/engine.rb:5
     def table_name_prefix; end
 
-    # source://turbo-rails//lib/turbo/engine.rb#5
+    # pkg:gem/turbo-rails#lib/turbo/engine.rb:5
     def use_relative_model_naming?; end
 
-    # source://turbo-rails//lib/turbo-rails.rb#22
+    # pkg:gem/turbo-rails#lib/turbo-rails.rb:22
     def with_request_id(request_id); end
   end
 end
@@ -110,8 +110,8 @@ module Turbo::Broadcastable
   def broadcast_prepend_to(*streamables, target: T.unsafe(nil), **rendering); end
   def broadcast_refresh; end
   def broadcast_refresh_later; end
-  def broadcast_refresh_later_to(*streamables); end
-  def broadcast_refresh_to(*streamables); end
+  def broadcast_refresh_later_to(*streamables, **attributes); end
+  def broadcast_refresh_to(*streamables, **attributes); end
   def broadcast_remove(**rendering); end
   def broadcast_remove_to(*streamables, target: T.unsafe(nil), **rendering); end
   def broadcast_render(**rendering); end
@@ -144,7 +144,7 @@ module Turbo::Broadcastable::ClassMethods
   def suppressing_turbo_broadcasts(&block); end
 end
 
-# source://turbo-rails//lib/turbo/broadcastable/test_helper.rb#3
+# pkg:gem/turbo-rails#lib/turbo/broadcastable/test_helper.rb:3
 module Turbo::Broadcastable::TestHelper
   extend ::ActiveSupport::Concern
   include ::ActionCable::TestHelper
@@ -183,7 +183,7 @@ module Turbo::Broadcastable::TestHelper
   #       # do something other than broadcast to "message_1"
   #     end
   #
-  # source://turbo-rails//lib/turbo/broadcastable/test_helper.rb#104
+  # pkg:gem/turbo-rails#lib/turbo/broadcastable/test_helper.rb:104
   def assert_no_turbo_stream_broadcasts(stream_name_or_object, &block); end
 
   # Asserts that `<turbo-stream>` elements were broadcast over Action Cable
@@ -232,7 +232,7 @@ module Turbo::Broadcastable::TestHelper
   #       message.broadcast_replace
   #     end
   #
-  # source://turbo-rails//lib/turbo/broadcastable/test_helper.rb#58
+  # pkg:gem/turbo-rails#lib/turbo/broadcastable/test_helper.rb:58
   def assert_turbo_stream_broadcasts(stream_name_or_object, count: T.unsafe(nil), &block); end
 
   # Captures any `<turbo-stream>` elements that were broadcast over Action Cable
@@ -278,7 +278,7 @@ module Turbo::Broadcastable::TestHelper
   #     assert_equal "replace", replace["action"]
   #     assert_equal "replace", remove["action"]
   #
-  # source://turbo-rails//lib/turbo/broadcastable/test_helper.rb#157
+  # pkg:gem/turbo-rails#lib/turbo/broadcastable/test_helper.rb:157
   def capture_turbo_stream_broadcasts(stream_name_or_object, &block); end
 end
 
@@ -309,7 +309,7 @@ module Turbo::DriveHelper
   def turbo_refreshes_with(method: T.unsafe(nil), scroll: T.unsafe(nil)); end
 end
 
-# source://turbo-rails//lib/turbo/engine.rb#4
+# pkg:gem/turbo-rails#lib/turbo/engine.rb:4
 class Turbo::Engine < ::Rails::Engine; end
 
 # If you don't want to precompile Turbo's assets (eg. because you're using webpack),
@@ -319,7 +319,7 @@ class Turbo::Engine < ::Rails::Engine; end
 #   config.assets.precompile -= Turbo::Engine::PRECOMPILE_ASSETS
 # end
 #
-# source://turbo-rails//lib/turbo/engine.rb#67
+# pkg:gem/turbo-rails#lib/turbo/engine.rb:41
 Turbo::Engine::PRECOMPILE_ASSETS = T.let(T.unsafe(nil), Array)
 
 module Turbo::Frames; end
@@ -335,6 +335,14 @@ end
 
 module Turbo::FramesHelper
   def turbo_frame_tag(*ids, src: T.unsafe(nil), target: T.unsafe(nil), **attributes, &block); end
+end
+
+class Turbo::ImmediateDebouncer
+  def initialize(delay: T.unsafe(nil)); end
+
+  def complete?; end
+  def debounce(&block); end
+  def wait; end
 end
 
 module Turbo::IncludesHelper
@@ -388,7 +396,7 @@ module Turbo::RequestIdTracking
   def turbo_tracking_request_id(&block); end
 end
 
-# source://turbo-rails//lib/turbo/system_test_helper.rb#107
+# pkg:gem/turbo-rails#lib/turbo/system_test_helper.rb:109
 module Turbo::Streams; end
 
 class Turbo::Streams::ActionBroadcastJob < ::ActiveJob::Base
@@ -454,7 +462,7 @@ module Turbo::Streams::Broadcasts
   def broadcast_prepend_later_to(*streamables, **opts); end
   def broadcast_prepend_to(*streamables, **opts); end
   def broadcast_refresh_later_to(*streamables, request_id: T.unsafe(nil), **opts); end
-  def broadcast_refresh_to(*streamables, **opts); end
+  def broadcast_refresh_to(*streamables, **attributes); end
   def broadcast_remove_to(*streamables, **opts); end
   def broadcast_render_later_to(*streamables, **rendering); end
   def broadcast_render_to(*streamables, **rendering); end
@@ -539,7 +547,7 @@ module Turbo::StreamsHelper
   def turbo_stream_from(*streamables, **attributes); end
 end
 
-# source://turbo-rails//lib/turbo/system_test_helper.rb#1
+# pkg:gem/turbo-rails#lib/turbo/system_test_helper.rb:1
 module Turbo::SystemTestHelper
   # Asserts that a `<turbo-cable-stream-source>` element is absent from the
   # document
@@ -562,7 +570,7 @@ module Turbo::SystemTestHelper
   # In addition to the filters listed above, accepts any valid Capybara global
   # filter option.
   #
-  # source://turbo-rails//lib/turbo/system_test_helper.rb#78
+  # pkg:gem/turbo-rails#lib/turbo/system_test_helper.rb:78
   def assert_no_turbo_cable_stream_source(*_arg0, **_arg1, &_arg2); end
 
   # Asserts that a `<turbo-cable-stream-source>` element is present in the
@@ -586,7 +594,7 @@ module Turbo::SystemTestHelper
   # In addition to the filters listed above, accepts any valid Capybara global
   # filter option.
   #
-  # source://turbo-rails//lib/turbo/system_test_helper.rb#54
+  # pkg:gem/turbo-rails#lib/turbo/system_test_helper.rb:54
   def assert_turbo_cable_stream_source(*_arg0, **_arg1, &_arg2); end
 
   # Delay until every `<turbo-cable-stream-source>` element present in the page
@@ -615,30 +623,56 @@ module Turbo::SystemTestHelper
   #   # config/environments/test.rb
   #   config.turbo.test_connect_after_actions = []
   #
-  # source://turbo-rails//lib/turbo/system_test_helper.rb#28
+  # pkg:gem/turbo-rails#lib/turbo/system_test_helper.rb:28
   def connect_turbo_cable_stream_sources(**options, &block); end
 end
 
-# source://turbo-rails//lib/turbo/system_test_helper.rb#106
+# pkg:gem/turbo-rails#lib/turbo/system_test_helper.rb:108
 class Turbo::SystemTestHelper::SignedStreamNameConditions
   include ::Enumerable
   include ::Turbo::Streams::StreamName
 
   # @return [SignedStreamNameConditions] a new instance of SignedStreamNameConditions
   #
-  # source://turbo-rails//lib/turbo/system_test_helper.rb#109
+  # pkg:gem/turbo-rails#lib/turbo/system_test_helper.rb:111
   def initialize(value); end
 
-  # source://turbo-rails//lib/turbo/system_test_helper.rb#113
+  # pkg:gem/turbo-rails#lib/turbo/system_test_helper.rb:115
   def attribute; end
 
-  # source://turbo-rails//lib/turbo/system_test_helper.rb#117
+  # pkg:gem/turbo-rails#lib/turbo/system_test_helper.rb:119
   def each; end
 end
 
-# source://turbo-rails//lib/turbo/test_assertions.rb#2
+# pkg:gem/turbo-rails#lib/turbo/test_assertions.rb:2
 module Turbo::TestAssertions
   extend ::ActiveSupport::Concern
+
+  # Assert that the rendered fragment of HTML does not contain a `<turbo-frame>`
+  # element.
+  #
+  # ==== Arguments
+  #
+  # * <tt>ids</tt> [String, Array<String, ActiveRecord::Base>] matches the <tt>[id]</tt> attribute
+  #
+  # ==== Options
+  #
+  # * <tt>:loading</tt> [String] matches the element's <tt>[loading]</tt>
+  #   attribute
+  # * <tt>:src</tt> [String] matches the element's <tt>[src]</tt> attribute
+  # * <tt>:target</tt> [String] matches the element's <tt>[target]</tt>
+  #   attribute
+  #
+  #   Given the following HTML fragment:
+  #
+  #     <turbo-frame id="example" target="_top"></turbo-frame>
+  #
+  #   The following assertion would fail:
+  #
+  #     assert_no_turbo_frame id: "example", target: "_top"
+  #
+  # pkg:gem/turbo-rails#lib/turbo/test_assertions.rb:153
+  def assert_no_turbo_frame(*ids, **options, &block); end
 
   # Assert that the rendered fragment of HTML does not contain a `<turbo-stream>`
   # element.
@@ -661,8 +695,49 @@ module Turbo::TestAssertions
   #
   #     assert_no_turbo_stream action: "remove", target: "message_1"
   #
-  # source://turbo-rails//lib/turbo/test_assertions.rb#76
+  # pkg:gem/turbo-rails#lib/turbo/test_assertions.rb:76
   def assert_no_turbo_stream(action:, target: T.unsafe(nil), targets: T.unsafe(nil)); end
+
+  # Assert that the rendered fragment of HTML contains a `<turbo-frame>`
+  # element.
+  #
+  # ==== Arguments
+  #
+  # * <tt>ids</tt> [String, Array<String, ActiveRecord::Base>] matches the element's <tt>[id]</tt> attribute
+  #
+  # ==== Options
+  #
+  # * <tt>:loading</tt> [String] matches the element's <tt>[loading]</tt>
+  #   attribute
+  # * <tt>:src</tt> [String] matches the element's <tt>[src]</tt> attribute
+  # * <tt>:target</tt> [String] matches the element's <tt>[target]</tt>
+  #   attribute
+  # * <tt>:count</tt> [Integer] indicates how many turbo frames are expected.
+  #   Defaults to <tt>1</tt>.
+  #
+  #   Given the following HTML fragment:
+  #
+  #     <turbo-frame id="example" target="_top"></turbo-frame>
+  #
+  #   The following assertion would pass:
+  #
+  #     assert_turbo_frame id: "example", target: "_top"
+  #
+  # You can also pass a block make assertions about the contents of the
+  # element. Given the following HTML fragment:
+  #
+  #     <turbo-frame id="example">
+  #       <p>Hello!</p>
+  #     </turbo-frame>
+  #
+  #   The following assertion would pass:
+  #
+  #     assert_turbo_frame id: "example" do
+  #       assert_select "p", text: "Hello!"
+  #     end
+  #
+  # pkg:gem/turbo-rails#lib/turbo/test_assertions.rb:121
+  def assert_turbo_frame(*ids, loading: T.unsafe(nil), src: T.unsafe(nil), target: T.unsafe(nil), count: T.unsafe(nil), &block); end
 
   # Assert that the rendered fragment of HTML contains a `<turbo-stream>`
   # element.
@@ -702,11 +777,11 @@ module Turbo::TestAssertions
   #       assert_select "template p", text: "Hello!"
   #     end
   #
-  # source://turbo-rails//lib/turbo/test_assertions.rb#48
+  # pkg:gem/turbo-rails#lib/turbo/test_assertions.rb:48
   def assert_turbo_stream(action:, target: T.unsafe(nil), targets: T.unsafe(nil), count: T.unsafe(nil), &block); end
 end
 
-# source://turbo-rails//lib/turbo/test_assertions/integration_test_assertions.rb#3
+# pkg:gem/turbo-rails#lib/turbo/test_assertions/integration_test_assertions.rb:3
 module Turbo::TestAssertions::IntegrationTestAssertions
   # Assert that the Turbo Stream request's response body's HTML does not
   # contain a `<turbo-stream>` element.
@@ -730,7 +805,7 @@ module Turbo::TestAssertions::IntegrationTestAssertions
   #
   #     assert_no_turbo_stream action: "remove", target: "message_1"
   #
-  # source://turbo-rails//lib/turbo/test_assertions/integration_test_assertions.rb#69
+  # pkg:gem/turbo-rails#lib/turbo/test_assertions/integration_test_assertions.rb:69
   def assert_no_turbo_stream(status: T.unsafe(nil), **attributes); end
 
   # Assert that the Turbo Stream request's response body's HTML contains a
@@ -770,7 +845,7 @@ module Turbo::TestAssertions::IntegrationTestAssertions
   #       assert_select "template p", text: "Hello!"
   #     end
   #
-  # source://turbo-rails//lib/turbo/test_assertions/integration_test_assertions.rb#41
+  # pkg:gem/turbo-rails#lib/turbo/test_assertions/integration_test_assertions.rb:41
   def assert_turbo_stream(status: T.unsafe(nil), **attributes, &block); end
 end
 
@@ -778,6 +853,9 @@ class Turbo::ThreadDebouncer
   def initialize(key, thread, delay:); end
 
   def debounce; end
+  def debouncer_class; end
+  def debouncer_class=(_arg0); end
+  def debouncer_class?; end
   def wait(*_arg0, **_arg1, &_arg2); end
 
   private
@@ -787,10 +865,15 @@ class Turbo::ThreadDebouncer
   def thread; end
 
   class << self
+    def debouncer_class; end
+    def debouncer_class=(value); end
+    def debouncer_class?; end
     def for(key, delay: T.unsafe(nil)); end
 
     private
 
+    def __class_attr_debouncer_class; end
+    def __class_attr_debouncer_class=(new_value); end
     def new(*_arg0); end
   end
 end

@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem faraday-http-cache`.
 
 
-# source://faraday-http-cache//lib/faraday/http_cache/memory_store.rb#3
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/memory_store.rb:3
 module Faraday; end
 
 # Public: The middleware responsible for caching and serving responses.
@@ -46,7 +46,7 @@ module Faraday; end
 #     builder.use :http_cache, store: Rails.cache, instrumenter: ActiveSupport::Notifications
 #   end
 #
-# source://faraday-http-cache//lib/faraday/http_cache/memory_store.rb#4
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/memory_store.rb:4
 class Faraday::HttpCache < ::Faraday::Middleware
   # Public: Initializes a new HttpCache middleware.
   #
@@ -57,6 +57,8 @@ class Faraday::HttpCache < ::Faraday::Middleware
   # :instrumenter    - An instrumentation object that should respond to 'instrument'.
   # :instrument_name - The String name of the instrument being reported on (optional).
   # :logger          - A logger object.
+  # :max_entries     - The maximum number of entries to store per cache key. This option is only
+  #                    used when using the +ByUrl+ cache strategy.
   #
   # Examples:
   #
@@ -76,13 +78,13 @@ class Faraday::HttpCache < ::Faraday::Middleware
   #
   # @return [HttpCache] a new instance of HttpCache
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#104
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:106
   def initialize(app, options = T.unsafe(nil)); end
 
   # Public: Process the request into a duplicate of this instance to
   # ensure that the internal state is preserved.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#120
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:122
   def call(env); end
 
   # Internal: Process the stack request to try to serve a cache response.
@@ -96,19 +98,19 @@ class Faraday::HttpCache < ::Faraday::Middleware
   #
   # Returns a 'Faraday::Response' instance.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#134
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:136
   def call!(env); end
 
   protected
 
   # Internal: Gets the request object created from the Faraday env Hash.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#158
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:160
   def request; end
 
   private
 
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#309
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:311
   def create_request(env); end
 
   # Internal: Creates a new 'Hash' containing the response information.
@@ -118,17 +120,17 @@ class Faraday::HttpCache < ::Faraday::Middleware
   # Returns a 'Hash' containing the ':status', ':body' and 'response_headers'
   # entries.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#298
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:300
   def create_response(env); end
 
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#268
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:270
   def delete(request, response); end
 
   # Internal: Extracts the cache status from a trace.
   #
   # Returns the Symbol status or nil if none was available.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#346
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:348
   def extract_status(trace); end
 
   # Internal: Fetches the response from the Faraday stack and stores it.
@@ -137,14 +139,14 @@ class Faraday::HttpCache < ::Faraday::Middleware
   #
   # Returns the fresh 'Faraday::Response' instance.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#284
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:286
   def fetch(env); end
 
   # Internal: instruments the request processing.
   #
   # Returns nothing.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#329
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:331
   def instrument(env); end
 
   # Internal: Logs the trace info about the incoming request
@@ -153,7 +155,7 @@ class Faraday::HttpCache < ::Faraday::Middleware
   #
   # Returns nothing.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#318
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:320
   def log_request; end
 
   # Internal: Tries to locate a valid response or forwards the call to the stack.
@@ -168,7 +170,7 @@ class Faraday::HttpCache < ::Faraday::Middleware
   #
   # Returns the 'Faraday::Response' instance to be served.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#187
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:189
   def process(env); end
 
   # Internal: Should this cache instance act like a "shared cache" according
@@ -176,7 +178,7 @@ class Faraday::HttpCache < ::Faraday::Middleware
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#164
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:166
   def shared_cache?; end
 
   # Internal: Checks if the current request method should remove any existing
@@ -186,7 +188,7 @@ class Faraday::HttpCache < ::Faraday::Middleware
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#172
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:174
   def should_delete?(status, method); end
 
   # Internal: Stores the response into the storage.
@@ -197,7 +199,7 @@ class Faraday::HttpCache < ::Faraday::Middleware
   #
   # Returns nothing.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#259
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:261
   def store(response); end
 
   # Internal: Records a traced action to be used by the logger once the
@@ -207,7 +209,7 @@ class Faraday::HttpCache < ::Faraday::Middleware
   #
   # Returns nothing.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#248
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:250
   def trace(operation); end
 
   # Internal: Tries to validated a stored entry back to it's origin server
@@ -222,11 +224,11 @@ class Faraday::HttpCache < ::Faraday::Middleware
   #
   # Returns the 'Faraday::HttpCache::Response' to be forwarded into the stack.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache.rb#214
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:216
   def validate(entry, env); end
 end
 
-# source://faraday-http-cache//lib/faraday/http_cache.rb#56
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:56
 Faraday::HttpCache::CACHE_STATUSES = T.let(T.unsafe(nil), Array)
 
 # Internal: A class to represent the 'Cache-Control' header options.
@@ -234,41 +236,41 @@ Faraday::HttpCache::CACHE_STATUSES = T.let(T.unsafe(nil), Array)
 # It breaks the several directives into keys/values and stores them into
 # a Hash.
 #
-# source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#9
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:9
 class Faraday::HttpCache::CacheControl
   # Internal: Initialize a new CacheControl.
   #
   # @return [CacheControl] a new instance of CacheControl
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#11
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:11
   def initialize(header); end
 
   # Internal: Gets the 'max-age' directive as an Integer.
   #
   # Returns nil if the 'max-age' directive isn't present.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#38
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:38
   def max_age; end
 
   # Internal: Checks if the 'must-revalidate' directive is present.
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#62
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:62
   def must_revalidate?; end
 
   # Internal: Checks if the 'no-cache' directive is present.
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#26
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:26
   def no_cache?; end
 
   # Internal: Checks if the 'no-store' directive is present.
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#31
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:31
   def no_store?; end
 
   # Internal: Gets the 'max-age' directive as an Integer.
@@ -276,42 +278,42 @@ class Faraday::HttpCache::CacheControl
   # takes the age header integer value and reduces the max-age and s-maxage
   # if present to account for having to remove static age header when caching responses
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#46
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:46
   def normalize_max_ages(age); end
 
   # Internal: Checks if the 'private' directive is present.
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#21
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:21
   def private?; end
 
   # Internal: Checks if the 'proxy-revalidate' directive is present.
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#67
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:67
   def proxy_revalidate?; end
 
   # Internal: Checks if the 'public' directive is present.
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#16
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:16
   def public?; end
 
   # Internal: Gets the 's-maxage' directive as an Integer.
   #
   # Returns nil if the 's-maxage' directive isn't present.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#59
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:59
   def s_maxage; end
 
   # Internal: Gets the 's-maxage' directive as an Integer.
   #
   # Returns nil if the 's-maxage' directive isn't present.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#56
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:56
   def shared_max_age; end
 
   # Internal: Gets the String representation for the cache directives.
@@ -321,7 +323,7 @@ class Faraday::HttpCache::CacheControl
   #
   # Returns the Cache Control string.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#77
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:77
   def to_s; end
 
   private
@@ -341,16 +343,16 @@ class Faraday::HttpCache::CacheControl
   #
   # Returns a Hash.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/cache_control.rb#108
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/cache_control.rb:108
   def parse(header); end
 end
 
-# source://faraday-http-cache//lib/faraday/http_cache.rb#51
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:51
 Faraday::HttpCache::ERROR_STATUSES = T.let(T.unsafe(nil), Range)
 
 # The name of the instrumentation event.
 #
-# source://faraday-http-cache//lib/faraday/http_cache.rb#54
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:54
 Faraday::HttpCache::EVENT_NAME = T.let(T.unsafe(nil), String)
 
 # A Hash based store to be used by strategies
@@ -358,35 +360,35 @@ Faraday::HttpCache::EVENT_NAME = T.let(T.unsafe(nil), String)
 #
 # @private
 #
-# source://faraday-http-cache//lib/faraday/http_cache/memory_store.rb#8
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/memory_store.rb:8
 class Faraday::HttpCache::MemoryStore
   # @return [MemoryStore] a new instance of MemoryStore
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/memory_store.rb#9
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/memory_store.rb:9
   def initialize; end
 
-  # source://faraday-http-cache//lib/faraday/http_cache/memory_store.rb#17
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/memory_store.rb:17
   def delete(key); end
 
-  # source://faraday-http-cache//lib/faraday/http_cache/memory_store.rb#13
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/memory_store.rb:13
   def read(key); end
 
-  # source://faraday-http-cache//lib/faraday/http_cache/memory_store.rb#21
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/memory_store.rb:21
   def write(key, value); end
 end
 
 # Internal: A class to represent a request
 #
-# source://faraday-http-cache//lib/faraday/http_cache/request.rb#6
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/request.rb:6
 class Faraday::HttpCache::Request
   # @return [Request] a new instance of Request
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/request.rb#16
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/request.rb:16
   def initialize(method:, url:, headers:); end
 
   # Internal: Gets the 'CacheControl' object.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/request.rb#37
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/request.rb:37
   def cache_control; end
 
   # Internal: Validates if the current request method is valid for caching.
@@ -395,34 +397,34 @@ class Faraday::HttpCache::Request
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/request.rb#25
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/request.rb:25
   def cacheable?; end
 
   # Returns the value of attribute headers.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/request.rb#14
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/request.rb:14
   def headers; end
 
   # Returns the value of attribute method.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/request.rb#14
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/request.rb:14
   def method; end
 
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/request.rb#32
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/request.rb:32
   def no_cache?; end
 
-  # source://faraday-http-cache//lib/faraday/http_cache/request.rb#41
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/request.rb:41
   def serializable_hash; end
 
   # Returns the value of attribute url.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/request.rb#14
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/request.rb:14
   def url; end
 
   class << self
-    # source://faraday-http-cache//lib/faraday/http_cache/request.rb#8
+    # pkg:gem/faraday-http-cache#lib/faraday/http_cache/request.rb:8
     def from_env(env); end
   end
 end
@@ -432,7 +434,7 @@ end
 # the response headers and status informations about how the caching
 # middleware should handle this specific response.
 #
-# source://faraday-http-cache//lib/faraday/http_cache/response.rb#12
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:12
 class Faraday::HttpCache::Response
   # Internal: Initialize a new Response with the response payload from
   # a Faraday request.
@@ -444,7 +446,7 @@ class Faraday::HttpCache::Response
   #
   # @return [Response] a new instance of Response
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#39
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:39
   def initialize(payload = T.unsafe(nil)); end
 
   # Internal: Gets the response age in seconds.
@@ -452,7 +454,7 @@ class Faraday::HttpCache::Response
   # Returns the 'Age' header if present, or subtracts the response 'date'
   # from the current time.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#93
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:93
   def age; end
 
   # Internal: Checks if the response can be cached by the client when the
@@ -466,7 +468,7 @@ class Faraday::HttpCache::Response
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#85
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:85
   def cacheable_in_private_cache?; end
 
   # Internal: Checks if the response can be cached by the client when the
@@ -481,19 +483,19 @@ class Faraday::HttpCache::Response
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#73
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:73
   def cacheable_in_shared_cache?; end
 
   # Internal: Parses the 'Date' header back into a Time instance.
   #
   # Returns the Time object.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#108
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:108
   def date; end
 
   # Internal: Gets the 'ETag' header from the headers Hash.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#30
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:30
   def etag; end
 
   # Internal: Checks the response freshness based on expiration headers.
@@ -503,12 +505,12 @@ class Faraday::HttpCache::Response
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#53
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:53
   def fresh?; end
 
   # Internal: Gets the 'Last-Modified' header from the headers Hash.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#27
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:27
   def last_modified; end
 
   # Internal: Gets the response max age.
@@ -520,7 +522,7 @@ class Faraday::HttpCache::Response
   #
   # Returns the max age value in seconds or nil if all options above fails.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#120
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:120
   def max_age; end
 
   # Internal: Checks if the Response returned a 'Not Modified' status.
@@ -529,12 +531,12 @@ class Faraday::HttpCache::Response
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#60
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:60
   def not_modified?; end
 
   # Internal: Gets the actual response Hash (status, headers and body).
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#24
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:24
   def payload; end
 
   # Internal: Exposes a representation of the current
@@ -542,7 +544,7 @@ class Faraday::HttpCache::Response
   #
   # Returns a 'Hash'.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#139
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:139
   def serializable_hash; end
 
   # Internal: Creates a new 'Faraday::Response', merging the stored
@@ -550,7 +552,7 @@ class Faraday::HttpCache::Response
   #
   # Returns a new instance of a 'Faraday::Response' with the payload.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#130
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:130
   def to_response(env); end
 
   # Internal: Calculates the 'Time to live' left on the Response.
@@ -558,14 +560,14 @@ class Faraday::HttpCache::Response
   # Returns the remaining seconds for the response, or nil the 'max_age'
   # isn't present.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#101
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:101
   def ttl; end
 
   private
 
   # Internal: Gets the 'CacheControl' object.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#185
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:185
   def cache_control; end
 
   # Internal: The logic behind cacheable_in_private_cache? and
@@ -574,7 +576,7 @@ class Faraday::HttpCache::Response
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#163
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:163
   def cacheable?(shared_cache); end
 
   # Internal: Validates the response status against the
@@ -584,26 +586,26 @@ class Faraday::HttpCache::Response
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#173
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:173
   def cacheable_status_code?; end
 
   # Internal: Try to parse the Date header, if it fails set it to @now.
   #
   # Returns nothing.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#207
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:207
   def ensure_date_header!; end
 
   # Internal: Gets the 'Expires' in a Time object.
   #
   # Returns the Time object, or nil if the header isn't present or isn't RFC 2616 compliant.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#180
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:180
   def expires; end
 
   # Internal: Gets the headers 'Hash' from the payload.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#214
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:214
   def headers; end
 
   # Internal: Prepares the response headers to be cached.
@@ -615,7 +617,7 @@ class Faraday::HttpCache::Response
   #
   # Returns nothing.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#226
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:226
   def prepare_to_cache; end
 
   # Internal: Checks if this response can be revalidated.
@@ -625,7 +627,7 @@ class Faraday::HttpCache::Response
   #
   # @return [Boolean]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#156
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:156
   def validateable?; end
 
   # Internal: Converts the headers 'Hash' into 'Faraday::Utils::Headers'.
@@ -637,7 +639,7 @@ class Faraday::HttpCache::Response
   #
   # Returns nothing.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/response.rb#197
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:197
   def wrap_headers!; end
 end
 
@@ -650,20 +652,20 @@ end
 # * 404 - 'Not Found'
 # * 410 - 'Gone'
 #
-# source://faraday-http-cache//lib/faraday/http_cache/response.rb#21
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/response.rb:21
 Faraday::HttpCache::Response::CACHEABLE_STATUS_CODES = T.let(T.unsafe(nil), Array)
 
 # @deprecated Use Faraday::HttpCache::Strategies::ByUrl instead.
 #
-# source://faraday-http-cache//lib/faraday/http_cache/storage.rb#8
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/storage.rb:8
 class Faraday::HttpCache::Storage < ::Faraday::HttpCache::Strategies::ByUrl
   # @return [Storage] a new instance of Storage
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/storage.rb#9
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/storage.rb:9
   def initialize(*_arg0); end
 end
 
-# source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#9
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:9
 module Faraday::HttpCache::Strategies; end
 
 # Base class for all strategies.
@@ -681,7 +683,7 @@ module Faraday::HttpCache::Strategies; end
 #   # Creates a new strategy using Marshal for serialization.
 #   Faraday::HttpCache::Strategies::ByVary.new(store: Rails.cache, serializer: Marshal)
 #
-# source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#24
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:24
 class Faraday::HttpCache::Strategies::BaseStrategy
   # @option options
   # @option options
@@ -689,12 +691,12 @@ class Faraday::HttpCache::Strategies::BaseStrategy
   # @param options [Hash] the options to create a message with.
   # @return [BaseStrategy] a new instance of BaseStrategy
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#34
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:34
   def initialize(options = T.unsafe(nil)); end
 
   # Returns the underlying cache store object.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#26
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:26
   def cache; end
 
   # Delete responses from the cache by the url.
@@ -702,7 +704,7 @@ class Faraday::HttpCache::Strategies::BaseStrategy
   # @abstract
   # @raise [NotImplementedError]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#56
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:56
   def delete(_url); end
 
   # Read a response from the cache.
@@ -710,7 +712,7 @@ class Faraday::HttpCache::Strategies::BaseStrategy
   # @abstract
   # @raise [NotImplementedError]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#50
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:50
   def read(_request); end
 
   # Store a response inside the cache.
@@ -718,7 +720,7 @@ class Faraday::HttpCache::Strategies::BaseStrategy
   # @abstract
   # @raise [NotImplementedError]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#44
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:44
   def write(_request, _response); end
 
   private
@@ -726,34 +728,39 @@ class Faraday::HttpCache::Strategies::BaseStrategy
   # @private
   # @raise [ArgumentError] if the cache object doesn't support the expect API.
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#64
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:64
   def assert_valid_store!; end
 
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#78
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:78
   def deserialize_entry(*objects); end
 
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#82
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:82
   def deserialize_object(object); end
 
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#70
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:70
   def serialize_entry(*objects); end
 
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#74
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:74
   def serialize_object(object); end
 
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/base_strategy.rb#88
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/base_strategy.rb:86
   def warn(message); end
 end
 
 # The original strategy by Faraday::HttpCache.
 # Uses URL + HTTP method to generate cache keys.
 #
-# source://faraday-http-cache//lib/faraday/http_cache/strategies/by_url.rb#12
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_url.rb:12
 class Faraday::HttpCache::Strategies::ByUrl < ::Faraday::HttpCache::Strategies::BaseStrategy
+  # @return [ByUrl] a new instance of ByUrl
+  #
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_url.rb:13
+  def initialize(options = T.unsafe(nil)); end
+
   # @param url [String] – the url of a changed resource, will be used to invalidate the cache.
   # @return [void]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_url.rb#53
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_url.rb:59
   def delete(url); end
 
   # Fetch a stored response that suits the incoming HTTP request or return nil.
@@ -761,7 +768,7 @@ class Faraday::HttpCache::Strategies::ByUrl < ::Faraday::HttpCache::Strategies::
   # @param request [Faraday::HttpCache::Request] - an instance of the incoming HTTP request.
   # @return [Faraday::HttpCache::Response, nil]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_url.rb#41
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_url.rb:47
   def read(request); end
 
   # Store a response inside the cache.
@@ -770,7 +777,7 @@ class Faraday::HttpCache::Strategies::ByUrl < ::Faraday::HttpCache::Strategies::
   # @param response [Faraday::HttpCache::Response] - instance to be stored.
   # @return [void]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_url.rb#19
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_url.rb:24
   def write(request, response); end
 
   private
@@ -781,7 +788,7 @@ class Faraday::HttpCache::Strategies::ByUrl < ::Faraday::HttpCache::Strategies::
   # @param url [String] - the request URL.
   # @return [String]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_url.rb#112
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_url.rb:118
   def cache_key_for(url); end
 
   # Retrieve a response Hash from the list of entries that match the given request.
@@ -790,7 +797,7 @@ class Faraday::HttpCache::Strategies::ByUrl < ::Faraday::HttpCache::Strategies::
   # @param request [Faraday::HttpCache::Request] - an instance of the incoming HTTP request.
   # @return [Hash, nil]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_url.rb#66
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_url.rb:72
   def lookup_response(request, entries); end
 
   # Check if a cached response and request matches the given request.
@@ -800,7 +807,7 @@ class Faraday::HttpCache::Strategies::ByUrl < ::Faraday::HttpCache::Strategies::
   # @param request [Faraday::HttpCache::Request] - an instance of the incoming HTTP request.
   # @return [true, false]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_url.rb#81
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_url.rb:87
   def response_matches?(request, cached_request, cached_response); end
 
   # Check if the cached request matches the incoming
@@ -814,7 +821,7 @@ class Faraday::HttpCache::Strategies::ByUrl < ::Faraday::HttpCache::Strategies::
   # @param request [Faraday::HttpCache::Request] - an instance of the incoming HTTP request.
   # @return [true, false]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_url.rb#97
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_url.rb:103
   def vary_matches?(cached_response, request, cached_request); end
 end
 
@@ -825,13 +832,13 @@ end
 #
 # This strategy does not support #delete method to clear cache on unsafe methods.
 #
-# source://faraday-http-cache//lib/faraday/http_cache/strategies/by_vary.rb#16
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_vary.rb:16
 class Faraday::HttpCache::Strategies::ByVary < ::Faraday::HttpCache::Strategies::BaseStrategy
   # This strategy does not support #delete method to clear cache on unsafe methods.
   #
   # @return [void]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_vary.rb#56
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_vary.rb:56
   def delete(_url); end
 
   # Fetch a stored response that suits the incoming HTTP request or return nil.
@@ -839,7 +846,7 @@ class Faraday::HttpCache::Strategies::ByVary < ::Faraday::HttpCache::Strategies:
   # @param request [Faraday::HttpCache::Request] - an instance of the incoming HTTP request.
   # @return [Faraday::HttpCache::Response, nil]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_vary.rb#42
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_vary.rb:42
   def read(request); end
 
   # Store a response inside the cache.
@@ -848,7 +855,7 @@ class Faraday::HttpCache::Strategies::ByVary < ::Faraday::HttpCache::Strategies:
   # @param response [Faraday::HttpCache::Response] - instance to be stored.
   # @return [void]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_vary.rb#23
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_vary.rb:23
   def write(request, response); end
 
   private
@@ -859,7 +866,7 @@ class Faraday::HttpCache::Strategies::ByVary < ::Faraday::HttpCache::Strategies:
   # @param vary [String] - the Vary header value.
   # @return [String]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_vary.rb#78
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_vary.rb:78
   def response_cache_key_for(request, vary); end
 
   # Computes the cache key for the index with Vary headers.
@@ -867,9 +874,9 @@ class Faraday::HttpCache::Strategies::ByVary < ::Faraday::HttpCache::Strategies:
   # @param request [Faraday::HttpCache::Request] - instance of the executed HTTP request.
   # @return [String]
   #
-  # source://faraday-http-cache//lib/faraday/http_cache/strategies/by_vary.rb#67
+  # pkg:gem/faraday-http-cache#lib/faraday/http_cache/strategies/by_vary.rb:67
   def vary_cache_key_for(request); end
 end
 
-# source://faraday-http-cache//lib/faraday/http_cache.rb#49
+# pkg:gem/faraday-http-cache#lib/faraday/http_cache.rb:49
 Faraday::HttpCache::UNSAFE_METHODS = T.let(T.unsafe(nil), Array)

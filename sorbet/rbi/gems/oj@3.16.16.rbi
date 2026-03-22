@@ -7,7 +7,7 @@
 
 # Oj module is defined in oj.c.
 #
-# source://oj//lib/oj.rb#4
+# pkg:gem/oj#lib/oj.rb:4
 module Oj
   private
 
@@ -55,7 +55,7 @@ module Oj
     #
     # @param mimic_paths [Array] additional paths to add to the Ruby loaded features.
     #
-    # source://oj//lib/oj/mimic.rb#80
+    # pkg:gem/oj#lib/oj/mimic.rb:80
     def mimic_loaded(mimic_paths = T.unsafe(nil)); end
 
     def object_load(*_arg0); end
@@ -80,7 +80,7 @@ end
 # can be accessed using the variable name (without the @ prefix). No setters
 # are provided as the Class is intended for reading only.
 #
-# source://oj//lib/oj/bag.rb#10
+# pkg:gem/oj#lib/oj/bag.rb:10
 class Oj::Bag
   # The initializer can take multiple arguments in the form of key values
   # where the key is the variable name and the value is the variable
@@ -90,7 +90,7 @@ class Oj::Bag
   # @param args [Hash] instance variable symbols and their values
   # @return [Bag] a new instance of Bag
   #
-  # source://oj//lib/oj/bag.rb#17
+  # pkg:gem/oj#lib/oj/bag.rb:17
   def initialize(args = T.unsafe(nil)); end
 
   # Replaces eql?() with something more reasonable for this Class.
@@ -98,7 +98,7 @@ class Oj::Bag
   # @param other [Object] Object to compare self to
   # @return [Boolean] true if each variable and value are the same, otherwise false.
   #
-  # source://oj//lib/oj/bag.rb#60
+  # pkg:gem/oj#lib/oj/bag.rb:60
   def ==(other); end
 
   # Replaces eql?() with something more reasonable for this Class.
@@ -106,7 +106,7 @@ class Oj::Bag
   # @param other [Object] Object to compare self to
   # @return [Boolean] true if each variable and value are the same, otherwise false.
   #
-  # source://oj//lib/oj/bag.rb#51
+  # pkg:gem/oj#lib/oj/bag.rb:51
   def eql?(other); end
 
   # Handles requests for variable values. Others cause an Exception to be
@@ -117,7 +117,7 @@ class Oj::Bag
   # @raise [NoMethodError] if the instance variable is not defined.
   # @return [Boolean] the value of the specified instance variable.
   #
-  # source://oj//lib/oj/bag.rb#39
+  # pkg:gem/oj#lib/oj/bag.rb:39
   def method_missing(m, *args, &block); end
 
   # Replaces the Object.respond_to?() method.
@@ -126,7 +126,7 @@ class Oj::Bag
   # @return [Boolean] true for any method that matches an instance
   #   variable reader, otherwise false.
   #
-  # source://oj//lib/oj/bag.rb#27
+  # pkg:gem/oj#lib/oj/bag.rb:27
   def respond_to?(m); end
 
   class << self
@@ -139,27 +139,30 @@ class Oj::Bag
     # @raise [NameError] if the classname is invalid.
     # @return [Object] an instance of the specified Class.
     #
-    # source://oj//lib/oj/bag.rb#69
+    # pkg:gem/oj#lib/oj/bag.rb:69
     def define_class(classname); end
   end
 end
 
+# pkg:gem/oj#lib/oj.rb:15
 class Oj::CStack; end
 
 # Custom mode can be used to emulate the compat mode with some minor
 # differences. These are the options that setup the custom mode to be like
 # the compat mode.
 #
-# source://oj//lib/oj/mimic.rb#12
+# pkg:gem/oj#lib/oj/mimic.rb:12
 Oj::CUSTOM_MIMIC_JSON_OPTIONS = T.let(T.unsafe(nil), Hash)
 
+# pkg:gem/oj#lib/oj.rb:15
 class Oj::Cache; end
 
 # An Exception that is raised as a result of a path being too deep.
 #
-# source://oj//lib/oj/error.rb#13
+# pkg:gem/oj#lib/oj/error.rb:13
 class Oj::DepthError < ::Oj::Error; end
 
+# pkg:gem/oj#lib/oj.rb:15
 class Oj::Doc
   def clone; end
   def close; end
@@ -190,9 +193,9 @@ end
 # key.to_s or key.to_sym. It also supports looking up hash values by methods
 # that match the keys.
 #
-# source://oj//lib/oj/easy_hash.rb#6
+# pkg:gem/oj#lib/oj/easy_hash.rb:6
 class Oj::EasyHash < ::Hash
-  # source://oj//lib/oj/easy_hash.rb#21
+  # pkg:gem/oj#lib/oj/easy_hash.rb:21
   def [](key); end
 
   # Handles requests for Hash values. Others cause an Exception to be raised.
@@ -202,7 +205,7 @@ class Oj::EasyHash < ::Hash
   # @raise [NoMethodError] if the instance variable is not defined.
   # @return [Boolean] the value of the specified instance variable.
   #
-  # source://oj//lib/oj/easy_hash.rb#33
+  # pkg:gem/oj#lib/oj/easy_hash.rb:33
   def method_missing(m, *args, &block); end
 
   # Replaces the Object.respond_to?() method.
@@ -212,45 +215,46 @@ class Oj::EasyHash < ::Hash
   # @return [Boolean] true for any method that matches an instance
   #   variable reader, otherwise false.
   #
-  # source://oj//lib/oj/easy_hash.rb#13
+  # pkg:gem/oj#lib/oj/easy_hash.rb:13
   def respond_to?(m, include_all = T.unsafe(nil)); end
 end
 
 # Inherit Error class from StandardError.
 #
-# source://oj//lib/oj/error.rb#4
+# pkg:gem/oj#lib/oj/error.rb:4
 class Oj::Error < ::StandardError; end
 
 # An Exception that is raised if a file fails to load.
 #
-# source://oj//lib/oj/error.rb#16
+# pkg:gem/oj#lib/oj/error.rb:16
 class Oj::LoadError < ::Oj::Error; end
 
 # A bit hack-ish but does the trick. The JSON.dump_default_options is a Hash
 # but in mimic we use a C struct to store defaults. This class creates a view
 # onto that struct.
 #
-# source://oj//lib/oj/mimic.rb#57
+# pkg:gem/oj#lib/oj/mimic.rb:57
 class Oj::MimicDumpOption < ::Hash
   # @return [MimicDumpOption] a new instance of MimicDumpOption
   #
-  # source://oj//lib/oj/mimic.rb#58
+  # pkg:gem/oj#lib/oj/mimic.rb:58
   def initialize; end
 
-  # source://oj//lib/oj/mimic.rb#68
+  # pkg:gem/oj#lib/oj/mimic.rb:68
   def []=(key, value); end
 end
 
 # An Exception that is raised if there is a conflict with mimicking JSON
 #
-# source://oj//lib/oj/error.rb#19
+# pkg:gem/oj#lib/oj/error.rb:19
 class Oj::MimicError < ::Oj::Error; end
 
 # An Exception that is raised as a result of a parse error while parsing a JSON document.
 #
-# source://oj//lib/oj/error.rb#10
+# pkg:gem/oj#lib/oj/error.rb:10
 class Oj::ParseError < ::Oj::Error; end
 
+# pkg:gem/oj#lib/oj.rb:15
 class Oj::Parser
   def file(_arg0); end
   def just_one; end
@@ -274,6 +278,7 @@ class Oj::Parser
   end
 end
 
+# pkg:gem/oj#lib/oj.rb:15
 module Oj::Rails
   private
 
@@ -296,6 +301,7 @@ module Oj::Rails
   end
 end
 
+# pkg:gem/oj#lib/oj.rb:15
 class Oj::Rails::Encoder
   def deoptimize(*_arg0); end
   def encode(_arg0); end
@@ -360,33 +366,33 @@ end
 #   Oj.saj_parse(cnt, f)
 #   end
 #
-# source://oj//lib/oj/saj.rb#51
+# pkg:gem/oj#lib/oj/saj.rb:51
 class Oj::Saj
   # Create a new instance of the Saj handler class.
   #
   # @return [Saj] a new instance of Saj
   #
-  # source://oj//lib/oj/saj.rb#53
+  # pkg:gem/oj#lib/oj/saj.rb:53
   def initialize; end
 
   private
 
-  # source://oj//lib/oj/saj.rb#73
+  # pkg:gem/oj#lib/oj/saj.rb:73
   def add_value(value, key); end
 
-  # source://oj//lib/oj/saj.rb#70
+  # pkg:gem/oj#lib/oj/saj.rb:70
   def array_end(key); end
 
-  # source://oj//lib/oj/saj.rb#67
+  # pkg:gem/oj#lib/oj/saj.rb:67
   def array_start(key); end
 
-  # source://oj//lib/oj/saj.rb#76
+  # pkg:gem/oj#lib/oj/saj.rb:76
   def error(message, line, column); end
 
-  # source://oj//lib/oj/saj.rb#64
+  # pkg:gem/oj#lib/oj/saj.rb:64
   def hash_end(key); end
 
-  # source://oj//lib/oj/saj.rb#61
+  # pkg:gem/oj#lib/oj/saj.rb:61
   def hash_start(key); end
 end
 
@@ -495,42 +501,43 @@ end
 #   Oj.sc_parse(MyHandler.new, f)
 #   end
 #
-# source://oj//lib/oj/schandler.rb#107
+# pkg:gem/oj#lib/oj/schandler.rb:107
 class Oj::ScHandler
   # Create a new instance of the ScHandler class.
   #
   # @return [ScHandler] a new instance of ScHandler
   #
-  # source://oj//lib/oj/schandler.rb#109
+  # pkg:gem/oj#lib/oj/schandler.rb:109
   def initialize; end
 
   private
 
-  # source://oj//lib/oj/schandler.rb#136
+  # pkg:gem/oj#lib/oj/schandler.rb:136
   def add_value(value); end
 
-  # source://oj//lib/oj/schandler.rb#139
+  # pkg:gem/oj#lib/oj/schandler.rb:139
   def array_append(a, value); end
 
-  # source://oj//lib/oj/schandler.rb#133
+  # pkg:gem/oj#lib/oj/schandler.rb:133
   def array_end; end
 
-  # source://oj//lib/oj/schandler.rb#130
+  # pkg:gem/oj#lib/oj/schandler.rb:130
   def array_start; end
 
-  # source://oj//lib/oj/schandler.rb#120
+  # pkg:gem/oj#lib/oj/schandler.rb:120
   def hash_end; end
 
-  # source://oj//lib/oj/schandler.rb#123
+  # pkg:gem/oj#lib/oj/schandler.rb:123
   def hash_key(key); end
 
-  # source://oj//lib/oj/schandler.rb#127
+  # pkg:gem/oj#lib/oj/schandler.rb:127
   def hash_set(h, key, value); end
 
-  # source://oj//lib/oj/schandler.rb#117
+  # pkg:gem/oj#lib/oj/schandler.rb:117
   def hash_start; end
 end
 
+# pkg:gem/oj#lib/oj.rb:15
 class Oj::StreamWriter
   def flush; end
   def pop; end
@@ -550,6 +557,7 @@ class Oj::StreamWriter
   end
 end
 
+# pkg:gem/oj#lib/oj.rb:15
 class Oj::StringWriter
   def as_json(*_arg0); end
   def pop; end
@@ -574,23 +582,23 @@ end
 
 # Current version of the module.
 #
-# source://oj//lib/oj/version.rb#3
+# pkg:gem/oj#lib/oj/version.rb:3
 Oj::VERSION = T.let(T.unsafe(nil), String)
 
 # More monkey patches.
 #
-# source://oj//lib/oj/mimic.rb#282
+# pkg:gem/oj#lib/oj/mimic.rb:282
 class String
   include ::Comparable
 
-  # source://oj//lib/oj/mimic.rb#289
+  # pkg:gem/oj#lib/oj/mimic.rb:289
   def to_json_raw(*_arg0); end
 
-  # source://oj//lib/oj/mimic.rb#283
+  # pkg:gem/oj#lib/oj/mimic.rb:283
   def to_json_raw_object; end
 
   class << self
-    # source://oj//lib/oj/mimic.rb#292
+    # pkg:gem/oj#lib/oj/mimic.rb:292
     def json_create(obj); end
   end
 end
