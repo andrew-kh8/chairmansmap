@@ -26,19 +26,22 @@
         </section>
 
         <section class="space-y-4 bg-white rounded-lg border border-gray-200 p-6 dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex flex-row justify-between">
+            <% if village.agromonitoring_integration? %>
                 <h2 class="text-xl font-semibold text-gray-900 mb-4 dark:text-white">Агромониторинг</h2>
-                <span class="flex items-center px-2 py-1 text-s font-medium rounded-full <%= village.agromonitoring_integration? ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300" %>">
-                    <%= village.agromonitoring_integration? ? "Активно" : "Неактивна" %>
-                </span>
-            </div>
+                <%= render "agromonitoring_tiles", village: %>
 
-            <%= render "agromonitoring_tiles", village: %>
-
-            <%= form_with url: add_tiles_village_path(village), method: :post do |form| %>
-                <%= form.date_field :from, value: 1.week.ago.to_date, class: "w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 dark:bg-zinc-200 dark:border-gray-500 dark:text-black dark:focus:ring-indigo-400" %>
-                <%= form.date_field :to, value: Date.current, class: "w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 dark:bg-zinc-200 dark:border-gray-500 dark:text-black dark:focus:ring-indigo-400" %>
-                <%= form.submit "Добавить снимки", class: "bg-btn-green hover:bg-indigo-600 text-white py-2 px-4 rounded-lg" %>
+                <%= form_with url: add_tiles_village_agromonitoring_path(village) do |form| %>
+                    <%= form.date_field :from, value: 1.weeks.ago.to_date, class: "w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 dark:bg-zinc-200 dark:border-gray-500 dark:text-black dark:focus:ring-indigo-400" %>
+                    <%= form.date_field :to, value: Date.current, class: "w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 dark:bg-zinc-200 dark:border-gray-500 dark:text-black dark:focus:ring-indigo-400" %>
+                    <%= form.submit "Добавить снимки", class: "bg-btn-green hover:bg-indigo-600 text-white py-2 px-4 rounded-lg" %>
+                <% end %>
+                <%= button_to "Удалить интеграцию",
+                      village_agromonitoring_path(village),
+                      method: :delete,
+                      form: {data: {turbo_confirm: "Нажмите 'OK' чтобы удалить интеграцию"}} %>
+            <% else %>
+                <p class="text-gray-600 dark:text-white">Агромониторинг не интегрирован</p>
+                <%= button_to "Интегрировать агромониторинг", village_agromonitoring_path(village), class: "bg-btn-green hover:bg-indigo-600 text-white py-2 px-4 rounded-lg" %>
             <% end %>
         </section>
     </div>

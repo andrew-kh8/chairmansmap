@@ -1,6 +1,10 @@
 # typed: false
 
 Rails.application.routes.draw do
+  concern :cadastral_number do
+    get :check_cadastral_number, on: :collection
+  end
+
   root "main_map#index"
   get "plots/plots", to: "plots#plots"
   get "plots/hunters", to: "plots#hunters"
@@ -8,9 +12,11 @@ Rails.application.routes.draw do
   resource :maintenance, only: :show
 
   resources :people, only: %i[index show edit update]
-  resources :plots, only: %i[index show new create destroy]
-  resources :villages, only: [:index, :show] do
-    post :add_tiles, on: :member
+  resources :plots, only: %i[index show new create destroy], concerns: :cadastral_number
+  resources :villages, only: [:index, :show, :new, :create], concerns: :cadastral_number do
+    resource :agromonitoring, only: [:create, :destroy] do
+      post :add_tiles, on: :member
+    end
   end
 
   namespace :side_panel do
@@ -21,7 +27,6 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :plots do
       get "filter", to: "/api/plots_filter#index"
-      get "check_cadastral_number"
     end
   end
 

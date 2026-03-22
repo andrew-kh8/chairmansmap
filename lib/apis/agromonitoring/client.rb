@@ -27,7 +27,9 @@ module Apis
       end
 
       def list_polygons
-        @connection.get("polygons").body
+        result = @connection.get("polygons")
+
+        result.success? ? TypeCoerce[T::Array[Polygon]].new.from(result.body) : raise(AgromonitoringError.new(result.body))
       end
 
       def polygon(id)

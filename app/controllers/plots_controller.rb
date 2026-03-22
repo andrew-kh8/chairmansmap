@@ -29,6 +29,18 @@ class PlotsController < ApplicationController
   end
 
   sig { void }
+  def check_cadastral_number
+    cadastral_number = params[:cadastral_number]
+    data = Geo::GetPlotCoords.call(cadastral_number)
+
+    if data.success?
+      render json: {message: "ok"}, status: 200
+    else
+      render json: {message: data.error}, status: 404
+    end
+  end
+
+  sig { void }
   def create
     plot_result = PlotCreator.call(permitted_params)
 

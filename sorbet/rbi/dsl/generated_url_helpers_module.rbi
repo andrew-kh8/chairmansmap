@@ -10,13 +10,16 @@ module GeneratedUrlHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
-  def add_tiles_village_url(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def api_plots_check_cadastral_number_url(*args); end
+  def add_tiles_village_agromonitoring_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def api_plots_filter_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def check_cadastral_number_plots_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def check_cadastral_number_villages_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_person_url(*args); end
@@ -50,6 +53,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def new_side_panel_hunter_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def new_village_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def people_url(*args); end
@@ -173,6 +179,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def update_rails_disk_service_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def village_agromonitoring_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def village_url(*args); end

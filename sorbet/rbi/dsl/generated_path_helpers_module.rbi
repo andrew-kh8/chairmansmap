@@ -10,13 +10,16 @@ module GeneratedPathHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
-  def add_tiles_village_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def api_plots_check_cadastral_number_path(*args); end
+  def add_tiles_village_agromonitoring_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def api_plots_filter_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def check_cadastral_number_plots_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def check_cadastral_number_villages_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_person_path(*args); end
@@ -50,6 +53,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def new_side_panel_hunter_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def new_village_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def people_path(*args); end
@@ -173,6 +179,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def update_rails_disk_service_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def village_agromonitoring_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def village_path(*args); end

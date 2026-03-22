@@ -8,8 +8,9 @@ export default class extends Controller {
     this.disableButton();
   }
 
-  check() {
+  check(event) {
     const cadastral_number = this.inputTarget.value.trim();
+    const geom_type = event.currentTarget.dataset.checkType
 
     if (!cadastral_number) {
       this.showResult("Поле не может быть пустым", "error");
@@ -19,7 +20,7 @@ export default class extends Controller {
 
     this.showResult("Проверяем...", "loading");
     fetch(
-      "/api/plots/check_cadastral_number?" +
+      `/${geom_type}/check_cadastral_number?` +
         new URLSearchParams({ cadastral_number: cadastral_number }),
     )
       .then((response) => {

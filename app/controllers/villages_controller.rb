@@ -18,25 +18,37 @@ class VillagesController < ApplicationController
   end
 
   sig { void }
-  def add_tiles
-    village = Village.find(params[:id])
+  def new
+    render :new, locals: {village: Village.new}
+  end
 
-    result = Agromonitoring::AddTilesToVillage.new(village).call(
-      from: Date.parse(params[:from]),
-      to: Date.parse(params[:to])
-    )
+  sig { void }
+  def check_cadastral_number
+    data = Geo::GetCadasterQuarter.call(params[:cadastral_number])
 
-    if result.invalid_tiles.present?
-      flash[:alert] = "#{result.invalid_tiles.size} invalid tiles. #{result.error&.message}"
+    if data.success?
+      render json: {message: "ok"}, status: 200
+    else
+      render json: {message: data.error}, status: 404
     end
+  end
 
-    if result.new_tiles.any?
-      flash[:notice] = "#{result.new_tiles.size} new tiles added."
+  sig { void }
+  def create
+    village = VillageCreator.call(village_params)
+
+    if village.success?
+      redirect_to village_path(village.payload), notice: "Деревня успешно создана."
+    else
+      flash[:alert] = "Ошибка при создании деревни: #{village.error}"
+      redirect_to new_village_path
     end
+  end
 
-    render turbo_stream: [
-      flash_turbo_stream,
-      turbo_stream.replace("agromonitoring_tiles", partial: "villages/agromonitoring_tiles", locals: {village:})
-    ]
+  private
+
+  sig { returns(T::Hash[Symbol, T.untyped]) }
+  def village_params
+    params.require(:village).permit(:name, :cadastral_number).to_h
   end
 end
