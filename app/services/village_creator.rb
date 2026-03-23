@@ -9,12 +9,13 @@ class VillageCreator
       const :cadastral_number, String
     end
 
-    sig { params(village_params: T::Hash[Symbol, T.untyped]).returns(Typed::Result[Village, String]) }
-    def call(village_params)
+    sig { params(village_params: T::Hash[Symbol, T.untyped], populate_plots: T::Boolean).returns(Typed::Result[Village, String]) }
+    def call(village_params, populate_plots: false)
       params = TypeCoerce[VillageParams].new.from(village_params)
       village = build_village(params).on_error { |error| return Typed::Failure.new(error) }.payload
 
       if village.save
+        CreatePlotsForVillageJob.perform_later(village.id) if populate_plots
         Typed::Success.new(village)
       else
         Typed::Failure.new(village.errors.full_messages.join(", "))

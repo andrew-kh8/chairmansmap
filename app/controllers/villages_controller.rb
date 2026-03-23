@@ -35,7 +35,7 @@ class VillagesController < ApplicationController
 
   sig { void }
   def create
-    village = VillageCreator.call(village_params)
+    village = VillageCreator.call(village_params, populate_plots: params.require(:village)[:populate_plots] == "1")
 
     if village.success?
       redirect_to village_path(village.payload), notice: "Деревня успешно создана."
