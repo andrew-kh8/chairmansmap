@@ -16,6 +16,10 @@ module Apis
 
       PLOT_SEARCH_ID = 1
       QUARTER_SEARCH_ID = 2
+      CADASTER_LAYER = 36048
+
+      CAD_PLOT_CATEGORY = 36368
+      CAD_QUART_CATEGORY = 36381
 
       sig { returns(Connection) }
       attr_reader :connection
@@ -38,6 +42,25 @@ module Apis
           Typed::Success.new(plot.payload)
         else
           Typed::Failure.new(BadResponse.new(code: response.code.to_i, message: plot.error))
+        end
+      end
+
+      sig { params(cadaster_number_pattern: String, size: Integer, page: Integer).returns(Typed::Result[PolygonList, BadResponse]) }
+      def get_plots(cadaster_number_pattern, size: 40, page: 0)
+        params = {page:, count: size, withTotalCount: true}
+        body = {textQueryAttrib: [{keyName: "options.cad_num", value: cadaster_number_pattern}]}
+
+        response = connection.post(params:, body:)
+
+        if !response.ok?
+          return Typed::Failure.new(BadResponse.new(code: response.code.to_i, message: response.message))
+        end
+
+        plots = build_polygons_from_body(response.body, extra_meta: {page:, count: size})
+        if plots.success?
+          Typed::Success.new(plots.payload)
+        else
+          Typed::Failure.new(BadResponse.new(code: response.code.to_i, message: plots.error))
         end
       end
 
@@ -67,6 +90,16 @@ module Apis
         return Typed::Failure.new("Response body contains multiple features") if features.size != 1
 
         Typed::Success.new(PolygonMapper.build_polygon(features.first))
+      end
+
+      sig { params(response_body: T::Hash[Symbol, T.untyped], extra_meta: T::Hash[Symbol, T.untyped]).returns(Typed::Result[PolygonList, String]) }
+      def build_polygons_from_body(response_body, extra_meta: {})
+        features = response_body.dig(:data, :features)
+        meta = response_body[:meta].first.merge(extra_meta)
+
+        return Typed::Failure.new("Response body is empty") if features.blank?
+
+        Typed::Success.new(PolygonMapper.build_polygons(features, meta))
       end
     end
   end
