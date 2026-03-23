@@ -20,7 +20,7 @@ module Apis
       end
 
       const :type, String, default: "Polygon"
-      const :coordinates, T.any(::GeoTypes::PolygonCoordinates, ::GeoTypes::MultiPolygonCoordinates)
+      const :coordinates, GeoTypes::PolygonCoordinates
       const :crs, Crs
 
       sig { returns(T.nilable(String)) }

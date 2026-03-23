@@ -11,6 +11,7 @@ class CreatePlotsForVillageJob < ApplicationJob
     village = Village.find(village_id)
     cad_client = Apis::Cadaster::Client.new
     village_cadastral_number = village.cadastral_number
+    return if village_cadastral_number.nil?
 
     first_page = cad_client.get_plots(village_cadastral_number)
     return if first_page.failure?

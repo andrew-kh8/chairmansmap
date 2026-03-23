@@ -16,5 +16,8 @@ module GeoTypes
     )
   }
 
-  PolygonCoordinates = T.type_alias { T::Array[T::Array[T::Array[Float]]] }
+  OnePolygonCoordinates = T.type_alias { T::Array[T::Array[T::Array[Float]]] }
+  MultiPolygonCoordinates = T.type_alias { T::Array[OnePolygonCoordinates] }
+
+  PolygonCoordinates = T.type_alias { T.any(OnePolygonCoordinates, MultiPolygonCoordinates) }
 end

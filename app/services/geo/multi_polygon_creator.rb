@@ -11,7 +11,7 @@ module Geo
     end
 
     sig do
-      params(coords: T::Array[T::Array[T::Array[Float]]], srid: Integer)
+      params(coords: GeoTypes::PolygonCoordinates, srid: Integer)
         .returns(Typed::Result[MultiPolygonData, String])
     end
     def self.call(coords, srid: GeoConst::DEFAULT_DB_SRID)

@@ -14,22 +14,23 @@ module Apis
       const :inserted, Time
       const :updated, Time
 
-      sig { returns(T.any(::GeoTypes::PolygonCoordinates, ::GeoTypes::MultiPolygonCoordinates)) }
+      sig { returns(GeoTypes::PolygonCoordinates) }
       def coordinates
         geometry.coordinates
       end
 
       sig { returns(T.nilable(String)) }
       def owner_type
-        return nil if ownership_type.blank?
+        type = ownership_type
+        return nil if type.blank?
 
-        if Plot.owner_types.key?(ownership_type)
-          Plot.owner_types[ownership_type]
+        if Plot.owner_types.key?(type)
+          Plot.owner_types[type]
         else
           {
             "Частная" => "personal",
             "Государственная" => "state"
-          }[ownership_type]
+          }[type]
         end
       end
     end

@@ -88,11 +88,19 @@ module Apis
 
         return Typed::Failure.new("Response body is empty") if features.blank?
         return Typed::Failure.new("Response body contains multiple features") if features.size != 1
+        polygon = PolygonMapper.build_polygon(features.first)
 
-        Typed::Success.new(PolygonMapper.build_polygon(features.first))
+        if polygon.present?
+          Typed::Success.new(polygon)
+        else
+          Typed::Failure.new("Object is not a polygon")
+        end
       end
 
-      sig { params(response_body: T::Hash[Symbol, T.untyped], extra_meta: T::Hash[Symbol, T.untyped]).returns(Typed::Result[PolygonList, String]) }
+      sig do
+        params(response_body: T::Hash[Symbol, T.untyped], extra_meta: T::Hash[Symbol, T.untyped])
+          .returns(Typed::Result[PolygonList, String])
+      end
       def build_polygons_from_body(response_body, extra_meta: {})
         features = response_body.dig(:data, :features)
         meta = response_body[:meta].first.merge(extra_meta)
