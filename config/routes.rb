@@ -1,6 +1,10 @@
 # typed: false
 
+require "sidekiq/web"
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => "/sidekiq"
+
   concern :cadastral_number do
     get :check_cadastral_number, on: :collection
   end

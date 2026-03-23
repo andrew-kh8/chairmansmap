@@ -14,6 +14,7 @@ gem "sprockets-rails"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "mutex_m"
 gem "bootsnap", require: false
+gem "sidekiq"
 
 # turbo
 gem "stimulus-rails"
