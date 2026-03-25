@@ -43,6 +43,7 @@
         <!-- Владельцы -->
         <section class="p-6 card">
             <div class="space-y-4">
+                <% if person %>
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center dark:bg-gray-100">
                         <span class="text-indigo-600 font-medium">:)</span>
@@ -52,15 +53,16 @@
                         <p class="text-sm text-gray-500 dark:text-white"><%= person.tel %></p>
                     </div>
                 </div>
+                <% else %>
+                    <p>Владелец не указан</p>
+                <% end %>
             </div>
         </section>
 
         <!-- Погода -->
         <section class="p-6 card">
-            <% if weather.present? %>
-                <%= render "plots/show/weather", weather: weather %>
-            <% else %>
-                <%= render "plots/show/no_content" %>
+            <%= turbo_frame_tag "weather", src: weather_plot_path(plot) do %>
+                Поиск текущей погоды...
             <% end %>
         </section>
 

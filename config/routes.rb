@@ -16,7 +16,9 @@ Rails.application.routes.draw do
   resource :maintenance, only: :show
 
   resources :people, only: %i[index show edit update]
-  resources :plots, only: %i[index show new create destroy], concerns: :cadastral_number
+  resources :plots, only: %i[index show new create destroy], concerns: :cadastral_number do
+    get :weather, on: :member
+  end
   resources :villages, only: [:index, :show, :new, :create], concerns: :cadastral_number do
     resource :agromonitoring, only: [:create, :destroy] do
       post :add_tiles, on: :member

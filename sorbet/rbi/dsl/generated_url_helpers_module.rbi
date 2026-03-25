@@ -194,4 +194,7 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def villages_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def weather_plot_url(*args); end
 end

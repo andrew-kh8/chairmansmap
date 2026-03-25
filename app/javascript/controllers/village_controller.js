@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import { LeafletMap } from "../modules/leaflet_map";
-import { defaultPlotStyle, transparentPlotStyle } from "../modules/map_styles";
+import { defaultPlotStyle, defaultVillageStyle, transparentPlotStyle } from "../modules/map_styles";
 
 export default class extends Controller {
   static values = {
@@ -41,7 +41,7 @@ export default class extends Controller {
       .then((geojson) => {
         this.wfs_village_layer = L.geoJson(geojson, {
           style: function () {
-            return defaultPlotStyle;
+            return defaultVillageStyle;
           },
         }).addTo(this.map);
 

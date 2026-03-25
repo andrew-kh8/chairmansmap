@@ -15,9 +15,16 @@ class PlotsController < ApplicationController
   sig { void }
   def show
     plot = Plot.includes(:person).find(params[:id])
+
+    render :show, locals: {plot: plot, person: plot.person}
+  end
+
+  sig { void }
+  def weather
+    plot = Plot.find(params[:id])
     weather = WeatherService.get_by_plot(plot)
 
-    render :show, locals: {plot: plot, person: plot.person, weather:}
+    render turbo_stream: turbo_stream.replace(:weather, partial: "plots/show/weather", locals: {weather:})
   end
 
   sig { void }

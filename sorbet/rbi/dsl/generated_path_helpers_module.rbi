@@ -194,4 +194,7 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def villages_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def weather_plot_path(*args); end
 end

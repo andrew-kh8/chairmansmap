@@ -9,7 +9,12 @@ export function isDarkMode() {
 
 export const plotColor = {
   LIGHT: "blue",
-  DARK: "green",
+  DARK: "green", // #008000
+};
+
+export const villageColor = {
+  LIGHT: "#8C4843",
+  DARK: "#8D909B",
 };
 
 export const layerStyleNames = Object.freeze({
@@ -35,6 +40,13 @@ export const defaultPlotStyle = {
   color: isDarkMode() ? plotColor.DARK : plotColor.LIGHT,
   weight: 2,
   fillColor: isDarkMode() ? plotColor.DARK : plotColor.LIGHT,
+  fillOpacity: 0.2,
+};
+
+export const defaultVillageStyle = {
+  color: isDarkMode() ? villageColor.DARK : villageColor.LIGHT,
+  weight: 2,
+  fillColor: isDarkMode() ? villageColor.DARK : villageColor.LIGHT,
   fillOpacity: 0.2,
 };
 
