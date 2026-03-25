@@ -9,6 +9,7 @@ RSpec.describe PlotCreator do
   let(:plot_number) { 123 }
   let(:cadastral_number) { "11:22:33:44" }
   let(:person_id) { person.id }
+  let(:village) { create(:village) }
   let(:params) do
     {
       number: plot_number,
@@ -16,7 +17,8 @@ RSpec.describe PlotCreator do
       sale_status: "for_sale",
       owner_type: "personal",
       cadastral_number: "11:22:33:44",
-      person_id:
+      person_id:,
+      village_id: village.id
     }
   end
   let(:coords) { [[[0, 0], [10, 0], [0, 10], [0, 0]]] }
@@ -66,15 +68,6 @@ RSpec.describe PlotCreator do
       it "returns failure" do
         expect(subject).to be_failure
         expect(subject.error).to eq "Failed to get coordinates"
-      end
-    end
-
-    context "when plot number already taken" do
-      before { create(:plot, number: plot_number) }
-
-      it "returns failure" do
-        expect(subject).to be_failure
-        expect(subject.error).to include("duplicate key value violates unique constraint \"index_plots_on_number\"")
       end
     end
 

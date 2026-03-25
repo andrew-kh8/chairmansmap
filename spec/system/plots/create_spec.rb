@@ -4,6 +4,7 @@ RSpec.describe "Plots Create", type: :system do
   let!(:person) { create(:person) }
   let(:cadaster_number) { "9:7:806:308631" }
   let(:plot_number) { 999 }
+  let!(:village) { create(:village) }
 
   context "when coords are existed" do
     before do
@@ -20,6 +21,7 @@ RSpec.describe "Plots Create", type: :system do
       select person.short_name, from: "Владелец"
       select "личная собственность", from: "Тип владения"
       select "продается", from: "Статус продажи"
+      select village.name, from: "Поселок"
 
       click_button "Проверить"
       click_button "Создать участок"
