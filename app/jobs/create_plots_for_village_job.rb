@@ -1,8 +1,6 @@
 # typed: strict
 
 class CreatePlotsForVillageJob < ApplicationJob
-  extend T::Sig
-
   queue_as :default
   sidekiq_options retry: 3
 

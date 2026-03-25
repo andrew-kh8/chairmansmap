@@ -7,15 +7,13 @@
 
 class CreatePlotsForVillageJob
   class << self
-    sig do
-      params(
-        village_id: ::String,
-        block: T.nilable(T.proc.params(job: CreatePlotsForVillageJob).void)
-      ).returns(T.any(CreatePlotsForVillageJob, FalseClass))
-    end
-    def perform_later(village_id, &block); end
+    sig { params(village_id: ::String).returns(String) }
+    def perform_async(village_id); end
 
-    sig { params(village_id: ::String).void }
-    def perform_now(village_id); end
+    sig { params(interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone), village_id: ::String).returns(String) }
+    def perform_at(interval, village_id); end
+
+    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), village_id: ::String).returns(String) }
+    def perform_in(interval, village_id); end
   end
 end
