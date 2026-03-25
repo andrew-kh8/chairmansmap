@@ -6,7 +6,8 @@ module Agromonitoring
 
     sig { params(village: Village).returns(Typed::Result[Apis::Agromonitoring::Polygon, NilClass]) }
     def self.call(village)
-      polygon_geom = village.geom.first # TODO: handle multiple geoms
+      # agromonitoring doesn't support multiple geoms
+      polygon_geom = village.geom.first
       unprojected_geom = Geo::UnprojectGeom.call(polygon_geom)
       geo_json = Agromonitoring::GeojsonSerializer.new.serialize(unprojected_geom)
 

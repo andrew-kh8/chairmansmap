@@ -10,7 +10,7 @@ module Agromonitoring
       extend T::Sig
 
       const :village, Village
-      const :available_dates, T::Array[Time]
+      const :available_dates, T::Array[ActiveSupport::TimeWithZone]
       const :new_tiles, T::Array[AgromonitoringTile]
       const :invalid_tiles, T::Array[AgromonitoringTile]
       const :error, T.nilable(Apis::Agromonitoring::Client::AgromonitoringError)
@@ -19,7 +19,7 @@ module Agromonitoring
     sig { returns(Village) }
     attr_reader :village
 
-    sig { returns(T::Array[Time]) }
+    sig { returns(T::Array[ActiveSupport::TimeWithZone]) }
     attr_reader :available_dates
 
     sig { returns(T::Array[AgromonitoringTile]) }
@@ -31,7 +31,7 @@ module Agromonitoring
     sig { params(village: Village).void }
     def initialize(village)
       @village = T.let(village, Village)
-      @available_dates = T.let([], T::Array[Time])
+      @available_dates = T.let([], T::Array[ActiveSupport::TimeWithZone])
       @new_tiles = T.let([], T::Array[AgromonitoringTile])
       @invalid_tiles = T.let([], T::Array[AgromonitoringTile])
     end
@@ -40,8 +40,8 @@ module Agromonitoring
     def call(from: 1.week.ago.to_date, to: Date.current)
       date_range = (from..to)
 
-      date_range.each_slice(SLICE_DAYS).map do |week|
-        Thread.new { pull_week_tiles(week) }
+      date_range.each_slice(SLICE_DAYS).filter_map do |week|
+        Thread.new { pull_week_tiles(week.first, week.last) }
       end.each(&:join)
 
       Result.new(village:, available_dates:, invalid_tiles:, new_tiles:)
@@ -51,44 +51,21 @@ module Agromonitoring
 
     private
 
-    sig { params(week: T::Array[Date]).void }
-    def pull_week_tiles(week)
-      from_date = week.first
-      to_date = week.last
-
-      return if from_date.nil? || to_date.nil?
-
-      week_images_date = Apis::Agromonitoring::Client.new
-        .polygon_images(village.agromonitoring_id, from_date.to_time.to_i, to_date.to_time.to_i)
+    sig { params(from_date: Date, to_date: Date).void }
+    def pull_week_tiles(from_date, to_date)
+      week_images_date = Apis::Agromonitoring::Client.new.polygon_images(T.must(village.agromonitoring_id), from_date, to_date)
+      mapper = ImageDataToTilesMapper.new(village)
 
       week_images_date.each do |image_date|
         available_dates << image_date.date
-        image_date_tile = image_date.tile
 
-        tile = village.agromonitoring_tiles.new(
-          date: image_date.date,
-          satellite: image_date.satellite,
-          valid_data_coverage: image_date.valid_data_coverage,
-          cloud_coverage: image_date.cloud_coverage,
-          truecolor_url: image_date_tile.truecolor,
-          falsecolor_url: image_date_tile.falsecolor,
-          ndvi_url: image_date_tile.ndvi,
-          evi_url: image_date_tile.evi,
-          evi2_url: image_date_tile.evi2,
-          nri_url: image_date_tile.nri,
-          dswi_url: image_date_tile.dswi,
-          ndwi_url: image_date_tile.ndwi
-        )
+        tile = mapper.call(image_date)
 
-        if tile.valid? && tile.normal_view?
-          tile.save!
+        if tile.normal_view? && tile.save
           new_tiles << tile
         else
           invalid_tiles << tile
         end
-      rescue ActiveRecord::RecordInvalid => _error
-        invalid_tiles << tile if tile.present?
-        next
       end
     end
   end
