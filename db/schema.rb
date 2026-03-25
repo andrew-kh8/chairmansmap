@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_25_105405) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_25_150606) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -86,7 +86,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_105405) do
     t.datetime "updated_at", null: false
     t.uuid "village_id"
     t.index ["cadastral_number"], name: "index_plots_on_cadastral_number", unique: true
-    t.index ["number"], name: "index_plots_on_number", unique: true
+    t.index ["village_id"], name: "index_plots_on_village_id"
   end
 
   create_table "villages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -103,4 +103,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_105405) do
   add_foreign_key "agromonitoring_tiles", "villages"
   add_foreign_key "owners", "people"
   add_foreign_key "owners", "plots"
+  add_foreign_key "plots", "villages", on_delete: :cascade
 end
