@@ -12,9 +12,14 @@ class PlotGeometry
     const :geojson_geom, T::Hash[String, T.any(String, MultiPolygonType)]
   end
 
-  sig { params(plot_ids: T.untyped).returns(T::Array[PlotGeojson]) }
-  def self.call(plot_ids = nil)
-    plots = Plot.select(:id, :number, "ST_AsGeoJSON(ST_Transform(geom, 4326)) as geojson_geom")
+  sig { params(village_id: T.nilable(String), plot_ids: T.untyped).returns(T::Array[PlotGeojson]) }
+  def self.call(village_id: nil, plot_ids: nil)
+    geojson_sql = Plot.sanitize_sql_array(["ST_AsGeoJSON(ST_Transform(geom, :srid)) as geojson_geom", srid: GeoConst::LEAFLET_SRID])
+    plots = Plot.select(:id, :number, geojson_sql)
+
+    if village_id.present?
+      plots = plots.where(village_id: village_id)
+    end
 
     if plot_ids.present?
       plots = plots.where(id: plot_ids)

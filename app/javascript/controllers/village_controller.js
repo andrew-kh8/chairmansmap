@@ -16,6 +16,7 @@ export default class extends Controller {
     this.extraTileBtn = null;
     this.extraTileLayer = null;
     this.#showVillage();
+    this.#showVillagePlots();
   }
 
   showTile(event) {
@@ -45,6 +46,20 @@ export default class extends Controller {
         }).addTo(this.map);
 
         this.map.fitBounds(this.wfs_village_layer.getBounds());
+      });
+  }
+
+  #showVillagePlots() {
+    fetch(`/geometry/villages/${this.idValue}/plots`)
+      .then((response) => response.json())
+      .then((geojson) => {
+        this.wfs_plots_layer = L.geoJson(geojson, {
+          style: function () {
+            return defaultPlotStyle;
+          },
+        });
+
+        this.wfs_plots_layer.addTo(this.map);
       });
   }
 

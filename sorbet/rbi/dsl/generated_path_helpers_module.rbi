@@ -40,6 +40,9 @@ module GeneratedPathHelpersModule
   def geometry_village_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def geometry_village_plots_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def maintenance_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

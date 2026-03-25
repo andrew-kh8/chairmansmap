@@ -37,6 +37,9 @@ module GeneratedUrlHelpersModule
   def geometry_plots_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def geometry_village_plots_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def geometry_village_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

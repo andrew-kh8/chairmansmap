@@ -37,6 +37,8 @@ Rails.application.routes.draw do
   namespace :geometry do
     resources :hunters, only: [:index]
     resources :plots, only: [:index, :show]
-    resources :villages, only: [:show]
+    resources :villages, only: [:show] do
+      resources :plots, only: [:index], controller: "villages/plots"
+    end
   end
 end
