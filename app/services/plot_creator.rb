@@ -10,6 +10,7 @@ class PlotCreator
     const :owner_type, T.nilable(String)
     const :cadastral_number, T.nilable(String)
     const :person_id, T.nilable(Integer)
+    const :village_id, String
   end
 
   class << self
@@ -23,7 +24,8 @@ class PlotCreator
         sale_status: plot_params[:sale_status],
         owner_type: plot_params[:owner_type],
         cadastral_number: plot_params[:cadastral_number],
-        person_id: plot_params[:person_id]&.to_i
+        person_id: plot_params[:person_id]&.to_i,
+        village_id: plot_params[:village_id]
       )
       person = Person.find(params.person_id)
 
@@ -59,7 +61,8 @@ class PlotCreator
           description: params.description,
           sale_status: params.sale_status,
           owner_type: params.owner_type,
-          cadastral_number: params.cadastral_number
+          cadastral_number: params.cadastral_number,
+          village_id: params.village_id
         )
       )
     end

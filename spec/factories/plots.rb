@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :plot do
     sequence(:number) { |n| n }
+    association :village, factory: :village
     area { FFaker::Number.decimal(whole_digits: 3) }
     perimeter { FFaker::Number.decimal(whole_digits: 2) }
     description { FFaker::Lorem.sentence }

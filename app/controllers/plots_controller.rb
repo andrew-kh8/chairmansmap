@@ -67,7 +67,9 @@ class PlotsController < ApplicationController
 
   sig { returns(T::Hash[Symbol, T.untyped]) }
   def permitted_params
-    params.require(:plot).permit(:cadastral_number, :number, :person_id, :owner_type, :sale_status, :description).to_h # :photos
+    params
+      .require(:plot)
+      .permit(:cadastral_number, :number, :person_id, :owner_type, :sale_status, :description, :village_id).to_h # :photos
   end
 
   sig { returns(T::Hash[Symbol, T.untyped]) }

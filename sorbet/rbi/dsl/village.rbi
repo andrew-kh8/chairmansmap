@@ -374,6 +374,20 @@ class Village
 
     sig { params(value: T::Enumerable[::AgromonitoringTile]).void }
     def agromonitoring_tiles=(value); end
+
+    sig { returns(T::Array[T.untyped]) }
+    def plot_ids; end
+
+    sig { params(ids: T::Array[T.untyped]).returns(T::Array[T.untyped]) }
+    def plot_ids=(ids); end
+
+    # This method is created by ActiveRecord on the `Village` class because it declared `has_many :plots`.
+    # 🔗 [Rails guide for `has_many` association](https://guides.rubyonrails.org/association_basics.html#the-has-many-association)
+    sig { returns(::Plot::PrivateCollectionProxy) }
+    def plots; end
+
+    sig { params(value: T::Enumerable[::Plot]).void }
+    def plots=(value); end
   end
 
   module GeneratedAssociationRelationMethods

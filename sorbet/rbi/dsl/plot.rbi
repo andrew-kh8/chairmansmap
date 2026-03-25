@@ -400,6 +400,9 @@ class Plot
     sig { params(args: T.untyped, blk: T.untyped).returns(::Person) }
     def build_person(*args, &blk); end
 
+    sig { params(args: T.untyped, blk: T.untyped).returns(::Village) }
+    def build_village(*args, &blk); end
+
     sig { params(args: T.untyped, blk: T.untyped).returns(::Owner) }
     def create_owner(*args, &blk); end
 
@@ -411,6 +414,12 @@ class Plot
 
     sig { params(args: T.untyped, blk: T.untyped).returns(::Person) }
     def create_person!(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::Village) }
+    def create_village(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::Village) }
+    def create_village!(*args, &blk); end
 
     sig { returns(T.nilable(::Owner)) }
     def owner; end
@@ -458,11 +467,29 @@ class Plot
     sig { returns(T.nilable(::Person)) }
     def reload_person; end
 
+    sig { returns(T.nilable(::Village)) }
+    def reload_village; end
+
     sig { void }
     def reset_owner; end
 
     sig { void }
     def reset_person; end
+
+    sig { void }
+    def reset_village; end
+
+    sig { returns(T.nilable(::Village)) }
+    def village; end
+
+    sig { params(value: T.nilable(::Village)).void }
+    def village=(value); end
+
+    sig { returns(T::Boolean) }
+    def village_changed?; end
+
+    sig { returns(T::Boolean) }
+    def village_previously_changed?; end
   end
 
   module GeneratedAssociationRelationMethods
@@ -1125,6 +1152,9 @@ class Plot
     sig { void }
     def restore_updated_at!; end
 
+    sig { void }
+    def restore_village_id!; end
+
     sig { returns(T.nilable(::String)) }
     def sale_status; end
 
@@ -1242,6 +1272,12 @@ class Plot
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_updated_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_village_id; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_village_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
     sig { returns(::ActiveSupport::TimeWithZone) }
     def updated_at; end
 
@@ -1287,6 +1323,51 @@ class Plot
     sig { void }
     def updated_at_will_change!; end
 
+    sig { returns(T.nilable(::String)) }
+    def village_id; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def village_id=(value); end
+
+    sig { returns(T::Boolean) }
+    def village_id?; end
+
+    sig { returns(T.nilable(::String)) }
+    def village_id_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def village_id_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def village_id_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def village_id_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def village_id_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def village_id_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def village_id_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def village_id_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def village_id_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def village_id_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def village_id_was; end
+
+    sig { void }
+    def village_id_will_change!; end
+
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_area?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
@@ -1322,6 +1403,9 @@ class Plot
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_updated_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_village_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
   end
 
   module GeneratedRelationMethods

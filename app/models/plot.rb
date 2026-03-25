@@ -10,6 +10,7 @@ class Plot < ApplicationRecord
   has_one :owner, -> { where(active_to: nil) }
   has_many :persons, through: :owners
   has_one :person, through: :owner
+  belongs_to :village
 
   validates :geom, :area, :perimeter, :number, presence: true
   validates :number, numericality: true
