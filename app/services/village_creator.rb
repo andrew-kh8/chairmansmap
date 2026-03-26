@@ -15,7 +15,7 @@ class VillageCreator
       village = build_village(params).on_error { |error| return Typed::Failure.new(error) }.payload
 
       if village.save
-        CreatePlotsForVillageJob.perform_later(village.id) if populate_plots
+        CreatePlotsForVillageJob.perform_async(village.id) if populate_plots
         Typed::Success.new(village)
       else
         Typed::Failure.new(village.errors.full_messages.join(", "))

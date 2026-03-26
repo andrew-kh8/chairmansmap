@@ -47,14 +47,14 @@ module Apis
         result.success? ? result.body : raise(AgromonitoringError.new(result.body))
       end
 
-      sig do
-        params(
-          id: String,
-          from: T.any(Date, Time, ActiveSupport::TimeWithZone),
-          to: T.any(Date, Time, ActiveSupport::TimeWithZone)
-        )
-          .returns(T::Array[ImageData])
-      end
+      # sig do
+      #   params(
+      #     id: String,
+      #     from: T.any(Date, Time, ActiveSupport::TimeWithZone),
+      #     to: T.any(Date, Time, ActiveSupport::TimeWithZone)
+      #   )
+      #     .returns(T::Array[ImageData])
+      # end
       def polygon_images(id, from, to)
         result = @connection.get("image/search", {polyid: id, start: from.to_time.beginning_of_day.to_i, end: to.to_time.end_of_day.to_i})
 
