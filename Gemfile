@@ -23,9 +23,10 @@ gem "turbo-rails"
 # frontend
 gem "tailwindcss-rails", "~> 2.0"
 
-# database / models
+# storage / models
 gem "discard", "~> 1.4"
 gem "ffaker", "~> 2.25"
+gem "redis"
 
 # serializer
 gem "oj"

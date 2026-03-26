@@ -383,6 +383,8 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
     redis-client (0.28.0)
       connection_pool
     reek (6.5.0)
@@ -658,6 +660,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (~> 8.0)
   rails_best_practices
+  redis
   reek
   rgeo (~> 3.0)
   rgeo-geojson
