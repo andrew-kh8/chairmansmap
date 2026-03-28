@@ -698,7 +698,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:14
   def allow_concurrency=(_arg0); end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:585
+  # pkg:gem/railties#lib/rails/application/configuration.rb:582
   def annotations; end
 
   # Returns the value of attribute api_only.
@@ -706,7 +706,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:29
   def api_only; end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:398
+  # pkg:gem/railties#lib/rails/application/configuration.rb:395
   def api_only=(value); end
 
   # Returns the value of attribute asset_host.
@@ -745,10 +745,10 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:14
   def autoflush_log=(_arg0); end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:493
+  # pkg:gem/railties#lib/rails/application/configuration.rb:490
   def autoload_lib(ignore:); end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:505
+  # pkg:gem/railties#lib/rails/application/configuration.rb:502
   def autoload_lib_once(ignore:); end
 
   # Returns the value of attribute beginning_of_week.
@@ -763,7 +763,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:14
   def beginning_of_week=(_arg0); end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:410
+  # pkg:gem/railties#lib/rails/application/configuration.rb:407
   def broadcast_log_level; end
 
   # Returns the value of attribute cache_classes.
@@ -790,10 +790,10 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:14
   def cache_store=(_arg0); end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:517
+  # pkg:gem/railties#lib/rails/application/configuration.rb:514
   def colorize_logging; end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:521
+  # pkg:gem/railties#lib/rails/application/configuration.rb:518
   def colorize_logging=(val); end
 
   # Returns the value of attribute consider_all_requests_local.
@@ -822,7 +822,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
 
   # Configures the ActionDispatch::ContentSecurityPolicy.
   #
-  # pkg:gem/railties#lib/rails/application/configuration.rb:590
+  # pkg:gem/railties#lib/rails/application/configuration.rb:587
   def content_security_policy(&block); end
 
   # Returns the value of attribute content_security_policy_nonce_auto.
@@ -888,20 +888,20 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # Loads and returns the entire raw configuration of database from
   # values stored in <tt>config/database.yml</tt>.
   #
-  # pkg:gem/railties#lib/rails/application/configuration.rb:456
+  # pkg:gem/railties#lib/rails/application/configuration.rb:453
   def database_configuration; end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:412
+  # pkg:gem/railties#lib/rails/application/configuration.rb:409
   def debug_exception_response_format; end
 
   # Sets the attribute debug_exception_response_format
   #
   # @param value the value to set the attribute debug_exception_response_format to.
   #
-  # pkg:gem/railties#lib/rails/application/configuration.rb:416
+  # pkg:gem/railties#lib/rails/application/configuration.rb:413
   def debug_exception_response_format=(_arg0); end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:607
+  # pkg:gem/railties#lib/rails/application/configuration.rb:604
   def default_log_file; end
 
   # Returns the value of attribute disable_sandbox.
@@ -940,10 +940,10 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:14
   def eager_load=(_arg0); end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:382
+  # pkg:gem/railties#lib/rails/application/configuration.rb:379
   def enable_reloading; end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:386
+  # pkg:gem/railties#lib/rails/application/configuration.rb:383
   def enable_reloading=(value); end
 
   # Returns the value of attribute encoding.
@@ -951,7 +951,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:29
   def encoding; end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:390
+  # pkg:gem/railties#lib/rails/application/configuration.rb:387
   def encoding=(value); end
 
   # Returns the value of attribute exceptions_app.
@@ -1050,7 +1050,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:14
   def hosts=(_arg0); end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:619
+  # pkg:gem/railties#lib/rails/application/configuration.rb:616
   def inspect; end
 
   # Load the <tt>config/database.yml</tt> to create the Rake tasks for
@@ -1059,7 +1059,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   #
   # Do not use this method, use #database_configuration instead.
   #
-  # pkg:gem/railties#lib/rails/application/configuration.rb:438
+  # pkg:gem/railties#lib/rails/application/configuration.rb:435
   def load_database_yaml; end
 
   # Loads default configuration values for a target version. This includes
@@ -1104,7 +1104,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:29
   def log_level; end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:405
+  # pkg:gem/railties#lib/rails/application/configuration.rb:402
   def log_level=(level); end
 
   # Returns the value of attribute log_tags.
@@ -1131,12 +1131,12 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:14
   def logger=(_arg0); end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:418
+  # pkg:gem/railties#lib/rails/application/configuration.rb:415
   def paths; end
 
   # Configures the ActionDispatch::PermissionsPolicy.
   #
-  # pkg:gem/railties#lib/rails/application/configuration.rb:599
+  # pkg:gem/railties#lib/rails/application/configuration.rb:596
   def permissions_policy(&block); end
 
   # Returns the value of attribute precompile_filter_parameters.
@@ -1213,7 +1213,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
 
   # @return [Boolean]
   #
-  # pkg:gem/railties#lib/rails/application/configuration.rb:378
+  # pkg:gem/railties#lib/rails/application/configuration.rb:375
   def reloading_enabled?; end
 
   # Returns the value of attribute require_master_key.
@@ -1240,10 +1240,10 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # pkg:gem/railties#lib/rails/application/configuration.rb:14
   def sandbox_by_default=(_arg0); end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:526
+  # pkg:gem/railties#lib/rails/application/configuration.rb:523
   def secret_key_base; end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:538
+  # pkg:gem/railties#lib/rails/application/configuration.rb:535
   def secret_key_base=(new_secret_key_base); end
 
   # Returns the value of attribute server_timing.
@@ -1286,12 +1286,12 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   #   # use ActionDispatch::Session::MyCustomStore as the session store
   #   config.session_store :my_custom_store
   #
-  # pkg:gem/railties#lib/rails/application/configuration.rb:565
+  # pkg:gem/railties#lib/rails/application/configuration.rb:562
   def session_store(new_session_store = T.unsafe(nil), **options); end
 
   # @return [Boolean]
   #
-  # pkg:gem/railties#lib/rails/application/configuration.rb:581
+  # pkg:gem/railties#lib/rails/application/configuration.rb:578
   def session_store?; end
 
   # Returns the value of attribute silence_healthcheck_path.
@@ -1356,28 +1356,28 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
 
   private
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:646
+  # pkg:gem/railties#lib/rails/application/configuration.rb:643
   def credentials_defaults; end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:656
+  # pkg:gem/railties#lib/rails/application/configuration.rb:653
   def generate_local_secret; end
 end
 
-# pkg:gem/railties#lib/rails/application/configuration.rb:623
+# pkg:gem/railties#lib/rails/application/configuration.rb:620
 class Rails::Application::Configuration::Custom
   # @return [Custom] a new instance of Custom
   #
-  # pkg:gem/railties#lib/rails/application/configuration.rb:624
+  # pkg:gem/railties#lib/rails/application/configuration.rb:621
   def initialize; end
 
-  # pkg:gem/railties#lib/rails/application/configuration.rb:628
+  # pkg:gem/railties#lib/rails/application/configuration.rb:625
   def method_missing(method, *args); end
 
   private
 
   # @return [Boolean]
   #
-  # pkg:gem/railties#lib/rails/application/configuration.rb:640
+  # pkg:gem/railties#lib/rails/application/configuration.rb:637
   def respond_to_missing?(symbol, _); end
 end
 

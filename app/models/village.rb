@@ -4,7 +4,7 @@ class Village < ApplicationRecord
   has_many :agromonitoring_tiles, dependent: :destroy
   has_many :plots, dependent: :destroy
 
-  validates :name, presence: true
+  validates :geom, :name, presence: true
   validates :cadastral_number, uniqueness: true, format: {with: CadastralConst::QUARTER_REGEX}, allow_nil: true
   validates :agromonitoring_id, uniqueness: true, allow_nil: true
   validate :geom_srid

@@ -41,7 +41,7 @@ module Chairmansmap
       compress_threshold: 1.kilobyte,
 
       pool: {
-        size: ENV.fetch("RAILS_MAX_THREADS", 5).to_i,
+        size: ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i,
         timeout: 5
       },
 
