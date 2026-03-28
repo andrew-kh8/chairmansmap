@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.agromonitoring.com/agro/1.0/polygons/687946sdfsdf68e4s65dg4?appid=<AGROMONITORING_API_KEY>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby on rails
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - openresty
+      date:
+      - Sat, 28 Feb 2026 19:28:22 GMT
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '3198'
+      connection:
+      - keep-alive
+      access-control-allow-origin:
+      - "*"
+      access-control-allow-credentials:
+      - 'true'
+      access-control-allow-methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      access-control-allow-headers:
+      - origin, content-type, accept
+    body:
+      encoding: UTF-8
+      string: '{"id":"6988b0fe1be1fb0008fa3b65","geo_json":{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-93.258176,42.077633],[-93.258433,42.077569],[-93.258669,42.077617],[-93.258777,42.077569],[-93.259656,42.077569],[-93.259785,42.077617],[-93.261266,42.077521],[-93.261201,42.07733],[-93.261523,42.07655],[-93.257854,42.075897],[-93.258111,42.076852],[-93.258111,42.077457],[-93.258176,42.077633]]]}},"name":"Iowa
+        Demo Field","center":[-93.2617,42.0715],"area":202.9805,"user_id":"6988b0fe1be1fb0008fa3b62","created_at":1770565886}'
+  recorded_at: Sat, 28 Feb 2026 19:28:22 GMT
+recorded_with: VCR 6.4.0

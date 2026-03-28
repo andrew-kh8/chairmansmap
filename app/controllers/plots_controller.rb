@@ -1,7 +1,6 @@
 # typed: strict
 
 class PlotsController < ApplicationController
-  extend T::Sig
   include Pagy::Method
 
   sig { void }
@@ -16,17 +15,36 @@ class PlotsController < ApplicationController
   sig { void }
   def show
     plot = Plot.includes(:person).find(params[:id])
+
+    render :show, locals: {plot: plot, person: plot.person}
+  end
+
+  sig { void }
+  def weather
+    plot = Plot.find(params[:id])
     weather = WeatherService.get_by_plot(plot)
 
-    render :show, locals: {plot: plot, person: plot.person, weather:}
+    render turbo_stream: turbo_stream.replace(:weather, partial: "plots/show/weather", locals: {weather:})
   end
 
   sig { void }
   def new
     plot = Plot.new
-    people = Person.kept.map { |person| [person.short_name, person.id] }
+    people = Person.kept.map { |person| [person.short_name, person.id] }.sort
 
     render :new, locals: {plot: plot, people: people}
+  end
+
+  sig { void }
+  def check_cadastral_number
+    cadastral_number = params[:cadastral_number]
+    data = Geo::GetPlotCoords.call(cadastral_number)
+
+    if data.success?
+      render json: {message: "ok"}, status: 200
+    else
+      render json: {message: data.error}, status: 404
+    end
   end
 
   sig { void }
@@ -34,9 +52,9 @@ class PlotsController < ApplicationController
     plot_result = PlotCreator.call(permitted_params)
 
     if plot_result.success?
-      redirect_to plot_path(plot_result.success)
+      redirect_to plot_path(plot_result.payload)
     else
-      redirect_to new_plot_path, alert: plot_result.failure
+      redirect_to new_plot_path, alert: plot_result.error
     end
   end
 
@@ -56,7 +74,9 @@ class PlotsController < ApplicationController
 
   sig { returns(T::Hash[Symbol, T.untyped]) }
   def permitted_params
-    params.require(:plot).permit(:cadastral_number, :number, :person_id, :owner_type, :sale_status, :description).to_h # :photos
+    params
+      .require(:plot)
+      .permit(:cadastral_number, :number, :person_id, :owner_type, :sale_status, :description, :village_id).to_h # :photos
   end
 
   sig { returns(T::Hash[Symbol, T.untyped]) }

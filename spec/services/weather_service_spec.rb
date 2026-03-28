@@ -9,7 +9,7 @@ RSpec.describe WeatherService do
     let(:fake_plot_center) { double }
 
     it "fetches weather data correctly" do
-      allow(Geo::UnprojectPlot).to receive(:call).with(plot).and_return(fake_plot)
+      allow(Geo::UnprojectGeom).to receive(:call).with(plot.geom).and_return(fake_plot)
       allow(fake_plot).to receive(:centroid).and_return(fake_plot_center)
       allow(fake_plot_center).to receive(:lat).and_return(69.123)
       allow(fake_plot_center).to receive(:lon).and_return(67.456)

@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nspd.gov.ru/api/geoportal/v2/search/geoportal?query=12:12:123123:99999999&thematicSearchId=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Referer:
+      - Referer
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Sun, 22 Mar 2026 11:26:10 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - close
+      X-Request-Id:
+      - 4c501235a2e924829124c05bd3b92977
+      X-Backend:
+      - dc1-gw-8-1
+      X-Request-Time:
+      - '0.011'
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      - OPTIONS, HEAD, GET, PUT, POST, DELETE
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type
+      - Authorization,Origin,X-Requested-With,Accept,DNT,Keep-Alive,User-Agent,If-Modified-Since,Cache-Control,Content-Type,X-Public-User
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubdomains
+      Access-Control-Max-Age:
+      - '86400'
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJjb2RlIjoyMDQsIm1lc3NhZ2UiOiJubyBvYmplY3RzIGZvdW5kICjQutC+0LQ9MjA0KSIsInJlcXVlc3RJZCI6IjRjNTAxMjM1YTJlOTI0ODI5MTI0YzA1YmQzYjkyOTc3In0=
+  recorded_at: Sun, 22 Mar 2026 11:26:10 GMT
+recorded_with: VCR 6.4.0

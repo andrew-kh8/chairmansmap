@@ -10,7 +10,7 @@ class Api::PlotsController < ApplicationController
     if data.success?
       render json: {message: "ok"}, status: 200
     else
-      render json: {message: data.failure}, status: 404
+      render json: {message: data.error}, status: 404
     end
   end
 end

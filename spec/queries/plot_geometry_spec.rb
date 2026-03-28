@@ -1,12 +1,13 @@
 # typed: false
 
 RSpec.describe PlotGeometry do
-  subject { described_class.call(plot_ids) }
+  subject { described_class.call(plot_ids:, village_id:) }
+
+  let(:plot_ids) { nil }
+  let(:village_id) { nil }
 
   describe ".call" do
     context "when plot_ids parameter is nil" do
-      let(:plot_ids) { nil }
-
       context "when there are plots" do
         let!(:plot1) { create(:plot) }
         let!(:plot2) { create(:plot) }
@@ -64,6 +65,19 @@ RSpec.describe PlotGeometry do
         it "returns empty array" do
           expect(subject).to eq([])
         end
+      end
+    end
+
+    context "when village_id parameter is provided" do
+      let(:village) { create(:village) }
+      let(:village_id) { village.id }
+      let!(:plot1) { create(:plot, village:) }
+      let!(:plot2) { create(:plot, village:) }
+      let!(:plot3) { create(:plot) }
+
+      it "returns only specified plots" do
+        expect(subject.size).to eq(2)
+        expect(subject.map(&:id)).to match_array([plot1.id, plot2.id])
       end
     end
   end

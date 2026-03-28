@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :plot do
     sequence(:number) { |n| n }
+    association :village, factory: :village
     area { FFaker::Number.decimal(whole_digits: 3) }
     perimeter { FFaker::Number.decimal(whole_digits: 2) }
     description { FFaker::Lorem.sentence }
@@ -18,8 +19,8 @@ FactoryBot.define do
     end
     geom do
       factory = RGeo::Geos.factory(srid: Plot::SRID)
-      x = rand(3737500..3737900)
-      y = rand(5544000..5544500)
+      x = rand(-20037508.34..20037508.34)
+      y = rand(-20048966.1..20048966.1)
 
       factory.multi_polygon([
         factory.polygon(

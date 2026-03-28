@@ -1,0 +1,30 @@
+# typed: strict
+
+class Village < ApplicationRecord
+  has_many :agromonitoring_tiles, dependent: :destroy
+  has_many :plots, dependent: :destroy
+
+  validates :geom, :name, presence: true
+  validates :cadastral_number, uniqueness: true, format: {with: CadastralConst::QUARTER_REGEX}, allow_nil: true
+  validates :agromonitoring_id, uniqueness: true, allow_nil: true
+  validate :geom_srid
+
+  sig { returns(T::Boolean) }
+  def agromonitoring_integration?
+    agromonitoring_id.present?
+  end
+
+  sig { returns(T::Hash[Date, T::Array[AgromonitoringTile]]) }
+  def agromonitoring_tiles_by_date
+    agromonitoring_tiles.order(date: :desc).group_by { |t| t.date.to_date }
+  end
+
+  private
+
+  sig { void }
+  def geom_srid
+    if geom.present? && geom.srid != GeoConst::DEFAULT_DB_SRID
+      errors.add(:geom, "SRID must be #{GeoConst::DEFAULT_DB_SRID}")
+    end
+  end
+end

@@ -20,7 +20,7 @@ RSpec.describe PlotUpdater do
           .and not_change { plot.cadastral_number }
           .and change { plot.owners.count }.by(1)
 
-        expect(result).to eq DM::Success(plot)
+        expect(result).to eq Typed::Success.new(plot)
       end
 
       context "when person_id is nil" do
@@ -33,7 +33,7 @@ RSpec.describe PlotUpdater do
             .and not_change { plot.cadastral_number }
             .and not_change { plot.owners.count }
 
-          expect(result).to eq DM::Success(plot)
+          expect(result).to eq Typed::Success.new(plot)
         end
       end
 
@@ -47,7 +47,7 @@ RSpec.describe PlotUpdater do
             .and not_change { plot.cadastral_number }
             .and change { plot.owners.count }.by(1)
 
-          expect(result).to eq DM::Success(plot)
+          expect(result).to eq Typed::Success.new(plot)
         end
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot }
 
-          expect(result).to eq DM::Failure(failure_text)
+          expect(result).to eq Typed::Failure.new(failure_text)
         end
       end
 
@@ -75,7 +75,7 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot }
 
-          expect(result).to eq DM::Failure(failure_text)
+          expect(result).to eq Typed::Failure.new(failure_text)
         end
       end
 
@@ -88,7 +88,7 @@ RSpec.describe PlotUpdater do
         it "raise an error" do
           expect { result }.to not_change { plot }
 
-          expect(result).to eq DM::Failure(failure_text)
+          expect(result).to eq Typed::Failure.new(failure_text)
         end
       end
     end

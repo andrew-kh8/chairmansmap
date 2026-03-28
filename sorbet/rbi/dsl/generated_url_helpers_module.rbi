@@ -10,10 +10,16 @@ module GeneratedUrlHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
-  def api_plots_check_cadastral_number_url(*args); end
+  def add_tiles_village_agromonitoring_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def api_plots_filter_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def check_cadastral_number_plots_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def check_cadastral_number_villages_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_person_url(*args); end
@@ -31,6 +37,12 @@ module GeneratedUrlHelpersModule
   def geometry_plots_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def geometry_village_plots_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def geometry_village_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def maintenance_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -44,6 +56,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def new_side_panel_hunter_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def new_village_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def people_url(*args); end
@@ -157,6 +172,9 @@ module GeneratedUrlHelpersModule
   def side_panel_plots_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def sidekiq_web_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def turbo_recede_historical_location_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -167,4 +185,16 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def update_rails_disk_service_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def village_agromonitoring_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def village_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def villages_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def weather_plot_url(*args); end
 end

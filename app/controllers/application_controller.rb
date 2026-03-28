@@ -38,4 +38,9 @@ class ApplicationController < ActionController::Base
       redirect_to maintenance_path
     end
   end
+
+  sig { returns(ActiveSupport::SafeBuffer) }
+  def flash_turbo_stream
+    turbo_stream.prepend(:flashes, partial: "application/flashes")
+  end
 end

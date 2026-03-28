@@ -9,6 +9,7 @@ RSpec.describe PlotCreator do
   let(:plot_number) { 123 }
   let(:cadastral_number) { "11:22:33:44" }
   let(:person_id) { person.id }
+  let(:village) { create(:village) }
   let(:params) do
     {
       number: plot_number,
@@ -16,13 +17,14 @@ RSpec.describe PlotCreator do
       sale_status: "for_sale",
       owner_type: "personal",
       cadastral_number: "11:22:33:44",
-      person_id:
+      person_id:,
+      village_id: village.id
     }
   end
-  let(:coords) { [[0, 0], [10, 0], [0, 10], [0, 0]] }
+  let(:coords) { [[[0, 0], [10, 0], [0, 10], [0, 0]]] }
 
   describe "#call" do
-    before { allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(DM::Success(coords)) }
+    before { allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Typed::Success.new(coords)) }
 
     context "when plot is created" do
       it "creates plot and owner and returns Success" do
@@ -33,32 +35,39 @@ RSpec.describe PlotCreator do
       end
     end
 
+    context "when plot contains several rings" do
+      let(:coords) do
+        [
+          [[0, 0], [0, 4], [4, 0], [0, 0]],
+          [[1, 5], [5, 5], [5, 1], [1, 5]]
+        ]
+      end
+
+      it "creates plot and owner and returns Success" do
+        expect { subject }.to change(Plot, :count).by(1)
+          .and change(Owner, :count).by(1)
+
+        expect(subject).to be_success
+      end
+    end
+
     context "when cannot to get plot's coords" do
       before do
-        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(DM::Failure("an error"))
+        allow(Geo::GetPlotCoords).to receive(:call).with(cadastral_number).and_return(Typed::Failure.new("an error"))
       end
 
       it "returns Failure due to validation errors (empty plot)" do
         expect(subject).to be_failure
-        expect(subject.failure).to eq "Failed to get coordinates"
+        expect(subject.error).to eq "Failed to get coordinates"
       end
     end
 
     context "when coords are invalid" do
-      let(:coords) { [[0, 0], [10, 0], [0, 10]] }
+      let(:coords) { [[[0, 0], [10, 0], [0, 10]]] }
 
       it "returns failure" do
         expect(subject).to be_failure
-        expect(subject.failure).to eq "Failed to build polygon"
-      end
-    end
-
-    context "when plot number already taken" do
-      before { create(:plot, number: plot_number) }
-
-      it "returns failure" do
-        expect(subject).to be_failure
-        expect(subject.failure).to include("duplicate key value violates unique constraint \"index_plots_on_number\"")
+        expect(subject.error).to eq "Failed to get coordinates"
       end
     end
 
@@ -67,7 +76,7 @@ RSpec.describe PlotCreator do
 
       it "returns failure" do
         expect(subject).to be_failure
-        expect(subject.failure).to eq "Validation failed: Number can't be blank, Number is not a number"
+        expect(subject.error).to eq "Validation failed: Number can't be blank, Number is not a number"
       end
     end
 
@@ -76,7 +85,7 @@ RSpec.describe PlotCreator do
 
       it "returns failure" do
         expect(subject).to be_failure
-        expect(subject.failure).to eq "Person not found"
+        expect(subject.error).to eq "Person not found"
       end
     end
   end

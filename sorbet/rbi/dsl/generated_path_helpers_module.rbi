@@ -10,10 +10,16 @@ module GeneratedPathHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
-  def api_plots_check_cadastral_number_path(*args); end
+  def add_tiles_village_agromonitoring_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def api_plots_filter_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def check_cadastral_number_plots_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def check_cadastral_number_villages_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_person_path(*args); end
@@ -31,6 +37,12 @@ module GeneratedPathHelpersModule
   def geometry_plots_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def geometry_village_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def geometry_village_plots_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def maintenance_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -44,6 +56,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def new_side_panel_hunter_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def new_village_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def people_path(*args); end
@@ -157,6 +172,9 @@ module GeneratedPathHelpersModule
   def side_panel_plots_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def sidekiq_web_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def turbo_recede_historical_location_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -167,4 +185,16 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def update_rails_disk_service_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def village_agromonitoring_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def village_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def villages_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def weather_plot_path(*args); end
 end

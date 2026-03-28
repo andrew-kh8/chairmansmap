@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://api.agromonitoring.com/agro/1.0/polygons?appid=<AGROMONITORING_API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"name":"Valtstsi","geo_json":{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[22.278906,37.49402599999999],[22.278616,37.493626],[22.278063,37.493626],[22.27779,37.493822],[22.277741,37.49377900000001],[22.277446,37.493294],[22.277049,37.492962],[22.277049,37.492588]]]},"properties":{"srid":4326}}}'
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby on rails
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      server:
+      - openresty
+      date:
+      - Sat, 28 Feb 2026 19:39:22 GMT
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '973'
+      connection:
+      - keep-alive
+      access-control-allow-origin:
+      - "*"
+      access-control-allow-credentials:
+      - 'true'
+      access-control-allow-methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      access-control-allow-headers:
+      - origin, content-type, accept
+    body:
+      encoding: UTF-8
+      string: '{"id":"69a3446a5a639121aab2b3af","geo_json":{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[22.278906,37.494026],[22.278616,37.493626],[22.278063,37.493626],[22.27779,37.493822],[22.277741,37.493779],[22.277446,37.493294],[22.277049,37.492962],[22.277049,37.492588]]]},"properties":{"srid":4326}},"name":"Valtstsi","center":[22.279041516129027,37.49298887096774],"area":5.2192,"user_id":"6988b0fe1be1fb0008fa3b62","created_at":1772307562}'
+  recorded_at: Sat, 28 Feb 2026 19:39:22 GMT
+recorded_with: VCR 6.4.0

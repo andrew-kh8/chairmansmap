@@ -1,0 +1,9 @@
+<%= turbo_frame_tag "agromonitoring_tiles" do %>
+    <% if village.agromonitoring_tiles.any? %>
+        <div class="space-y-4 overflow-y-auto h-96 max-h-96">
+            <%= render partial: "satellite_tile", collection: village.agromonitoring_tiles_by_date, as: :tile_data %>
+        </div>
+    <% else %>
+        <p class="text-sm text-gray-500 dark:text-gray-400 italic">Снимки отсутствуют</p>
+    <% end %>
+<% end %>

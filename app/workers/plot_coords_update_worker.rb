@@ -1,6 +1,9 @@
-# typed: false
+# typed: strict
 
 class PlotCoordsUpdateWorker
+  extend T::Sig
+
+  sig { params(plots: T.nilable(T::Array[Plot])).returns(T::Hash[Symbol, T.untyped]) }
   def perform(plots = nil)
     result = {success: [], failure: []}
 
@@ -10,9 +13,9 @@ class PlotCoordsUpdateWorker
       result_plot = PlotCoordsUpdater.call(plot)
 
       if result_plot.success?
-        result[:success] << result_plot.success
+        result[:success] << result_plot.payload
       else
-        result[:failure] << result_plot.failure
+        result[:failure] << result_plot.error
       end
     end
 

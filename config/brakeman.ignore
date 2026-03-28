@@ -1,0 +1,28 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "SSL Verification Bypass",
+      "warning_code": 71,
+      "fingerprint": "ce6acb9ca3aadc3650e89e7c5248911240c0dd7851ab376114ec52805ddd6e0d",
+      "check_name": "SSLVerify",
+      "message": "SSL certificate verification was bypassed",
+      "file": "lib/apis/cadaster/connection.rb",
+      "line": 65,
+      "link": "https://brakemanscanner.org/docs/warning_types/ssl_verification_bypass/",
+      "code": "Net::HTTP.new(uri.host, uri.port).verify_mode = OpenSSL::SSL::VERIFY_NONE",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Apis::Cadaster::Connection",
+        "method": "net"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        295
+      ],
+      "note": "need ssl sert for nspd"
+    }
+  ],
+  "brakeman_version": "7.1.2"
+}

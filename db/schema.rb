@@ -10,11 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_31_105929) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_25_150606) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
   enable_extension "postgis"
+
+  create_table "agromonitoring_tiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.float "cloud_coverage", null: false
+    t.datetime "created_at", null: false
+    t.datetime "date", null: false
+    t.string "dswi_url", null: false
+    t.string "evi2_url", null: false
+    t.string "evi_url", null: false
+    t.string "falsecolor_url", null: false
+    t.string "ndvi_url", null: false
+    t.string "ndwi_url", null: false
+    t.string "nri_url", null: false
+    t.string "satellite", null: false
+    t.string "truecolor_url", null: false
+    t.datetime "updated_at", null: false
+    t.integer "valid_data_coverage", null: false
+    t.uuid "village_id", null: false
+    t.index ["village_id", "date", "satellite"], name: "idx_on_village_id_date_satellite_7800ff56f7", unique: true
+    t.index ["village_id"], name: "index_agromonitoring_tiles_on_village_id"
+  end
 
   create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
@@ -64,10 +84,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_31_105929) do
     t.float "perimeter", null: false
     t.string "sale_status"
     t.datetime "updated_at", null: false
+    t.uuid "village_id"
     t.index ["cadastral_number"], name: "index_plots_on_cadastral_number", unique: true
-    t.index ["number"], name: "index_plots_on_number", unique: true
+    t.index ["village_id"], name: "index_plots_on_village_id"
   end
 
+  create_table "villages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "agromonitoring_id"
+    t.string "cadastral_number"
+    t.datetime "created_at", null: false
+    t.geometry "geom", limit: {:srid=>3857, :type=>"multi_polygon"}
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agromonitoring_id"], name: "index_villages_on_agromonitoring_id", unique: true
+    t.index ["cadastral_number"], name: "index_villages_on_cadastral_number", unique: true
+  end
+
+  add_foreign_key "agromonitoring_tiles", "villages"
   add_foreign_key "owners", "people"
   add_foreign_key "owners", "plots"
+  add_foreign_key "plots", "villages", on_delete: :cascade
 end

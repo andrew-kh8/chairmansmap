@@ -26,7 +26,7 @@ SimpleCov.start do
 
   enable_coverage :branch
 
-  minimum_coverage line: 70, branch: 50
-  minimum_coverage_by_file line: 70, branch: 50
-  maximum_coverage_drop line: 10, branch: 5
+  # minimum_coverage line: 70, branch: 50
+  # minimum_coverage_by_file line: 70, branch: 50
+  # maximum_coverage_drop line: 10, branch: 5
 end

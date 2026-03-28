@@ -14,6 +14,7 @@ gem "sprockets-rails"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "mutex_m"
 gem "bootsnap", require: false
+gem "sidekiq"
 
 # turbo
 gem "stimulus-rails"
@@ -22,18 +23,20 @@ gem "turbo-rails"
 # frontend
 gem "tailwindcss-rails", "~> 2.0"
 
-# database / models
+# storage / models
 gem "discard", "~> 1.4"
 gem "ffaker", "~> 2.25"
+gem "redis"
 
 # serializer
 gem "oj"
 gem "pagy", "~> 43.0"
 gem "panko_serializer"
 
-# dry
-gem "dry-monads", require: "dry/monads/all"
+# sorbet
 gem "sorbet-runtime"
+gem "sorbet-coerce"
+gem "sorbet-result"
 
 # geo
 gem "activerecord-postgis-adapter", "~> 11.0"
@@ -53,6 +56,7 @@ group :development, :test do
   gem "dotenv"
   gem "factory_bot_rails"
   gem "rspec-rails", "~> 7.0.0"
+  gem "webmock"
 
   # lint
   gem "standard"

@@ -10,10 +10,11 @@ class Plot < ApplicationRecord
   has_one :owner, -> { where(active_to: nil) }
   has_many :persons, through: :owners
   has_one :person, through: :owner
+  belongs_to :village
 
   validates :geom, :area, :perimeter, :number, presence: true
   validates :number, numericality: true
-  validates :cadastral_number, uniqueness: true, format: {with: /\A\d{1,2}:\d{1,2}:\d{1,7}:\d{1,9}\z/}
+  validates :cadastral_number, presence: true, uniqueness: true, format: {with: CadastralConst::NUMBER_REGEX}
 
   sig { returns(T::Array[String]) }
   def photos

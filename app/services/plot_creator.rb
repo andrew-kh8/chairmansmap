@@ -10,12 +10,13 @@ class PlotCreator
     const :owner_type, T.nilable(String)
     const :cadastral_number, T.nilable(String)
     const :person_id, T.nilable(Integer)
+    const :village_id, String
   end
 
   class << self
     extend T::Sig
 
-    sig { params(plot_params: T::Hash[Symbol, T.untyped]).returns(T.untyped) }
+    sig { params(plot_params: T::Hash[Symbol, T.untyped]).returns(Typed::Result[Plot, String]) }
     def call(plot_params)
       params = PlotParams.new(
         number: plot_params[:number]&.to_i,
@@ -23,32 +24,35 @@ class PlotCreator
         sale_status: plot_params[:sale_status],
         owner_type: plot_params[:owner_type],
         cadastral_number: plot_params[:cadastral_number],
-        person_id: plot_params[:person_id]&.to_i
+        person_id: plot_params[:person_id]&.to_i,
+        village_id: plot_params[:village_id]
       )
       person = Person.find(params.person_id)
 
-      plot = build_plot(params).value_or { |error| return DM::Failure(error) }
+      plot = build_plot(params).on_error { |error| return Typed::Failure.new(error) }.payload
 
       ActiveRecord::Base.transaction do
         plot.save!
         build_owner(plot, person).save!
       end
 
-      DM::Success(plot)
+      Typed::Success.new(plot)
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => error
-      DM::Failure(error.message)
+      Typed::Failure.new(error.message)
     rescue ActiveRecord::RecordNotFound => _error
-      DM::Failure("Person not found")
+      Typed::Failure.new("Person not found")
     end
 
     private
 
-    sig { params(params: PlotParams).returns(T.untyped) }
+    sig { params(params: PlotParams).returns(Typed::Result[Plot, String]) }
     def build_plot(params)
-      coords = Geo::GetPlotCoords.call(params.cadastral_number).value_or { return DM::Failure("Failed to get coordinates") }
-      multi_polygon_data = Geo::MultiPolygonCreator.call(coords).value_or { return DM::Failure("Failed to build polygon") }
+      multi_polygon_data = Geo::GetPlotCoords.call(params.cadastral_number)
+        .and_then { |coords| Geo::MultiPolygonCreator.call(coords) }
+        .on_error { return Typed::Failure.new("Failed to get coordinates") }
+        .payload
 
-      DM::Success(
+      Typed::Success.new(
         Plot.new(
           area: multi_polygon_data.area,
           perimeter: multi_polygon_data.perimeter,
@@ -57,7 +61,8 @@ class PlotCreator
           description: params.description,
           sale_status: params.sale_status,
           owner_type: params.owner_type,
-          cadastral_number: params.cadastral_number
+          cadastral_number: params.cadastral_number,
+          village_id: params.village_id
         )
       )
     end
