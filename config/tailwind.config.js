@@ -13,7 +13,7 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
     colors: {
-      "btn-green": "rgb(56, 148, 105)",
+      "green-primary": "rgb(56, 148, 105)",
     }
     },
   },
@@ -23,7 +23,6 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/container-queries'),
   ],
-  // {
   darkMode: 'class', // или 'media' для prefers-color-scheme
-// }
 }
+

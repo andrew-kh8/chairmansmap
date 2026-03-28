@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "side_panel_plot_data" do %>
-    <div class="border-b border-gray-200 pb-4 mb-4 dark:bg-gray-800 dark:border-gray-700">
+    <div class="border-b border-gray-200 pb-4 mb-4 dark:border-gray-700">
         <div>
             <%= link_to plot_path(plot), class: "flex justify-between", data: {turbo: false} do %>
                 <div class="text-xl text-gray-900 dark:text-white">
@@ -58,6 +58,6 @@
             </div>
         </div>
 
-        <%= link_to "Обновить данные участка", edit_side_panel_plot_path(plot), class: "mt-6 px-6 py-3 bg-btn-green text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed" %>
+        <%= link_to "Обновить данные участка", edit_side_panel_plot_path(plot), class: "mt-6 px-6 py-3 bg-green-primary text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed" %>
     </div>
 <% end %>

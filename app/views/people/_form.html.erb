@@ -50,7 +50,7 @@
               params[:full_name],
               autocomplete: nil,
               placeholder: "ФИО...",
-              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 text-sm dark:bg-zinc-200" %>
+              class: "text-input w-full px-4 py-2 transition duration-200 text-sm" %>
 
         <% if params[:full_name].present? %>
             <%= button_tag type: "button", onclick: "this.previousElementSibling.value=''; this.previousElementSibling.focus()", class: "absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition duration-150 dark:text-black" do %>
@@ -64,6 +64,6 @@
     <!-- Кнопка поиска -->
     <%= submit_tag "Поиск",
           name: nil,
-          class: "cursor-pointer px-4 py-2 bg-btn-green text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium whitespace-nowrap dark:text-black" %>
+          class: "cursor-pointer px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium whitespace-nowrap dark:text-black" %>
 </div>
 <% end %>
