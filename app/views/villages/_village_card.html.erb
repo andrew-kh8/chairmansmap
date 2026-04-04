@@ -1,13 +1,13 @@
-<div class="relative flex flex-col shadow-md rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 max-w-sm ">
+<div class="card relative flex flex-col overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 max-w-sm">
     <%= link_to "", village_path(village), class: "z-20 absolute h-full w-full top-0 left-0" %>
 
-    <div class="bg-white py-4 px-3 dark:text-white dark:bg-gray-800 dark:border-gray-700">
+    <div class="py-4 px-3">
         <div class="flex justify-between">
             <h3 class="text-s mb-2 font-medium"><%= village.name %></h3>
         </div>
 
         <div class="flex justify-between items-center">
-            <p class="text-s text-gray-400 dark:text-white">
+            <p class="text-s text-default-color">
                 Кадастровый № <%= village.cadastral_number %>
             </p>
         </div>

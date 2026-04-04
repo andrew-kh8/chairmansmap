@@ -3,8 +3,8 @@
         <%= image_tag(weather.icon_uri) %>
 
         <div class="flex flex-col items-center">
-            <span class="text-indigo-600 text-2xl dark:text-white"><%= weather.temperature.temp %>°C</span>
-            <span class="dark:text-white"><%= weather.description.capitalize %></span>
+            <span class="text-color-primary text-2xl"><%= weather.temperature.temp %>°C</span>
+            <span class="text-default-color"><%= weather.description.capitalize %></span>
         </div>
 
         <div class="flex flex-col items-center">

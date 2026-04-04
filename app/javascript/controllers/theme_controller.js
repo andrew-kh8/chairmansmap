@@ -5,7 +5,7 @@ export default class extends Controller {
   connect() {}
 
   toggle() {
-    const html = document.body;
+    const html = document.documentElement;
     const isDark = html.classList.toggle("dark");
     var maxAge = 365 * 24 * 60 * 60;
     var darkTheme = isDark ? "1" : "0";

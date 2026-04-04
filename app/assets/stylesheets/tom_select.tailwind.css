@@ -5,10 +5,23 @@
   overflow-y: hidden;
   flex-wrap: nowrap;
   white-space: nowrap;
+  background-color: #00000020;
+  border-color: #ffffff50;
+  backdrop-filter: blur(10px);
+  border-radius: 0.5rem;
 }
 
 .ts-wrapper.multi .ts-control > div {
   flex-shrink: 0;
+}
+
+.ts-control > input::placeholder {
+  color: white;
+}
+
+.ts-wrapper > .ts-dropdown {
+  z-index: 1000;
+  background-color: #00000020;
 }
 
 /* Стилизованный скроллбар с курсором-указателем */

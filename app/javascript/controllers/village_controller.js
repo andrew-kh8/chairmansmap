@@ -1,6 +1,10 @@
 import { Controller } from "@hotwired/stimulus";
 import { LeafletMap } from "../modules/leaflet_map";
-import { defaultPlotStyle, defaultVillageStyle, transparentPlotStyle } from "../modules/map_styles";
+import {
+  defaultPlotStyle,
+  defaultVillageStyle,
+  transparentPlotStyle,
+} from "../modules/map_styles";
 
 export default class extends Controller {
   static values = {
@@ -65,15 +69,15 @@ export default class extends Controller {
 
   #addNewTile() {
     this.#addExtraTileLayer();
-    this.extraTileBtn.classList.toggle("passive_btn_colors");
-    this.extraTileBtn.classList.toggle("active_btn_colors");
+    this.extraTileBtn.classList.toggle("btn-passive");
+    this.extraTileBtn.classList.toggle("btn-active");
     this.wfs_village_layer.setStyle(transparentPlotStyle);
   }
 
   #removePreviouslySelectedTile() {
     if (this.extraTileLayer) this.#removeExtraTileLayer();
-    this.extraTileBtn.classList.toggle("active_btn_colors");
-    this.extraTileBtn.classList.toggle("passive_btn_colors");
+    this.extraTileBtn.classList.toggle("btn-active");
+    this.extraTileBtn.classList.toggle("btn-passive");
   }
 
   #addExtraTileLayer() {

@@ -1,14 +1,15 @@
-<li class="p-2 my-1 bg-gray-50 rounded-xl dark:bg-gray-700 dark:border-gray-600">
+<li class="card2 p-2 my-1 rounded-xl">
     <div class="flex items-center space-x-4">
         <div class="flex-1 min-w-0">
-            <p class="text-base font-medium truncate dark:text-white">
+            <p class="text-base font-medium truncate text-default-color">
                 <%= hunter.description %>
             </p>
-            <p class="text-sm text-gray-500 truncate dark:text-white">
+            <p class="text-sm text-default-color truncate">
                 <%= [hunter.dog ? "с собакой" : nil, hunter.license ? "с оружием" : nil].compact.join(", ") %>
             </p>
         </div>
-        <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+
+        <div class="inline-flex items-center text-base font-semibold text-default-color">
             <%= hunter.date.strftime("%d.%m.%Y %H:%M") %>
         </div>
 
