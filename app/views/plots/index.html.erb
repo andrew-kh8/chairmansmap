@@ -2,14 +2,12 @@
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
 
 <div class="relative flex max-h-full flex-col justify-center overflow-hidden py-6 h-full">
-    <!-- Фильтры и кнопка создания -->
     <div class="mx-auto max-w-screen-xl px-4 w-full mb-6">
         <div class="p-6 mb-4 card">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <%= render "filters" %>
 
-                <!-- Кнопка создания -->
-                <%= link_to new_plot_path, class: "px-6 py-3 bg-green-primary text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium flex items-center gap-2 dark:text-black" do %>
+                <%= link_to new_plot_path, class: "px-6 py-3 btn-primary rounded-lg transition duration-200 font-medium flex items-center gap-2" do %>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
@@ -19,14 +17,12 @@
         </div>
     </div>
 
-    <!-- Сетка участков -->
     <div class="mx-auto max-w-screen-xl px-4 w-full flex-grow">
         <div class="grid w-full sm:grid-cols-2 xl:grid-cols-4 gap-6">
             <%= render partial: "plot_card", collection: plots, as: :plot %>
         </div>
     </div>
 
-    <!-- Пагинация -->
     <% if pagy.last > 1 %>
         <div class="flex-none flex justify-center items-center mt-8">
             <%== pagy.series_nav %>

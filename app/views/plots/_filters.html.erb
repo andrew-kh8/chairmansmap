@@ -1,6 +1,6 @@
 <%= form_with url: plots_path, method: :get do |form| %>
     <div class="flex flex-col sm:flex-row gap-4 flex-wrap">
-        <div class="flex items-center gap-2 text-gray-600 dark:text-black">
+        <div class="flex items-center gap-2 text-default-color">
             <span class="text-sm text-inherit">Площадь:</span>
             <%= form.number_field :area_min, min: 0, step: 0.1, placeholder: "От", value: params[:area_min], class: "text-input w-20 px-3 py-2 text-sm " %>
             <span class="text-inherit">-</span>
@@ -12,6 +12,6 @@
             <%= select_tag :people, grouped_options_for_select(PlotSearch.people_select_options, params[:people]), multiple: true, class: "text-input w-full", placeholder: "Выберите собственников", data: {controller: "tom-select"} %>
         </div>
 
-        <%= button_tag "Применить", type: "submit", class: "px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium dark:text-black" %>
+        <%= button_tag "Применить", type: "submit", class: "px-4 py-2 btn-primary rounded-lg transition duration-200 text-sm font-medium" %>
     </div>
 <% end %>

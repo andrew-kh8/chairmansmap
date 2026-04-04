@@ -2,16 +2,16 @@
     <div class="border-b border-gray-200 pb-4 mb-4 dark:border-gray-700">
         <div>
             <%= link_to plot_path(plot), class: "flex justify-between", data: {turbo: false} do %>
-                <div class="text-xl text-gray-900 dark:text-white">
-                    Данные участка № <b class="font-semibold text-indigo-600 dark:text-white"><%= plot.number %></b>
+                <div class="text-xl text-default-color">
+                    Данные участка № <b class="font-semibold text-color-primary"><%= plot.number %></b>
                 </div>
                 <div>→</div>
             <% end %>
         </div>
         <div>
             <%= link_to village_path(plot.village), class: "flex justify-between", data: {turbo: false} do %>
-                <div class="text-gray-900 dark:text-white">
-                    <b class="font-thin text-indigo-600 dark:text-white"><%= plot.village.name %></b>
+                <div class="text-default-color">
+                    <b class="font-thin text-color-primary"><%= plot.village.name %></b>
                 </div>
                 <div>→</div>
             <% end %>
@@ -23,12 +23,12 @@
             <div>
                 <% if plot.person %>
                 <div class="mb-2">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Владелец участка</h3>
-                    <%= link_to plot.person.full_name, person_path(plot.person), data: {turbo: false}, class: "text-indigo-600 text-lg dark:text-inherit" %>
+                    <h3 class="text-lg font-semibold text-default-color">Владелец участка</h3>
+                    <%= link_to plot.person.full_name, person_path(plot.person), data: {turbo: false}, class: "text-color-primary text-lg" %>
                 </div>
-                <div class="space-y-1 text-gray-700 dark:text-white">
-                    <div><span class="font-medium dark:text-inherit">Тел:</span> <span class="text-indigo-600 dark:text-inherit"><%= plot.person.tel %></span></div>
-                    <div><span class="font-medium dark:text-inherit">Адрес:</span> <span class="text-indigo-600 dark:text-inherit"><%= plot.person.address %></span></div>
+                <div class="space-y-1 text-default-color">
+                    <div><span class="font-medium">Тел:</span> <span class="text-color-primary"><%= plot.person.tel %></span></div>
+                    <div><span class="font-medium">Адрес:</span> <span class="text-color-primary"><%= plot.person.address %></span></div>
                 </div>
                 <% else %>
                     <div class="mb-2">
@@ -39,17 +39,17 @@
             </div>
 
             <div>
-                <h3 class="text-lg font-semibold text-gray-900 mt-4 mb-1 dark:text-white">Данные участка</h3>
-                <div class="space-y-1 text-gray-700 dark:text-white">
-                    <div><span class="font-medium dark:text-inherit">Кадастровый №:</span> <span class="text-indigo-600 dark:text-inherit"><%= plot.cadastral_number %></span></div>
-                    <div><span class="font-medium dark:text-inherit">Тип владения:</span> <span class="text-indigo-600 dark:text-inherit"><%= plot.owner_type %></span></div>
-                    <div><span class="font-medium dark:text-inherit">Площадь:</span> <span class="text-indigo-600 dark:text-inherit"><%= plot.area %></span> м<sup>2</sup></div>
-                    <div><span class="font-medium dark:text-inherit">Периметр:</span> <span class="text-indigo-600 dark:text-inherit"><%= plot.perimeter %></span> м</div>
-                    <div><span class="font-medium dark:text-inherit">Статус продажи:</span> <span class="text-indigo-600 dark:text-inherit"><%= plot.sale_status %></span></div>
+                <h3 class="text-lg font-semibold text-default-color mt-4 mb-1">Данные участка</h3>
+                <div class="space-y-1 text-default-color">
+                    <div><span class="font-medium">Кадастровый №:</span> <span class="text-color-primary"><%= plot.cadastral_number %></span></div>
+                    <div><span class="font-medium">Тип владения:</span> <span class="text-color-primary"><%= plot.owner_type %></span></div>
+                    <div><span class="font-medium">Площадь:</span> <span class="text-color-primary"><%= plot.area %></span> м<sup>2</sup></div>
+                    <div><span class="font-medium">Периметр:</span> <span class="text-color-primary"><%= plot.perimeter %></span> м</div>
+                    <div><span class="font-medium">Статус продажи:</span> <span class="text-color-primary"><%= plot.sale_status %></span></div>
                     <div>
                         <% if plot.description? %>
-                            <div class="font-medium mb-2 dark:text-white">Дополнительная информация:</div>
-                            <div class="text-gray-600 bg-gray-50 p-3 rounded-lg dark:bg-zinc-200">
+                            <div class="font-medium mb-2 text-default-color">Дополнительная информация:</div>
+                            <div class="text-default-color bg-white/10 p-3 rounded-lg">
                                 <%= plot.description %>
                             </div>
                         <% end %>
@@ -58,6 +58,6 @@
             </div>
         </div>
 
-        <%= link_to "Обновить данные участка", edit_side_panel_plot_path(plot), class: "mt-6 px-6 py-3 bg-green-primary text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed" %>
+        <%= link_to "Обновить данные участка", edit_side_panel_plot_path(plot), class: "mt-6 px-6 py-3 btn-primary rounded-lg transition duration-200 font-medium disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed" %>
     </div>
 <% end %>

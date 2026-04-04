@@ -4,7 +4,7 @@
 // more about leflet style - https://veroviz.org/docs/leaflet_style.html
 
 export function isDarkMode() {
-  return document.body.classList.contains("dark");
+  return document.documentElement.classList.contains("dark");
 }
 
 export const plotColor = {

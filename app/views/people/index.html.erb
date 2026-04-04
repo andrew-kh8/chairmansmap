@@ -1,10 +1,8 @@
 <div class="card mt-2 overflow-hidden mx-20 mb-6">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6">
-        <!-- Фильтры -->
         <%= render "form" %>
 
-        <!-- Кнопка создания -->
-        <%= link_to new_plot_path, class: "px-6 py-3 bg-green-primary text-white rounded-lg hover:bg-indigo-600 transition duration-200 font-medium flex items-center gap-2 whitespace-nowrap dark:text-black" do %>
+        <%= link_to new_plot_path, class: "px-6 py-3 btn-primary rounded-lg transition duration-200 font-medium flex items-center gap-2 whitespace-nowrap" do %>
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
@@ -13,7 +11,6 @@
     </div>
 </div>
 
-<!--таблица-->
 <div class="card overflow-hidden mx-20">
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -30,7 +27,6 @@
     </div>
 </div>
 
-<!-- Пагинация -->
 <div class="flex-none flex justify-center items-center">
     <%== pagy.series_nav %>
 </div>

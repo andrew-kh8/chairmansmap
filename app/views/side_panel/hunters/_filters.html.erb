@@ -3,14 +3,14 @@
     <%= form_with scope: :hunter_location, url: side_panel_hunters_path, method: :get, class: "w-full" do |form| %>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <%= form.label :from, "Период с", class: "block text-sm font-medium text-gray-700 mb-2 dark:text-zinc-200" %>
+          <%= form.label :from, "Период с", class: "block text-sm font-medium text-default-color mb-2" %>
           <%= form.date_field :from,
                 value: params.dig(:hunter_location, :from).presence,
                 class: "text-input w-full px-3 py-2 text-sm transition duration-200" %>
         </div>
 
         <div>
-          <%= form.label :to, "Период по", class: "block text-sm font-medium text-gray-700 mb-2 dark:text-zinc-200" %>
+          <%= form.label :to, "Период по", class: "block text-sm font-medium text-default-color mb-2" %>
           <%= form.date_field :to,
                 value: params.dig(:hunter_location, :to).presence,
                 class: "text-input w-full px-3 py-2 text-sm transition duration-200" %>
@@ -19,7 +19,7 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
-          <%= form.label :dog, "Собака", class: "block text-sm font-medium text-gray-700 mb-2 dark:text-zinc-200" %>
+          <%= form.label :dog, "Собака", class: "block text-sm font-medium text-default-color mb-2" %>
           <%= form.select :dog,
                 options_for_select(HunterLocationSearch::DOG_OPTIONS, params.dig(:hunter_location, :dog)),
                 {include_blank: true},
@@ -37,10 +37,10 @@
 
       <div class="flex space-x-3 pt-2">
         <%= form.submit "Фильтровать",
-              class: "cursor-pointer px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-indigo-600 transition duration-200 text-sm font-medium dark:text-black" %>
+              class: "cursor-pointer px-4 py-2 btn-primary rounded-lg transition duration-200 text-sm font-medium" %>
 
         <%= form.submit "Сбросить", type: :reset,
-              class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-200 text-sm font-medium cursor-pointer dark:text-black" %>
+              class: "px-4 py-2 btn-primary rounded-lg transition duration-200 text-sm font-medium cursor-pointer" %>
       </div>
     <% end %>
   </div>

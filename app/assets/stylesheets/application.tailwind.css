@@ -7,15 +7,43 @@
     @apply backdrop-blur-lg shadow-lg border border-white/20 bg-white/10 rounded-xl dark:text-white;
   }
 
-  .passive_btn_colors {
-    @apply bg-white text-gray-600 border-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600;
+  .card2 {
+    @apply backdrop-blur-lg shadow-xl border border-gray-400/20 bg-gray-800/10 rounded-xl dark:text-white;
   }
 
-  .active_btn_colors {
-    @apply bg-green-primary text-white border-green-primary dark:bg-green-primary dark:text-white dark:border-green-primary;
+  .btn-passive {
+    @apply bg-white/10 hover:bg-white/20 text-black dark:text-white;
+  }
+
+  .btn-primary {
+    @apply bg-color-primary hover:bg-color-active text-white dark:text-black;
+  }
+
+  .btn-active {
+    @apply bg-color-active hover:bg-color-active/50 text-white dark:text-black;
+  }
+
+  .btn-alarm {
+    @apply bg-color-alarm hover:bg-color-active text-white dark:text-black;
   }
 
   .text-input {
-    @apply bg-black/20 border border-gray-200/50 backdrop-blur-sm rounded-lg focus:ring-2 focus:ring-green-primary focus:border-green-primary;
+    @apply bg-black/20 border border-gray-200/50 backdrop-blur-sm rounded-lg focus:ring-2 focus:ring-color-primary focus:border-color-primary;
   }
+
+  .text-default-color {
+    @apply text-black dark:text-neutral-300;
+  }
+}
+
+::-webkit-scrollbar {
+  background: rgba(255, 255, 255, 0.1);
+  border: 0 solid;
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border: 0 solid;
+  border-radius: 15pt;
 }

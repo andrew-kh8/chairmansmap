@@ -1,8 +1,8 @@
-<div class="p-6 hover:bg-gray-50 transition duration-150 dark:hover:dark:bg-zinc-200">
+<div class="p-6 hover:bg-white/10 transition duration-150">
     <div class="flex justify-between items-start">
         <div class="flex-1">
             <div class="flex items-center space-x-3 mb-2">
-                <h4 class="text-lg font-medium text-gray-900">Участок №<%= plot.number %></h4>
+                <h4 class="text-lg font-medium text-default-color">Участок №<%= plot.number %></h4>
                 <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Активный</span>
                 <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">Архивный</span>
             </div>
@@ -25,6 +25,7 @@
                 </div>
             </div>
         </div>
-        <%= link_to "Перейти →", plot, class: "ml-4 text-indigo-600 hover:text-indigo-800 font-medium text-sm dark:text-black" %>
+
+        <%= link_to "Перейти →", plot, class: "ml-4 text-color-primary hover:text-color-active font-medium text-sm" %>
     </div>
 </div>

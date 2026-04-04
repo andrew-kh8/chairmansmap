@@ -1,6 +1,6 @@
-<div class="card p-8 flex flex-col w-full">
-    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700 overflow-y-auto h-full">
-        <div class="flex flex-col h-full">
+<div class="card p-8 pr-4 flex flex-col w-full max-h-[50vh]">
+    <ul role="list" class="overflow-y-auto">
+        <div class="flex flex-col pr-4">
             <% if hunter_locations.present? %>
                 <%= render partial: "hunter_row", collection: hunter_locations, as: :hunter %>
             <% else %>
@@ -9,5 +9,5 @@
         </div>
     </ul>
 
-    <%= link_to "Добавить", new_side_panel_hunter_path, class: "mt-4 text-center inset-x-0 bottom-0 text-white bg-green-primary border-0 py-2 px-6 enabled:focus:outline-none enabled:hover:bg-indigo-900 rounded text-lg dark:text-black" %>
+    <%= link_to "Добавить", new_side_panel_hunter_path, class: "mt-4 text-center inset-x-0 bottom-0 text-white bg-color-primary border-0 py-2 px-6 enabled:focus:outline-none enabled:hover:bg-indigo-900 rounded text-lg dark:text-black" %>
 </div>
