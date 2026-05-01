@@ -43,6 +43,9 @@ module GeneratedUrlHelpersModule
   def geometry_village_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def height_map_geometry_village_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def maintenance_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

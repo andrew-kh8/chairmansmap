@@ -10,5 +10,10 @@ module Geometry
 
       render json: Geo::GeojsonSerializer.new.serialize_to_json([feature])
     end
+
+    def height_map
+      h_map = Geo::PolygonHeightMap.call
+      render json: {x: h_map.x_coords, y: h_map.y_coords, z: h_map.z_coords}
+    end
   end
 end

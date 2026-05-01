@@ -41,6 +41,9 @@ Rails.application.routes.draw do
     resources :plots, only: [:index, :show]
     resources :villages, only: [:show] do
       resources :plots, only: [:index], controller: "villages/plots"
+      member do
+        get :height_map
+      end
     end
   end
 end
