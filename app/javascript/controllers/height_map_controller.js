@@ -25,17 +25,39 @@ export default class extends Controller {
         return response.json();
       })
       .then((data) => {
-        const trace = {
-          x: data.x,
-          y: data.y,
-          z: data.z,
+        const height_map = data.height_map;
+        const path_coords = data.path;
+
+        const heights = {
+          x: height_map.x,
+          y: height_map.y,
+          z: height_map.z,
           type: "surface",
         };
+        const path = {
+          type: "scatter3d",
+          mode: "lines+markers",
+          x: path_coords.x,
+          y: path_coords.y,
+          z: path_coords.z,
+          opacity: 1,
+          line: {
+            width: 6,
+          },
+          marker: {
+            size: 3.5,
+            color: 1,
+            colorscale: "Greens",
+            cmin: -20,
+            cmax: 50,
+          },
+        };
 
-        Plotly.newPlot(this.element, [trace], layout);
+        this.element.innerHTML = "";
+        Plotly.newPlot(this.element, [heights, path], layout);
       })
       .catch((error) => {
-        console.log("error while loading height map");
+        console.log("error while loading height map", error);
       });
   }
 }
