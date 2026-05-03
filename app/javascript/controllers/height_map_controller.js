@@ -8,13 +8,16 @@ export default class extends Controller {
   }
 
   showPlot() {
-    var layout = {
+    const layout = {
       margin: {
         l: 20,
         r: 50,
         b: 20,
         t: 30,
       },
+    };
+    const config = {
+      responsive: true,
     };
 
     fetch(`/geometry/villages/${this.idValue}/height_map`)
@@ -54,7 +57,7 @@ export default class extends Controller {
         };
 
         this.element.innerHTML = "";
-        Plotly.newPlot(this.element, [heights, path], layout);
+        Plotly.newPlot(this.element, [heights], layout, config);
       })
       .catch((error) => {
         console.log("error while loading height map", error);
