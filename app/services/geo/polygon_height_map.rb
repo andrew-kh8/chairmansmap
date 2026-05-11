@@ -25,13 +25,10 @@ module Geo
       y_coords = cs.by_col["Y"].uniq
       z_coords = cs.by_col["Z"].each_slice(x_coords.size).map(&:itself)
 
-      cs = T.cast(CSV.read("output_path.csv", headers: true), CSV::Table) # hack for sorbet
+      xyz = ::HeightMap::PathFinder::XYZParams.new(x: x_coords.map(&:to_f), y: y_coords.map(&:to_f), z: z_coords.map { |q| q.map(&:to_f) })
+      res = ::HeightMap::PathFinder.new(xyz, 30, 0.1).call(from:, to:)
 
-      px_coords = cs.by_col["X"]
-      py_coords = cs.by_col["Y"]
-      pz_coords = cs.by_col["Z"]
-
-      HeightMap.new(x_coords:, y_coords:, z_coords:, px_coords:, py_coords:, pz_coords:)
+      HeightMap.new(x_coords:, y_coords:, z_coords:, px_coords: res.x, py_coords: res.y, pz_coords: res.z)
     end
   end
 end
