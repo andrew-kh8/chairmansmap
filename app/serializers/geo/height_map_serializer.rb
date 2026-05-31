@@ -2,7 +2,7 @@
 
 module Geo
   class HeightMapSerializer < Panko::Serializer
-    attributes :height_map, :path
+    attributes :height_map, :path, :cost
 
     def height_map
       {

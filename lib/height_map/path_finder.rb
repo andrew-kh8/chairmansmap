@@ -7,32 +7,42 @@ module HeightMap
     CoordType = T.type_alias { T.any(String, Integer, Float) }
 
     class XYZParams < T::Struct
-      const :x, T::Array[Float]
-      const :y, T::Array[Float]
-      const :z, T::Array[T::Array[Float]]
+      const :x, T::Array[CoordType]
+      const :y, T::Array[CoordType]
+      const :z, T::Array[T::Array[CoordType]]
     end
 
     class PathResult < T::Struct
-      const :x, T::Array[Float]
-      const :y, T::Array[Float]
-      const :z, T::Array[Float]
+      const :x, T::Array[CoordType]
+      const :y, T::Array[CoordType]
+      const :z, T::Array[CoordType]
+      const :cost, Numeric
     end
 
     sig { returns(XYZParams) }
     attr_reader :xyz_params
+
+    sig { returns(Float) }
+    attr_reader :aslant_cell
 
     # sig { params(xyz_params: XYZParams).void }
     def initialize(xyz_params, cell_size, max_h_delta)
       @xyz_params = xyz_params
       @cell_size = cell_size # m
       @max_h_delta = max_h_delta # %
+      @aslant_cell = Math.sqrt(2 * (@cell_size**2)).floor(1)
       @height_map = T.let(build_height_map, T::Hash[[Float, Float], T::Hash[[Float, Float], Float]])
     end
 
     sig { params(from: [CoordType, CoordType], to: [CoordType, CoordType], alg: Symbol).returns(PathResult) }
-    def call(from:, to:, alg: :bfs)
-      graph = build_graph
-      res = HeightMap::Strategies::AStar.new(graph).call(from, to)
+    def call(from:, to:, alg: :a)
+      from_real = [nearest_coord(:y, from.first), nearest_coord(:x, from.last)]
+      to_real = [nearest_coord(:y, to.first), nearest_coord(:x, to.last)]
+      res = if grid_algorithm?(alg)
+        grid_strategy_for(alg).new(@height_map, @cell_size, @max_h_delta, aslant_cell: @aslant_cell).call(from_real, to_real)
+      else
+        strategy_for(alg).new(build_graph).call(from_real, to_real)
+      end
 
       path = res[:path]
       z = []
@@ -40,18 +50,41 @@ module HeightMap
         z << @height_map[y][x]
       end
 
-      PathResult.new(x: path.map(&:last), y: path.map(&:first), z:)
+      PathResult.new(x: path.map(&:last), y: path.map(&:first), z:, cost: res[:cost])
     end
 
     private
 
-    sig { params(coord_type: Symbol, coord: Float).returns(Float) }
+    sig { params(alg: Symbol).returns(T::Boolean) }
+    def grid_algorithm?(alg)
+      case alg
+      when :fast_marching, :fmm, :wavefront then true
+      else false
+      end
+    end
+
+    sig { params(alg: Symbol).returns(T.untyped) }
+    def grid_strategy_for(alg)
+      case alg
+      when :wavefront
+        HeightMap::Strategies::Wavefront
+      else
+        HeightMap::Strategies::FastMarching
+      end
+    end
+
+    sig { params(alg: Symbol).returns(T.untyped) }
+    def strategy_for(alg)
+      HeightMap::Strategies::AStar
+    end
+
+    sig { params(coord_type: Symbol, coord: CoordType).returns(CoordType) }
     def nearest_coord(coord_type, coord)
       available_coords = (coord_type == :x) ? xyz_params.x : xyz_params.y
 
       return coord if available_coords.include?(coord)
       return available_coords.max if coord > available_coords.max
-      return available_coords.min if coord > available_coords.min
+      return available_coords.min if coord < available_coords.min
 
       T.must(available_coords.min_by { |x| (coord - x).abs })
     end
