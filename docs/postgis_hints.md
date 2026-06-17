@@ -82,3 +82,11 @@ apt-get install gdal-bin
 gdalinfo -v
 gdal_translate -of XYZ -co COLUMN_SEPARATOR=, -co ADD_HEADER_LINE=YES input_geotif.tif output.csv
 ```
+
+## RGeo bbox (bounding box)
+
+```ruby
+geom.class == RGeo::Geos::CAPIMultiPolygonImpl
+e = geom.envelope # #<RGeo::Geos::CAPIPolygonImpl:0xaed8 "POLYGON ((11.0 11.0, 22.0 11.0, 22.0 44.0, 11.0 44.0, 11.0 11.0))">
+e.coordinates # [[11.0, 11.0], [22.0, 11.0], ...]
+```
