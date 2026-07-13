@@ -13,6 +13,7 @@ export class LeafletMap {
     this.tile = isDarkMode()
       ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
       : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    // "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}"
 
     L.tileLayer(this.tile, {
       attribution:

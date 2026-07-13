@@ -9,6 +9,7 @@ export default class extends Controller {
 
   showPlot() {
     const layout = {
+      autosize: true,
       margin: {
         l: 20,
         r: 50,
@@ -36,24 +37,7 @@ export default class extends Controller {
           y: height_map.y,
           z: height_map.z,
           type: "surface",
-        };
-        const path = {
-          type: "scatter3d",
-          mode: "lines+markers",
-          x: path_coords.x,
-          y: path_coords.y,
-          z: path_coords.z,
-          opacity: 1,
-          line: {
-            width: 6,
-          },
-          marker: {
-            size: 3.5,
-            color: 1,
-            colorscale: "Greens",
-            cmin: -20,
-            cmax: 50,
-          },
+          opacity: 0.5,
         };
 
         this.element.innerHTML = "";
