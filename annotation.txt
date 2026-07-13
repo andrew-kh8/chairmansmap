@@ -1,0 +1,1133 @@
+# typed: strict
+
+module Geometry
+  class VillagesController < ApplicationController
+    sig { void }
+    def height_map
+      h_map = Geo::PolygonHeightMap.call
+      render json: Geo::HeightMapSerializer.new.serialize(h_map)
+    end
+  end
+end
+
+
+# serializer
+# typed: false
+
+module Geo
+  class HeightMapSerializer < Panko::Serializer
+    attributes :height_map, :path, :cost
+
+    def height_map
+      {
+        x: object.x_coords,
+        y: object.y_coords,
+        z: object.z_coords
+      }
+    end
+
+    def path
+      {
+        type: "Feature",
+        geometry: {
+          type: "LineString",
+          coordinates: object.px_coords.zip(object.py_coords)
+        }
+      }
+    end
+  end
+end
+
+
+# 
+# typed: strict
+
+require "csv"
+
+module Geo
+  class PolygonHeightMap
+    extend T::Sig
+
+    class HeightMap < T::Struct
+      extend T::Sig
+
+      const :x_coords, T::Array[T.any(Integer, Float, String)]
+      const :y_coords, T::Array[T.any(Integer, Float, String)]
+      const :z_coords, T::Array[T::Array[T.any(Integer, Float, String)]]
+      const :px_coords, T::Array[T.any(Integer, Float, String)]
+      const :py_coords, T::Array[T.any(Integer, Float, String)]
+      const :pz_coords, T::Array[T.any(Integer, Float, String)]
+
+      const :cost, Numeric
+    end
+
+    sig { returns(HeightMap) }
+    def self.call
+      polygon = "idaho" # idaho - oregon
+      cs = T.cast(CSV.read("#{polygon}.csv", headers: true), CSV::Table) # hack for sorbet
+
+      x_coords = cs.by_col["X"].uniq.map(&:to_f) # .map { |a| (a - a.floor) * 1000 }
+      y_coords = cs.by_col["Y"].uniq.map(&:to_f) # .map { |a| (a - a.floor) * 1000 }
+      z_coords = cs.by_col["Z"].map { |q| q.to_f.floor(4) }.each_slice(x_coords.size).map(&:itself)
+
+      xyz = ::HeightMap::PathFinder::XYZParams.new(x: x_coords, y: y_coords, z: z_coords)
+      #           y       x
+      case polygon
+      when "monrovia_10m"
+        from = [3781702, 407930] # monrovia 1m
+        to = [3781610, 407217]
+        cell_size = 10
+        h_delta = 0.2
+      when "oregon"
+        from = [45.96245, -117.9537] # oregon 10m
+        to = [45.96245, -117.9652]
+        cell_size = 10
+        h_delta = 0.1
+      when "idaho"
+        from = [44.3414, -111.2032]
+        to = [44.3599, -111.2287]
+        cell_size = 10
+        h_delta = 0.05 # 0.04 - fmm, a. 0.05 - vawefront
+      else
+        Rails.logger.info "no from-to coords"
+      end
+
+      res = ::HeightMap::PathFinder.new(xyz, cell_size, h_delta).call(from:, to:, alg: :wavefront) # fmm wavefront a
+
+      HeightMap.new(x_coords:, y_coords:, z_coords:, px_coords: res.x, py_coords: res.y, pz_coords: res.z, cost: res.cost)
+    end
+  end
+end
+
+#
+
+# typed: false
+
+module HeightMap
+  class PathFinder
+    extend T::Sig
+
+    CoordType = T.type_alias { T.any(String, Integer, Float) }
+
+    class XYZParams < T::Struct
+      const :x, T::Array[CoordType]
+      const :y, T::Array[CoordType]
+      const :z, T::Array[T::Array[CoordType]]
+    end
+
+    class PathResult < T::Struct
+      const :x, T::Array[CoordType]
+      const :y, T::Array[CoordType]
+      const :z, T::Array[CoordType]
+      const :cost, Numeric
+    end
+
+    sig { returns(XYZParams) }
+    attr_reader :xyz_params
+
+    sig { returns(Float) }
+    attr_reader :aslant_cell
+
+    # sig { params(xyz_params: XYZParams).void }
+    def initialize(xyz_params, cell_size, max_h_delta)
+      @xyz_params = xyz_params
+      @cell_size = cell_size # m
+      @max_h_delta = max_h_delta # %
+      @aslant_cell = Math.sqrt(2 * (@cell_size**2)).floor(1)
+      @height_map = T.let(build_height_map, T::Hash[[Float, Float], T::Hash[[Float, Float], Float]])
+    end
+
+    sig { params(from: [CoordType, CoordType], to: [CoordType, CoordType], alg: Symbol).returns(PathResult) }
+    def call(from:, to:, alg: :a)
+      from_real = [nearest_coord(:y, from.first), nearest_coord(:x, from.last)]
+      to_real = [nearest_coord(:y, to.first), nearest_coord(:x, to.last)]
+      res = if grid_algorithm?(alg)
+        grid_strategy_for(alg).new(@height_map, @cell_size, @max_h_delta, aslant_cell: @aslant_cell).call(from_real, to_real)
+      else
+        strategy_for(alg).new(build_graph).call(from_real, to_real)
+      end
+
+      path = res[:path]
+      z = []
+      path.each do |y, x|
+        z << @height_map[y][x]
+      end
+
+      PathResult.new(x: path.map(&:last), y: path.map(&:first), z:, cost: res[:cost])
+    end
+
+    # private
+
+    sig { params(alg: Symbol).returns(T::Boolean) }
+    def grid_algorithm?(alg)
+      case alg
+      when :fast_marching, :fmm, :wavefront then true
+      else false
+      end
+    end
+
+    sig { params(alg: Symbol).returns(T.untyped) }
+    def grid_strategy_for(alg)
+      case alg
+      when :wavefront
+        HeightMap::Strategies::Wavefront
+      else
+        HeightMap::Strategies::FastMarching
+      end
+    end
+
+    sig { params(alg: Symbol).returns(T.untyped) }
+    def strategy_for(alg)
+      HeightMap::Strategies::AStar
+    end
+
+    sig { params(coord_type: Symbol, coord: CoordType).returns(CoordType) }
+    def nearest_coord(coord_type, coord)
+      available_coords = (coord_type == :x) ? xyz_params.x : xyz_params.y
+
+      return coord if available_coords.include?(coord)
+      return available_coords.max if coord > available_coords.max
+      return available_coords.min if coord < available_coords.min
+
+      T.must(available_coords.min_by { |x| (coord - x).abs })
+    end
+
+    def build_graph
+      yvals = @height_map.keys
+      cost = {}
+      h_delta = @cell_size * @max_h_delta
+
+      @height_map.each do |yk, yv|
+        prev_y_ind = yvals.index(yk) - 1
+        prev_y = (prev_y_ind >= 0) ? yvals[prev_y_ind] : nil
+        next_y = yvals[yvals.index(yk) + 1]
+        prev_yv = @height_map[prev_y] || {}
+        next_yv = @height_map[next_y] || {}
+
+        yv.each do |xk, xv|
+          prev_x_ind = yv.keys.index(xk) - 1
+          prev_x = (prev_x_ind >= 0) ? yv.keys[prev_x_ind] : nil
+          next_x = yv.keys[yv.keys.index(xk) + 1]
+          cost[[yk, xk]] = {}
+
+          left_v = prev_x ? (xv - (yv[prev_x] || xv)) : nil
+          if left_v.present? && left_v.abs <= h_delta
+            cost[[yk, xk]][[yk, prev_x]] = left_v + @cell_size
+          end
+
+          right_v = next_x ? (xv - (yv[next_x] || xv)) : nil
+          if right_v.present? && right_v.abs <= h_delta
+            cost[[yk, xk]][[yk, next_x]] = right_v + @cell_size
+          end
+
+          down_v = next_y ? (xv - next_yv.fetch(xk, xv)) : nil
+          if down_v.present? && down_v.abs <= h_delta
+            cost[[yk, xk]][[next_y, xk]] = down_v + @cell_size
+          end
+
+          up_v = prev_y ? (xv - prev_yv.fetch(xk, xv)) : nil
+          if up_v.present? && up_v.abs <= h_delta
+            cost[[yk, xk]][[prev_y, xk]] = up_v + @cell_size
+          end
+
+          up_right_v = (next_x && prev_y) ? (xv - prev_yv.fetch(next_x, xv)) : nil
+          if up_right_v.present? && up_right_v.abs <= h_delta
+            cost[[yk, xk]][[prev_y, next_x]] = up_right_v + aslant_cell
+          end
+
+          down_right_v = (next_x && next_y) ? (xv - next_yv.fetch(next_x, xv)) : nil
+          if down_right_v.present? && down_right_v.abs <= h_delta
+            cost[[yk, xk]][[next_y, next_x]] = down_right_v + aslant_cell
+          end
+
+          up_left_v = (prev_x && prev_y) ? (xv - prev_yv.fetch(prev_x, xv)) : nil
+          if up_left_v.present? && up_left_v.abs <= h_delta
+            cost[[yk, xk]][[prev_y, prev_x]] = up_left_v + aslant_cell
+          end
+
+          down_left_v = (prev_x && next_y) ? (xv - next_yv.fetch(prev_x, xv)) : nil
+          if down_left_v.present? && down_left_v.abs <= h_delta
+            cost[[yk, xk]][[next_y, prev_x]] = down_left_v + aslant_cell
+          end
+
+          cost[[yk, xk]].compact
+        end
+      end
+
+      cost.compact_blank
+    end
+    # cost.compact_blank == {
+    #   [44.50264, 33.57708] => { # from
+    #     #   to                  cost
+    #     [44.50264, 33.57742] => -2.0,
+    #     [44.50393, 33.57708] => -12.0,
+    #     [44.50393, 33.57742] => -17.0
+    #   },
+    #   [44.50264, 33.57742] => {[44.50264, 33.57786] => -2.0, [44.50393, 33.57742] => -15.0, [44.50393, 33.57786] => -21.0},
+    #   [44.50264, 33.57786] => {[44.50264, 33.57816] => -3.0, [44.50393, 33.57786] => -19.0, [44.50393, 33.57816] => -23.0},
+    #   [44.50264, 33.57816] => {[44.50264, 33.57855] => -4.0, [44.50393, 33.57816] => -20.0, [44.50393, 33.57855] => -23.0},
+    #   [44.50264, 33.57855] => {[44.50393, 33.57855] => -19.0},
+    #   [44.50393, 33.57708] => {[44.50393, 33.57742] => -5.0, [44.50521, 33.57708] => -23.0, [44.50521, 33.57742] => -19.0},
+    #   [44.50393, 33.57742] => {[44.50393, 33.57786] => -6.0, [44.50521, 33.57742] => -14.0, [44.50521, 33.57786] => -11.0},
+    #   [44.50393, 33.57786] => {[44.50393, 33.57816] => -4.0, [44.50521, 33.57786] => -5.0, [44.50521, 33.57816] => -10.0},
+    #   [44.50393, 33.57816] => {[44.50393, 33.57855] => -3.0, [44.50521, 33.57816] => -6.0, [44.50521, 33.57855] => -5.0},
+    #   [44.50393, 33.57855] => {[44.50521, 33.57855] => -2.0},
+    #   [44.50521, 33.57708] => {[44.50521, 33.57742] => 4.0, [44.50663, 33.57708] => 7.0, [44.50663, 33.57742] => 10.0},
+    #   [44.50521, 33.57742] => {[44.50521, 33.57786] => 3.0, [44.50663, 33.57742] => 6.0, [44.50663, 33.57786] => 12.0},
+    #   [44.50521, 33.57786] => {[44.50521, 33.57816] => -5.0, [44.50663, 33.57786] => 9.0, [44.50663, 33.57816] => 16.0},
+    #   [44.50521, 33.57816] => {[44.50521, 33.57855] => 1.0, [44.50663, 33.57816] => 21.0, [44.50663, 33.57855] => 22.0},
+    #   [44.50521, 33.57855] => {[44.50663, 33.57855] => 21.0},
+    #   [44.50663, 33.57708] => {[44.50663, 33.57742] => 3.0, [44.50694, 33.57708] => 19.0, [44.50694, 33.57742] => 19.0},
+    #   [44.50663, 33.57742] => {[44.50663, 33.57786] => 6.0, [44.50694, 33.57742] => 16.0, [44.50694, 33.57786] => 14.0},
+    #   [44.50663, 33.57786] => {[44.50663, 33.57816] => 7.0, [44.50694, 33.57786] => 8.0, [44.50694, 33.57816] => 6.0},
+    #   [44.50663, 33.57816] => {[44.50663, 33.57855] => 1.0, [44.50694, 33.57816] => -1.0, [44.50694, 33.57855] => -1.0},
+    #   [44.50663, 33.57855] => {[44.50694, 33.57855] => -2.0},
+    #   [44.50694, 33.57708] => {[44.50694, 33.57742] => 0.0},
+    #   [44.50694, 33.57742] => {[44.50694, 33.57786] => -2.0},
+    #   [44.50694, 33.57786] => {[44.50694, 33.57816] => -2.0},
+    #   [44.50694, 33.57816] => {[44.50694, 33.57855] => 0.0},
+    #   [44.50694, 33.57855] => {}
+    # }
+
+    def build_height_map
+      x = xyz_params.x
+      y = xyz_params.y
+      z = xyz_params.z
+
+      hmap = {}
+      (0...y.size).each do |i|
+        hmap[y[i]] = (0...x.size).to_h { |j| [x[j], z[i][j]] }
+      end
+
+      hmap
+    end
+
+    # hmap == {
+    #   44.50264 => {33.57708 => 145.0, 33.57742 => 147.0, 33.57786 => 149.0, 33.57816 => 152.0, 33.57855 => 156.0},
+    #   44.50393 => {33.57708 => 157.0, 33.57742 => 162.0, 33.57786 => 168.0, 33.57816 => 172.0, 33.57855 => 175.0},
+    #   44.50521 => {33.57708 => 180.0, 33.57742 => 176.0, 33.57786 => 173.0, 33.57816 => 178.0, 33.57855 => 177.0},
+    #   44.50663 => {33.57708 => 173.0, 33.57742 => 170.0, 33.57786 => 164.0, 33.57816 => 157.0, 33.57855 => 156.0},
+    #   44.50694 => {33.57708 => 154.0, 33.57742 => 154.0, 33.57786 => 156.0, 33.57816 => 158.0, 33.57855 => 158.0}
+    # }
+
+    # def aslant_cell
+    #   Math.sqrt(2 * (@cell_size**2)).floor(1)
+    # end
+  end
+end
+
+# x = cs.by_col["X"].uniq.map(&:to_f)
+# y = cs.by_col["Y"].uniq.map(&:to_f)
+# z = cs.by_col["Z"].map(&:to_f).each_slice(x.size)
+# h = {}
+
+# zz = [
+#   # x1     x2     x3     x4     x5
+#   [145.0, 147.0, 149.0, 152.0, 156.0], # y1
+#   [157.0, 162.0, 168.0, 172.0, 175.0], # y2
+#   [180.0, 176.0, 173.0, 178.0, 177.0], # y3
+#   [173.0, 170.0, 164.0, 157.0, 156.0], # y4
+#   [154.0, 154.0, 156.0, 158.0, 158.0]  # y5
+# ]
+
+# v1 ---------------------------------------------------------
+
+# (0...y.size).each do |i|
+#   h[x[i]] = z[i]
+# end
+
+# h = {
+#   33.57708 => [145.0, 147.0, 149.0, 152.0, 156.0],
+#   33.57742 => [157.0, 162.0, 168.0, 172.0, 175.0],
+#   33.57786 => [180.0, 176.0, 173.0, 178.0, 177.0],
+#   33.57816 => [173.0, 170.0, 164.0, 157.0, 156.0],
+#   33.57855 => [154.0, 154.0, 156.0, 158.0, 158.0]
+# }
+
+# v2 ---------------------------------------------------------
+
+# (0...y.size).each do |i|
+#   h[y[i]] = (0...x.size).to_h { |j| [x[j], z[i][j]] }
+# end
+
+
+#####
+
+# typed: false
+
+module HeightMap
+  module Strategies
+    class AStar
+      extend T::Sig
+
+      def initialize(graph)
+        @graph = graph
+      end
+
+      # sig { params(start: [Float, Float], goal: [Float, Float]).void }
+      def call(start, goal)
+        res = {path: [], cost: 0}
+        path = {}
+        f_queue_score = {start => 0}
+        g_score = {start => 0}
+
+        while f_queue_score.present?
+          point, _point_score = f_queue_score.min_by(&:last)
+          f_queue_score.delete(point)
+
+          if point == goal
+
+            path_back = point
+
+            res[:cost] += g_score[goal]
+            res[:path].unshift(goal)
+
+            while path[path_back]
+              res[:path].unshift(path[path_back])
+              path_back = path[path_back]
+            end
+
+            break
+          end
+
+          tos = @graph[point]
+          tos&.each do |neighbor, v|
+            neighbor_score = g_score[point] + v
+
+            if neighbor_score < (g_score[neighbor] || Float::INFINITY)
+              g_score[neighbor] = g_score[point] + v
+              f_queue_score[neighbor] = g_score[neighbor] + heuristic(neighbor, goal)
+              path[neighbor] = point
+            end
+          end
+        end
+
+        res
+      end
+
+      private
+
+      def heuristic(a, b)
+        Math.sqrt((a.first - b.first)**2 + (a.last - b.last)**2)
+      end
+    end
+  end
+end
+
+
+###
+
+# typed: false
+
+module HeightMap
+  module Strategies
+    # Fast Marching Method for the Eikonal equation |∇T| = F on a regular grid.
+    # T — arrival time from source, F — positive slowness (cost per unit distance).
+    # Slope constraint matches PathFinder#build_graph: |dz| <= cell_size * max_h_delta.
+    class FastMarching
+      extend T::Sig
+
+      FAR = 0
+      NARROW = 1
+      FROZEN = 2
+
+      def initialize(height_map, cell_size, max_h_delta, aslant_cell: nil)
+        @y_coords = height_map.keys.sort
+        @x_coords = T.must(height_map[@y_coords.first]).keys.sort
+        @grid = @y_coords.map { |y| @x_coords.map { |x| height_map[y][x].to_f } }
+        @cell_size = cell_size.to_f
+        @max_h_delta = max_h_delta.to_f
+        @h_delta = @cell_size * @max_h_delta
+        @aslant_cell = (aslant_cell || Math.sqrt(2 * @cell_size**2)).to_f
+        @nrows = @y_coords.size
+        @ncols = @x_coords.size
+      end
+
+      def call(start, goal)
+        res = {path: [], cost: 0}
+        si, sj = coord_to_index(start)
+        gi, gj = coord_to_index(goal)
+        return res if si.nil? || gi.nil?
+        return res unless passable?(si, sj)
+
+        times = Array.new(@nrows) { Array.new(@ncols, Float::INFINITY) }
+        status = Array.new(@nrows) { Array.new(@ncols, FAR) }
+        narrow_band = {}
+
+        times[si][sj] = 0
+        status[si][sj] = FROZEN
+        activate_neighbors(si, sj, times, status, narrow_band)
+
+        while narrow_band.present?
+          i, j = narrow_band.min_by { |(_, _), t| t }.first
+          narrow_band.delete([i, j])
+
+          next if status[i][j] == FROZEN
+
+          status[i][j] = FROZEN
+          activate_neighbors(i, j, times, status, narrow_band)
+        end
+
+        goal_time = times[gi][gj]
+        return res if goal_time.infinite?
+
+        res[:cost] = goal_time
+        res[:path] = backtrack(si, sj, gi, gj, times)
+        res
+      end
+
+      private
+
+      def coord_to_index(point)
+        y, x = point
+        i = @y_coords.index(y)
+        j = @x_coords.index(x)
+        return nil if i.nil? || j.nil?
+
+        [i, j]
+      end
+
+      def passable?(i, j)
+        neighbors(i, j).any? { |ni, nj| edge_passable?(i, j, ni, nj) }
+      end
+
+      def edge_passable?(i, j, ni, nj)
+        elevation_delta(i, j, ni, nj) <= @h_delta
+      end
+
+      def elevation_delta(i, j, ni, nj)
+        (@grid[ni][nj] - @grid[i][j]).abs
+      end
+
+      def slope_ratio(i, j, ni, nj)
+        elevation_delta(i, j, ni, nj) / edge_distance(i, j, ni, nj)
+      end
+
+      def slowness(i, j)
+        return Float::INFINITY unless passable?(i, j)
+
+        ratios = neighbors(i, j).filter_map do |ni, nj|
+          next unless edge_passable?(i, j, ni, nj)
+
+          slope_ratio(i, j, ni, nj)
+        end
+
+        return Float::INFINITY if ratios.empty?
+
+        max_ratio = ratios.max
+        @cell_size * (1 + max_ratio / @max_h_delta)
+      end
+
+      def neighbors(i, j)
+        [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]].filter_map do |di, dj|
+          ni = i + di
+          nj = j + dj
+          next unless ni.between?(0, @nrows - 1) && nj.between?(0, @ncols - 1)
+
+          [ni, nj]
+        end
+      end
+
+      def edge_distance(i, j, ni, nj)
+        (i - ni).abs + (j - nj).abs == 2 ? @aslant_cell : @cell_size
+      end
+
+      def activate_neighbors(i, j, times, status, narrow_band)
+        neighbors(i, j).each do |ni, nj|
+          next if status[ni][nj] == FROZEN
+          next unless edge_passable?(i, j, ni, nj)
+          next unless passable?(ni, nj)
+
+          t = candidate_time(ni, nj, times, status)
+          next if t.nil? || t.infinite? || t >= times[ni][nj]
+
+          times[ni][nj] = t
+          status[ni][nj] = NARROW
+          narrow_band[[ni, nj]] = t
+        end
+      end
+
+      def candidate_time(i, j, times, status)
+        candidates = []
+
+        eikonal = solve_eikonal(i, j, times, status)
+        candidates << eikonal if eikonal && !eikonal.infinite?
+
+        neighbors(i, j).each do |ni, nj|
+          next unless status[ni][nj] == FROZEN
+          next unless edge_passable?(ni, nj, i, j)
+
+          f = slowness(i, j)
+          next if f.infinite?
+
+          dist = edge_distance(ni, nj, i, j)
+          candidates << times[ni][nj] + f * dist / @cell_size
+        end
+
+        candidates.min
+      end
+
+      # Upwind finite-difference update for |∇T| = F on a uniform grid with spacing h.
+      def solve_eikonal(i, j, times, status)
+        f = slowness(i, j)
+        return nil if f.infinite?
+
+        h = @cell_size
+        tx = frozen_times(i, j, :x, times, status)
+        ty = frozen_times(i, j, :y, times, status)
+
+        return nil if tx.empty? && ty.empty?
+        return ty.min + f * h if tx.empty?
+        return tx.min + f * h if ty.empty?
+
+        a = tx.min
+        b = ty.min
+        fh = f * h
+
+        if (a - b).abs >= fh
+          [a, b].min + fh
+        else
+          (a + b + Math.sqrt(2 * fh * fh - (a - b)**2)) / 2.0
+        end
+      end
+
+      def frozen_times(i, j, axis, times, status)
+        if axis == :x
+          candidates = [[i, j - 1], [i, j + 1]]
+        else
+          candidates = [[i - 1, j], [i + 1, j]]
+        end
+
+        candidates.filter_map do |ni, nj|
+          next unless ni.between?(0, @nrows - 1) && nj.between?(0, @ncols - 1)
+          next unless status[ni][nj] == FROZEN
+          next unless edge_passable?(ni, nj, i, j)
+
+          times[ni][nj]
+        end
+      end
+
+      def backtrack(si, sj, gi, gj, times)
+        path = [[@y_coords[gi], @x_coords[gj]]]
+        i = gi
+        j = gj
+        current = times[i][j]
+
+        while i != si || j != sj
+          best = nil
+          best_time = current
+
+          neighbors(i, j).each do |ni, nj|
+            next unless edge_passable?(ni, nj, i, j)
+
+            t = times[ni][nj]
+            next if t.infinite? || t >= best_time
+
+            if best.nil? || t < best[2]
+              best = [ni, nj, t]
+            end
+          end
+
+          break if best.nil?
+
+          i, j, current = best
+          path.unshift([@y_coords[i], @x_coords[j]])
+        end
+
+        path
+      end
+    end
+  end
+end
+
+#####
+
+# typed: false
+
+module HeightMap
+  module Strategies
+    # Wavefront propagation for the Eikonal equation |∇T| = F on a regular grid.
+    # Unlike FMM (priority queue / narrow band), the wave expands FIFO from the source
+    # and cells are re-enqueued when their arrival time improves.
+    # Slope constraint matches PathFinder#build_graph: |dz| <= cell_size * max_h_delta.
+    class Wavefront
+      extend T::Sig
+
+      def initialize(height_map, cell_size, max_h_delta, aslant_cell: nil)
+        @y_coords = height_map.keys.sort
+        @x_coords = T.must(height_map[@y_coords.first]).keys.sort
+        @grid = @y_coords.map { |y| @x_coords.map { |x| height_map[y][x].to_f } }
+        @cell_size = cell_size.to_f
+        @max_h_delta = max_h_delta.to_f
+        @h_delta = @cell_size * @max_h_delta
+        @aslant_cell = (aslant_cell || Math.sqrt(2 * @cell_size**2)).to_f
+        @nrows = @y_coords.size
+        @ncols = @x_coords.size
+      end
+
+      def call(start, goal)
+        res = {path: [], cost: 0}
+        si, sj = coord_to_index(start)
+        gi, gj = coord_to_index(goal)
+        return res if si.nil? || gi.nil?
+        return res unless passable?(si, sj)
+
+        times = Array.new(@nrows) { Array.new(@ncols, Float::INFINITY) }
+        times[si][sj] = 0
+
+        queue = [[si, sj]]
+        queued = Array.new(@nrows) { Array.new(@ncols, false) }
+        queued[si][sj] = true
+
+        until queue.empty?
+          i, j = queue.shift
+          queued[i][j] = false
+
+          neighbors(i, j).each do |ni, nj|
+            next unless edge_passable?(i, j, ni, nj)
+            next unless passable?(ni, nj)
+
+            t = candidate_time(ni, nj, times)
+            next if t.nil? || t.infinite? || t >= times[ni][nj]
+
+            times[ni][nj] = t
+            next if queued[ni][nj]
+
+            queue.push([ni, nj])
+            queued[ni][nj] = true
+          end
+        end
+
+        goal_time = times[gi][gj]
+        return res if goal_time.infinite?
+
+        res[:cost] = goal_time
+        res[:path] = backtrack(si, sj, gi, gj, times)
+        res
+      end
+
+      private
+
+      def coord_to_index(point)
+        y, x = point
+        i = @y_coords.index(y)
+        j = @x_coords.index(x)
+        return nil if i.nil? || j.nil?
+
+        [i, j]
+      end
+
+      def passable?(i, j)
+        neighbors(i, j).any? { |ni, nj| edge_passable?(i, j, ni, nj) }
+      end
+
+      def edge_passable?(i, j, ni, nj)
+        elevation_delta(i, j, ni, nj) <= @h_delta
+      end
+
+      def elevation_delta(i, j, ni, nj)
+        (@grid[ni][nj] - @grid[i][j]).abs
+      end
+
+      def slope_ratio(i, j, ni, nj)
+        elevation_delta(i, j, ni, nj) / edge_distance(i, j, ni, nj)
+      end
+
+      def slowness(i, j)
+        return Float::INFINITY unless passable?(i, j)
+
+        ratios = neighbors(i, j).filter_map do |ni, nj|
+          next unless edge_passable?(i, j, ni, nj)
+
+          slope_ratio(i, j, ni, nj)
+        end
+
+        return Float::INFINITY if ratios.empty?
+
+        max_ratio = ratios.max
+        @cell_size * (1 + max_ratio / @max_h_delta)
+      end
+
+      def neighbors(i, j)
+        [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]].filter_map do |di, dj|
+          ni = i + di
+          nj = j + dj
+          next unless ni.between?(0, @nrows - 1) && nj.between?(0, @ncols - 1)
+
+          [ni, nj]
+        end
+      end
+
+      def edge_distance(i, j, ni, nj)
+        (i - ni).abs + (j - nj).abs == 2 ? @aslant_cell : @cell_size
+      end
+
+      def candidate_time(i, j, times)
+        candidates = []
+
+        eikonal = solve_eikonal(i, j, times)
+        candidates << eikonal if eikonal && !eikonal.infinite?
+
+        neighbors(i, j).each do |ni, nj|
+          next unless edge_passable?(ni, nj, i, j)
+
+          neighbor_time = times[ni][nj]
+          next if neighbor_time.infinite?
+
+          f = slowness(i, j)
+          next if f.infinite?
+
+          dist = edge_distance(ni, nj, i, j)
+          candidates << neighbor_time + f * dist / @cell_size
+        end
+
+        candidates.min
+      end
+
+      # Upwind finite-difference update for |∇T| = F using known neighbor times.
+      def solve_eikonal(i, j, times)
+        f = slowness(i, j)
+        return nil if f.infinite?
+
+        h = @cell_size
+        tx = known_times(i, j, :x, times)
+        ty = known_times(i, j, :y, times)
+
+        return nil if tx.empty? && ty.empty?
+        return ty.min + f * h if tx.empty?
+        return tx.min + f * h if ty.empty?
+
+        a = tx.min
+        b = ty.min
+        fh = f * h
+
+        if (a - b).abs >= fh
+          [a, b].min + fh
+        else
+          (a + b + Math.sqrt(2 * fh * fh - (a - b)**2)) / 2.0
+        end
+      end
+
+      def known_times(i, j, axis, times)
+        if axis == :x
+          candidates = [[i, j - 1], [i, j + 1]]
+        else
+          candidates = [[i - 1, j], [i + 1, j]]
+        end
+
+        candidates.filter_map do |ni, nj|
+          next unless ni.between?(0, @nrows - 1) && nj.between?(0, @ncols - 1)
+          next unless edge_passable?(ni, nj, i, j)
+
+          t = times[ni][nj]
+          next if t.infinite?
+
+          t
+        end
+      end
+
+      def backtrack(si, sj, gi, gj, times)
+        path = [[@y_coords[gi], @x_coords[gj]]]
+        i = gi
+        j = gj
+        current = times[i][j]
+
+        while i != si || j != sj
+          best = nil
+          best_time = current
+
+          neighbors(i, j).each do |ni, nj|
+            next unless edge_passable?(ni, nj, i, j)
+
+            t = times[ni][nj]
+            next if t.infinite? || t >= best_time
+
+            if best.nil? || t < best[2]
+              best = [ni, nj, t]
+            end
+          end
+
+          break if best.nil?
+
+          i, j, current = best
+          path.unshift([@y_coords[i], @x_coords[j]])
+        end
+
+        path
+      end
+    end
+  end
+end
+
+
+###
+
+<head>
+    <script src="https://cdn.plot.ly/plotly-3.4.0.min.js" charset="utf-8"></script>
+</head>
+
+<div class="flex h-full min-h-0" data-controller="village" data-village-id-value="<%= village.id %>">
+
+        <section class="h-full card space-y-4 p-6 pr-3">
+            <h2 class="text-xl font-semibold text-default-color mb-4">Карта высот</h2>
+            <div data-controller="height-map" data-height-map-id-value="<%= village.id %>">Загрузка...</div>
+        </section>
+    </div>
+</div>
+
+
+###
+
+import { Controller } from "@hotwired/stimulus";
+
+export default class extends Controller {
+  static values = { id: String };
+
+  connect() {
+    this.element.classList.add("w-full", "h-full", "min-h-0");
+    this.element.style.width = "100%";
+    this.element.style.height = "100%";
+
+    this.resizePlot = () => {
+      if (this.element.querySelector(".js-plotly-plot")) {
+        Plotly.Plots.resize(this.element);
+      }
+    };
+
+    window.addEventListener("resize", this.resizePlot);
+    this.testPlot();
+    // this.showPlot();
+  }
+
+  disconnect() {
+    window.removeEventListener("resize", this.resizePlot);
+  }
+
+  testPlot() {
+    const layout = {
+      autosize: true,
+      margin: {
+        l: 0,
+        r: 0,
+        b: 0,
+        t: 0,
+      },
+      // xaxis: { scaleanchor: "y", scaleratio: 1 },
+    };
+    const config = {
+      responsive: true,
+    };
+
+    const data = [
+      {
+        type: "surface",
+        x: [1, 2, 3, 4, 5],
+        y: [1, 2, 3, 4, 5],
+        z: [
+          [1, 2, 3, 4, 5],
+          [2, 3, 4, 5, null],
+          [3, 4, 5, 6, 7],
+          [4, 5, 6, 7, null], // дырка справа внизу
+          [5, 6, 7, 8, 9],
+        ],
+        colorscale: "Viridis",
+        showscale: true,
+      },
+    ];
+
+    this.element.innerHTML = "";
+    Plotly.newPlot(this.element, data, layout, config);
+  }
+
+  showPlot() {
+    const layout = {
+      autosize: true,
+      margin: {
+        l: 0,
+        r: 0,
+        b: 0,
+        t: 0,
+      },
+    };
+    const config = {
+      responsive: true,
+    };
+
+    fetch(`/geometry/villages/${this.idValue}/height_map`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const height_map = data.height_map;
+        const path_coords = data.path;
+
+        const heights = {
+          x: height_map.x,
+          y: height_map.y,
+          z: height_map.z,
+          type: "surface",
+          opacity: 0.5,
+        };
+        const path = {
+          type: "scatter3d",
+          mode: "lines+markers",
+          x: path_coords.x,
+          y: path_coords.y,
+          z: path_coords.z,
+          opacity: 1,
+          line: {
+            width: 6,
+          },
+          marker: {
+            size: 3.5,
+            color: 1,
+            colorscale: "Greens",
+            cmin: -20,
+            cmax: 50,
+          },
+        };
+
+        this.element.innerHTML = "";
+        Plotly.newPlot(this.element, [heights, path], layout, config).then(
+          () => {
+            Plotly.Plots.resize(this.element);
+          },
+        );
+      })
+      .catch((error) => {
+        console.log("error while loading height map", error);
+      });
+  }
+}
+
+###
+
+
+import { Controller } from "@hotwired/stimulus";
+import { LeafletMap } from "../modules/leaflet_map";
+import {
+  defaultPlotStyle,
+  defaultVillageStyle,
+  transparentPlotStyle,
+} from "../modules/map_styles";
+
+export default class extends Controller {
+  static values = {
+    id: String,
+  };
+
+  static targets = ["map", "tile"];
+
+  connect() {
+    this.leafletMap = new LeafletMap(this.mapTarget);
+    this.map = this.leafletMap.initMap();
+
+    this.extraTileBtn = null;
+    this.extraTileLayer = null;
+    // this.#showVillage();
+    // this.#showVillagePlots();
+    this.#showPath();
+  }
+
+  showTile(event) {
+    if (this.extraTileBtn) this.#removePreviouslySelectedTile();
+
+    if (this.extraTileBtn === event.currentTarget) {
+      this.extraTileBtn = null;
+      this.wfs_village_layer.setStyle(defaultPlotStyle);
+
+      return;
+    }
+
+    this.extraTileBtn = event.currentTarget;
+    this.#addNewTile();
+  }
+
+  // private
+
+  #showPath() {
+    fetch(`/geometry/villages/${this.idValue}/height_map`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const height_map = data.height_map;
+        const path_coords = data.path;
+
+        console.log(path_coords);
+        this.lineLayer = L.geoJSON(path_coords, {
+          style: {
+            color: "blue", // цвет линии
+            weight: 3, // толщина
+            opacity: 0.8,
+          },
+        }).addTo(this.map);
+
+        this.map.fitBounds(this.lineLayer.getBounds());
+      })
+      .catch((error) => {
+        console.log("error while loading height map", error);
+      });
+  }
+
+  #showVillage() {
+    fetch(`/geometry/villages/${this.idValue}`)
+      .then((response) => response.json())
+      .then((geojson) => {
+        this.wfs_village_layer = L.geoJson(geojson, {
+          style: function () {
+            return defaultVillageStyle;
+          },
+        }).addTo(this.map);
+
+        // this.map.fitBounds(this.wfs_village_layer.getBounds());
+      });
+  }
+
+  #showVillagePlots() {
+    fetch(`/geometry/villages/${this.idValue}/plots`)
+      .then((response) => response.json())
+      .then((geojson) => {
+        this.wfs_plots_layer = L.geoJson(geojson, {
+          style: function () {
+            return defaultPlotStyle;
+          },
+        });
+
+        this.wfs_plots_layer.addTo(this.map);
+      });
+  }
+
+  #addNewTile() {
+    this.#addExtraTileLayer();
+    this.extraTileBtn.classList.toggle("btn-passive");
+    this.extraTileBtn.classList.toggle("btn-active");
+    this.wfs_village_layer.setStyle(transparentPlotStyle);
+  }
+
+  #removePreviouslySelectedTile() {
+    if (this.extraTileLayer) this.#removeExtraTileLayer();
+    this.extraTileBtn.classList.toggle("btn-active");
+    this.extraTileBtn.classList.toggle("btn-passive");
+  }
+
+  #addExtraTileLayer() {
+    let tile_url = this.extraTileBtn.dataset.tileValue;
+    this.extraTileLayer = L.tileLayer(tile_url);
+    this.extraTileLayer.addTo(this.map);
+  }
+
+  #removeExtraTileLayer() {
+    this.map.removeLayer(this.extraTileLayer);
+    this.extraTileLayer = null;
+  }
+}
+
+
+

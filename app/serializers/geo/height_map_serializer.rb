@@ -14,9 +14,11 @@ module Geo
 
     def path
       {
-        x: object.px_coords,
-        y: object.py_coords,
-        z: object.pz_coords
+        type: "Feature",
+        geometry: {
+          type: "LineString",
+          coordinates: object.px_coords.zip(object.py_coords)
+        }
       }
     end
   end

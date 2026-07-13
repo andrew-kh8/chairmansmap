@@ -19,8 +19,9 @@ export default class extends Controller {
 
     this.extraTileBtn = null;
     this.extraTileLayer = null;
-    this.#showVillage();
-    this.#showVillagePlots();
+    // this.#showVillage();
+    // this.#showVillagePlots();
+    this.#showPath();
   }
 
   showTile(event) {
@@ -39,6 +40,34 @@ export default class extends Controller {
 
   // private
 
+  #showPath() {
+    fetch(`/geometry/villages/${this.idValue}/height_map`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const height_map = data.height_map;
+        const path_coords = data.path;
+
+        console.log(path_coords);
+        this.lineLayer = L.geoJSON(path_coords, {
+          style: {
+            color: "blue", // цвет линии
+            weight: 3, // толщина
+            opacity: 0.8,
+          },
+        }).addTo(this.map);
+
+        this.map.fitBounds(this.lineLayer.getBounds());
+      })
+      .catch((error) => {
+        console.log("error while loading height map", error);
+      });
+  }
+
   #showVillage() {
     fetch(`/geometry/villages/${this.idValue}`)
       .then((response) => response.json())
@@ -49,7 +78,7 @@ export default class extends Controller {
           },
         }).addTo(this.map);
 
-        this.map.fitBounds(this.wfs_village_layer.getBounds());
+        // this.map.fitBounds(this.wfs_village_layer.getBounds());
       });
   }
 

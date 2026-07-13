@@ -4,16 +4,69 @@ export default class extends Controller {
   static values = { id: String };
 
   connect() {
-    this.showPlot();
+    this.element.classList.add("w-full", "h-full", "min-h-0");
+    this.element.style.width = "100%";
+    this.element.style.height = "100%";
+
+    this.resizePlot = () => {
+      if (this.element.querySelector(".js-plotly-plot")) {
+        Plotly.Plots.resize(this.element);
+      }
+    };
+
+    window.addEventListener("resize", this.resizePlot);
+    this.testPlot();
+    // this.showPlot();
+  }
+
+  disconnect() {
+    window.removeEventListener("resize", this.resizePlot);
+  }
+
+  testPlot() {
+    const layout = {
+      autosize: true,
+      margin: {
+        l: 0,
+        r: 0,
+        b: 0,
+        t: 0,
+      },
+      // xaxis: { scaleanchor: "y", scaleratio: 1 },
+    };
+    const config = {
+      responsive: true,
+    };
+
+    const data = [
+      {
+        type: "surface",
+        x: [1, 2, 3, 4, 5],
+        y: [1, 2, 3, 4, 5],
+        z: [
+          [1, 2, 3, 4, 5],
+          [2, 3, 4, 5, null],
+          [3, 4, 5, 6, 7],
+          [4, 5, 6, 7, null], // дырка справа внизу
+          [5, 6, 7, 8, 9],
+        ],
+        colorscale: "Viridis",
+        showscale: true,
+      },
+    ];
+
+    this.element.innerHTML = "";
+    Plotly.newPlot(this.element, data, layout, config);
   }
 
   showPlot() {
     const layout = {
+      autosize: true,
       margin: {
-        l: 20,
-        r: 50,
-        b: 20,
-        t: 30,
+        l: 0,
+        r: 0,
+        b: 0,
+        t: 0,
       },
     };
     const config = {
@@ -36,6 +89,7 @@ export default class extends Controller {
           y: height_map.y,
           z: height_map.z,
           type: "surface",
+          opacity: 0.5,
         };
         const path = {
           type: "scatter3d",
@@ -57,7 +111,11 @@ export default class extends Controller {
         };
 
         this.element.innerHTML = "";
-        Plotly.newPlot(this.element, [heights], layout, config);
+        Plotly.newPlot(this.element, [heights, path], layout, config).then(
+          () => {
+            Plotly.Plots.resize(this.element);
+          },
+        );
       })
       .catch((error) => {
         console.log("error while loading height map", error);
