@@ -27,6 +27,8 @@ gem "tailwindcss-rails", "~> 2.0"
 gem "discard", "~> 1.4"
 gem "ffaker", "~> 2.25"
 gem "redis"
+gem "shrine", "~> 3.9"
+gem "aws-sdk-s3", "~> 1.14"
 
 # serializer
 gem "oj"

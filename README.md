@@ -15,13 +15,6 @@ Rails + PostGIS (PostgreSQL) + Leaflet\
 Hotwire Turbo & Stimulus, Tailwind
 
 
-# Start
-
-```bash
-./bin/dev
-```
-
-
 # Setup
 ## install GEOS
 [rgeo doc](https://github.com/rgeo/rgeo/blob/main/doc/Installing-GEOS.md)
@@ -53,9 +46,22 @@ bundle exec rails generate strong_migrations:install
 
 # Configuration
 
+## ENV
 copy `.env.sample` to `.env` and fill the file
 
 if you wanna use other values in test environment copy `.env.sample` to `.env.test` and rewrite some variables
+
+## S3 Storage (optional) 
+configure s3/aws envs
+
+run `rake s3:local` and configure Quota for bucket
+
+
+# Start
+
+```bash
+./bin/dev
+```
 
 
 # Testing
