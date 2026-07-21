@@ -1,0 +1,42 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: chairmansmap-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+  seaweedfs:
+    image: chrislusf/seaweedfs:4.40
+    container_name: chairmansmap-seaweedfs
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      S3_BUCKET: ${S3_BUCKET}
+    ports:
+      - "8333:${S3_PORT}"
+      - "23646:23646"
+      - "9333:9333"
+    volumes:
+      - seaweedfs-data:/data
+    restart: unless-stopped
+
+  postgres:
+    image: postgis/postgis:latest
+    container_name: chairmansmap-postgis
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  redis-data:
+  postgres-data:
+  seaweedfs-data:

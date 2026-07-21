@@ -51,15 +51,10 @@ copy `.env.sample` to `.env` and fill the file
 
 if you wanna use other values in test environment copy `.env.sample` to `.env.test` and rewrite some variables
 
-## S3 Storage (optional) 
-configure s3/aws envs
-
-run `rake s3:local` and configure Quota for bucket
-
-
 # Start
 
 ```bash
+docker compose up
 ./bin/dev
 ```
 
