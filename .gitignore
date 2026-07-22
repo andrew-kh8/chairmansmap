@@ -40,3 +40,6 @@
 
 # rspec example_status_persistence_file_path
 rspec_results.txt
+
+# s3 credentials
+/s3.json

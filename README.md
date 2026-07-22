@@ -43,6 +43,11 @@ check [docs](./docs/postgis_hints.md#transform-unproject-coordinates) folder to 
 bundle exec rails generate strong_migrations:install
 ```
 
+## create s3 config
+```bash
+envsubst < s3.json.tpl > s3.json
+```
+
 
 # Configuration
 
