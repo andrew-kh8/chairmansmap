@@ -1,6 +1,8 @@
 # typed: strict
 
 class Village < ApplicationRecord
+  include CsvUploader::Attachment(:height_map)
+
   has_many :agromonitoring_tiles, dependent: :destroy
   has_many :plots, dependent: :destroy
 
