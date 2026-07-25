@@ -17,11 +17,13 @@ module Apis
       private
 
       BASE_URL = "https://portal.opentopography.org"
+      XML_CONTENT_TYPE = "application/xml"
 
       def create_connection
         Faraday.new(options, request: request_options) do |faraday|
           faraday.request :url_encoded
           faraday.response :logger
+          faraday.response :xml, content_type: XML_CONTENT_TYPE
           faraday.adapter Faraday.default_adapter
         end
       end

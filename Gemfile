@@ -52,6 +52,8 @@ gem "ffi-gdal", "~> 1.1"
 gem "faraday"
 gem "faraday-http-cache"
 gem "faraday-retry"
+gem "faraday_middleware"
+gem "multi_xml"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
