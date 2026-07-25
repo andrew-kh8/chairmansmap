@@ -33,8 +33,6 @@ module Apis
         res = @connection.get("/API/globaldem", params)
 
         if res.success?
-          # build tif from the response body
-          # build a dem file object with the tif and the demtype
           tif_file = Apis::OpenTopo::Converters::StringToTifConverter.call(res.body)
           DemFile.new(original_file: tif_file, dem_type: demtype, output_format:)
         else

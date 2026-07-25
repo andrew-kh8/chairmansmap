@@ -8,14 +8,19 @@ module Apis
         extend T::Sig
 
         DATE_TIME_FORMAT = "%F-%H-%M-%S"
+        FILE_WRITE_MODE = "wb"
 
-        sig { params(string: String).returns(Tempfile) }
+        sig { params(string: String).returns(File) }
         def self.call(string)
-          file = Tempfile.new([DateTime.now.strftime(DATE_TIME_FORMAT), ".tif"], binmode: true)
-          file.write(string)
-          file.rewind
+          File.write(filename, string, mode: FILE_WRITE_MODE)
+          File.open(filename)
+        end
 
-          file
+        private_class_method :filename
+
+        sig { returns(String) }
+        def self.filename
+          "#{DateTime.now.strftime(DATE_TIME_FORMAT)}.tif"
         end
       end
     end
