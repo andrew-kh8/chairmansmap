@@ -8,6 +8,13 @@ module Apis
       DEM_TYPE = "SRTMGL3"  # Available global raster datasets
       OUTPUT_FORMAT = "GTiff" # GTiff for GeoTiff, AAIGrid for Arc ASCII Grid, HFA for Erdas Imagine (.IMG)
 
+      class ResponseFailure < T::Struct
+        extend T::Sig
+
+        const :message, String
+        const :code, Integer
+      end
+
       def initialize(api_key = nil)
         api_key ||= ENV.fetch(API_KEY_NAME)
         @connection = Connection.new(api_key).build
@@ -20,10 +27,19 @@ module Apis
           north:,
           west:,
           east:,
-          outputFormat:
+          outputFormat: output_format
         }
 
-        @connection.get("/API/globaldem", params)
+        res = @connection.get("/API/globaldem", params)
+
+        if res.success?
+          # build tif from the response body
+          # build a dem file object with the tif and the demtype
+          tif_file = Apis::OpenTopo::Converters::StringToTifConverter.call(res.body)
+          DemFile.new(original_file: tif_file, dem_type: demtype, output_format:)
+        else
+          ResponseFailure.new(message: res.body, code: res.status)
+        end
       end
     end
   end

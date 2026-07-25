@@ -46,6 +46,7 @@ gem "rgeo", "~> 3.0"
 gem "rgeo-geojson"
 gem "rgeo-proj4"
 gem "open-weather-ruby-client"
+gem "ffi-gdal", "~> 1.1"
 
 # web
 gem "faraday"
