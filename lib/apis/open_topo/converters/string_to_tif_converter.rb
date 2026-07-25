@@ -10,18 +10,19 @@ module Apis
         DATE_TIME_FORMAT = "%F-%H-%M-%S"
         FILE_WRITE_MODE = "wb"
 
-        sig { params(string: String).returns(File) }
-        def self.call(string)
+        sig { params(string: String, filename: String).returns(File) }
+        def self.call(string, filename: nil)
+          filename ||= build_filename
           File.write(filename, string, mode: FILE_WRITE_MODE)
           File.open(filename)
         end
 
-        private_class_method :filename
-
         sig { returns(String) }
-        def self.filename
+        def self.build_filename
           "#{DateTime.now.strftime(DATE_TIME_FORMAT)}.tif"
         end
+
+        private_class_method :build_filename
       end
     end
   end

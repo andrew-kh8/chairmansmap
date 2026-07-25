@@ -26,11 +26,17 @@ module Apis
         response = @connection.get("/API/globaldem", params)
 
         if response.success?
-          tif_file = Apis::OpenTopo::Converters::StringToTifConverter.call(response.body)
+          tif_file = Apis::OpenTopo::Converters::StringToTifConverter.call(response.body, filename: filename_from_response(response))
           DemFile.new(original_file: tif_file, dem_type: demtype, output_format:)
         else
-          raise Apis::OpenTopo::ResponseError, response.body
+          raise Apis::OpenTopo::Errors::ResponseError, response.body
         end
+      end
+
+      private
+
+      def filename_from_response(response)
+        response.headers["Content-Disposition"].split("filename=").last.delete('"')
       end
     end
   end
