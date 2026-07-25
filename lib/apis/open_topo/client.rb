@@ -36,7 +36,7 @@ module Apis
       private
 
       def filename_from_response(response)
-        response.headers["Content-Disposition"].split("filename=").last.delete('"')
+        response.headers["Content-Disposition"]&.split("filename=")&.last&.delete('"')
       end
     end
   end

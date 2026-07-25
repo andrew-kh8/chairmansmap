@@ -3,18 +3,22 @@
 RSpec.describe Apis::OpenTopo::Errors::ResponseError do
   describe "#message" do
     context "when message is a hash with error key" do
-      it "uses error value from hash" do
-        error = described_class.new("error" => "Invalid API key")
+      let(:error_message) { "Invalid API key" }
 
-        expect(error.message).to eq "Invalid API key"
+      it "uses error value from hash" do
+        error = described_class.new("error" => error_message)
+
+        expect(error.message).to eq error_message
       end
     end
 
     context "when message is a plain string" do
-      it "uses the whole string" do
-        error = described_class.new("Service unavailable")
+      let(:error_message) { "Service unavailable" }
 
-        expect(error.message).to eq "Service unavailable"
+      it "uses the whole string" do
+        error = described_class.new(error_message)
+
+        expect(error.message).to eq error_message
       end
     end
 

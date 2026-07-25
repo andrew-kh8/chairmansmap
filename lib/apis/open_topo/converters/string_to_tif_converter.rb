@@ -10,7 +10,7 @@ module Apis
         DATE_TIME_FORMAT = "%F-%H-%M-%S"
         FILE_WRITE_MODE = "wb"
 
-        sig { params(string: String, filename: String).returns(File) }
+        sig { params(string: String, filename: T.nilable(String)).returns(File) }
         def self.call(string, filename: nil)
           filename ||= build_filename
           File.write(filename, string, mode: FILE_WRITE_MODE)
