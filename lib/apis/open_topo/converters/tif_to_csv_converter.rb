@@ -13,19 +13,42 @@ module Apis
         DATE_TIME_FORMAT = "%F-%H-%M-%S"
         AFFINE_TRANSFORM_PARAMS_SIZE = 6
         BAND_NUMBER = 1
+        COORD_ROUND = 14
+        FILENAME_SPLITTER = "."
+        FILENAME_EXTENSION = "csv"
+        TYPE_MAP = {
+          GDT_Byte: [:uint8, :read_array_of_uint8],
+          GDT_UInt16: [:uint16, :read_array_of_uint16],
+          GDT_Int16: [:int16, :read_array_of_short],
+          GDT_UInt32: [:uint32, :read_array_of_uint32],
+          GDT_Int32: [:int32, :read_array_of_int],
+          GDT_Float32: [:float, :read_array_of_float],
+          GDT_Float64: [:double, :read_array_of_double]
+        }
 
-        sig { params(file: File).returns(CSV) }
-        def self.call(file)
+        sig { params(file: File, csv_path: T.nilable(T.any(String, Pathname))).returns(CSV) }
+        def self.call(file, csv_path: nil)
           FFI::GDAL::GDAL.GDALAllRegister
 
           dataset = FFI::GDAL::GDAL.GDALOpen(file.path, FFI::GDAL::GDAL::Access[:GA_ReadOnly])
-          raise "cannot open" if dataset.null?
+          raise Errors::FileError.new("Cannot open or read file", file_path: file.path) if dataset.null?
 
           width = FFI::GDAL::GDAL.GDALGetRasterXSize(dataset)
           height = FFI::GDAL::GDAL.GDALGetRasterYSize(dataset)
 
           band = FFI::GDAL::GDAL.GDALGetRasterBand(dataset, BAND_NUMBER)
-          gt = geo_transform(dataset).read_array_of_double(AFFINE_TRANSFORM_PARAMS_SIZE)
+          raise Errors::GdalError.new("Cannot get raster band #{BAND_NUMBER}") if band.null?
+
+          geo_transform = FFI::MemoryPointer.new(:double, AFFINE_TRANSFORM_PARAMS_SIZE)
+          raise Errors::GdalError.new("Cannot get affine transform for raster band #{BAND_NUMBER}") if geo_transform.null?
+
+          FFI::GDAL::GDAL.GDALGetGeoTransform(dataset, geo_transform)
+          gt = geo_transform.read_array_of_double(AFFINE_TRANSFORM_PARAMS_SIZE)
+
+          data_type_symbol = FFI::GDAL::GDAL.GDALGetRasterDataType(band)
+          data_type = FFI::GDAL::GDAL::DataType[data_type_symbol]
+
+          ptr_type, reader = TYPE_MAP[data_type_symbol]
 
           origin_x = gt[0]
           pixel_width = gt[1]
@@ -34,11 +57,13 @@ module Apis
           rot_y = gt[4]
           pixel_height = gt[5]
 
-          CSV.open(csv_filename(file), "w") do |csv|
-            csv << ["x", "y", "z"]
+          csv_filename = csv_path || build_csv_filename(file)
+
+          CSV.open(csv_filename, "w") do |csv|
+            csv << ["X", "Y", "Z"]
 
             height.times do |py|
-              buf = FFI::MemoryPointer.new(:float, width)
+              buf = FFI::MemoryPointer.new(ptr_type, width)
 
               FFI::GDAL::GDAL.GDALRasterIO(
                 band,
@@ -50,25 +75,25 @@ module Apis
                 buf,
                 width,
                 1,
-                FFI::GDAL::GDAL::DataType[:GDT_Float32],
+                data_type,
                 0,
                 0
               )
 
-              row = buf.read_array_of_float(width)
+              row = buf.send(reader, width)
 
               row.each_with_index do |z, px|
-                x_geo = origin_x + px * pixel_width + py * rot_x
-                y_geo = origin_y + px * rot_y + py * pixel_height
+                x_geo = origin_x + (px + 0.5) * pixel_width + (py + 0.5) * rot_x
+                y_geo = origin_y + (px + 0.5) * rot_y + (py + 0.5) * pixel_height
 
-                csv << [x_geo, y_geo, z]
+                csv << [x_geo.round(COORD_ROUND), y_geo.round(COORD_ROUND), z]
               end
             end
           end
 
           FFI::GDAL::GDAL.GDALClose(dataset)
 
-          CSV.open(csv_filename(file), "r")
+          CSV.open(csv_filename, "r")
         end
 
         class << self
@@ -77,15 +102,11 @@ module Apis
           private
 
           sig { params(file: File).returns(String) }
-          def csv_filename(file)
-            original_filename = T.must(file.path.split("/").last).split(".").first
-            "#{original_filename}.csv"
-          end
-
-          sig { params(dataset: FFI::Pointer).returns(FFI::MemoryPointer) }
-          def geo_transform(dataset)
-            geo_transform = FFI::MemoryPointer.new(:double, AFFINE_TRANSFORM_PARAMS_SIZE)
-            FFI::GDAL::GDAL.GDALGetGeoTransform(dataset, geo_transform)
+          def build_csv_filename(file)
+            original_filename = file.path.split(FILENAME_SPLITTER)
+            original_filename.pop
+            original_filename << FILENAME_EXTENSION
+            original_filename.join(FILENAME_SPLITTER)
           end
         end
       end
