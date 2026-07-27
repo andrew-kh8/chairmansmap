@@ -4,17 +4,17 @@
 module Apis
   module OpenTopo
     module Errors
-      class FileError < StandardError
-        extend T::Sig
-
-        sig { override.params(message: String, file_path: String).void }
-        def initialize(message, file_path:)
+      class FileError < BaseError
+        sig { override.params(message: T.untyped, file_path: T.nilable(String)).void }
+        def initialize(message = "", file_path: nil)
           super(message)
           @file_path = file_path
         end
 
         sig { returns(T.nilable(File)) }
         def file
+          return nil if @file_path.nil?
+
           File.open(@file_path)
         rescue Errno::ENOENT
           nil

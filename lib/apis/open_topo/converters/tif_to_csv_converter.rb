@@ -13,10 +13,9 @@ module Apis
         DATE_TIME_FORMAT = "%F-%H-%M-%S"
         AFFINE_TRANSFORM_PARAMS_SIZE = 6
         BAND_NUMBER = 1
-        COORD_ROUND = 14
         FILENAME_SPLITTER = "."
         FILENAME_EXTENSION = "csv"
-        TYPE_MAP = {
+        TYPE_MAP = T.let({
           GDT_Byte: [:uint8, :read_array_of_uint8],
           GDT_UInt16: [:uint16, :read_array_of_uint16],
           GDT_Int16: [:int16, :read_array_of_short],
@@ -24,7 +23,7 @@ module Apis
           GDT_Int32: [:int32, :read_array_of_int],
           GDT_Float32: [:float, :read_array_of_float],
           GDT_Float64: [:double, :read_array_of_double]
-        }
+        }, T::Hash[Symbol, T::Array[Symbol]])
 
         sig { params(file: File, csv_path: T.nilable(T.any(String, Pathname))).returns(CSV) }
         def self.call(file, csv_path: nil)
@@ -49,6 +48,9 @@ module Apis
           data_type = FFI::GDAL::GDAL::DataType[data_type_symbol]
 
           ptr_type, reader = TYPE_MAP[data_type_symbol]
+          if ptr_type.nil? || reader.nil?
+            raise Errors::GdalError.new("Cannot get type name and reader for data type #{data_type_symbol}")
+          end
 
           origin_x = gt[0]
           pixel_width = gt[1]
@@ -86,14 +88,14 @@ module Apis
                 x_geo = origin_x + (px + 0.5) * pixel_width + (py + 0.5) * rot_x
                 y_geo = origin_y + (px + 0.5) * rot_y + (py + 0.5) * pixel_height
 
-                csv << [x_geo.round(COORD_ROUND), y_geo.round(COORD_ROUND), z]
+                csv << [x_geo, y_geo, z]
               end
             end
           end
 
           FFI::GDAL::GDAL.GDALClose(dataset)
 
-          CSV.open(csv_filename, "r")
+          CSV.open(csv_filename, "r", headers: true)
         end
 
         class << self

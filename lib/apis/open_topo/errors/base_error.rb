@@ -4,10 +4,12 @@
 module Apis
   module OpenTopo
     module Errors
-      class ResponseError < BaseError
+      class BaseError < StandardError
+        extend T::Sig
+
         sig { override.params(message: T.untyped).void }
         def initialize(message = "")
-          super(message.is_a?(Hash) ? message["error"] || message : message)
+          super
         end
       end
     end

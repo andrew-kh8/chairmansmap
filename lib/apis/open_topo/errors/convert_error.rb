@@ -4,7 +4,7 @@
 module Apis
   module OpenTopo
     module Errors
-      class GdalError < BaseError
+      class ConvertError < BaseError
       end
     end
   end
