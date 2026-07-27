@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require "ffi-gdal"
-require "csv"
 
 module Apis
   module OpenTopo

@@ -15,6 +15,7 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "mutex_m"
 gem "bootsnap", require: false
 gem "sidekiq"
+gem "csv"
 
 # turbo
 gem "stimulus-rails"

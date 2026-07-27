@@ -1,7 +1,5 @@
 # typed: strict
 
-require "csv"
-
 module Geo
   class PolygonHeightMap
     extend T::Sig

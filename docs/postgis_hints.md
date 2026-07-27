@@ -96,7 +96,6 @@ e.coordinates # [[11.0, 11.0], [22.0, 11.0], ...]
 
 ```ruby
 require "ffi-gdal"
-require "csv"
 
 AFFINE_TRANSFORM_PARAMS_SIZE = 6 # аффинное преобразование на плоскости описывается 6 параметрами
 BAND_NUMBER = 1 # GeoTIFF содержит один слой с высотой
