@@ -28,7 +28,7 @@ module Apis
 
       sig { returns(CSV) }
       def build_csv
-        @csv_file ||= T.let(Apis::OpenTopo::Converters::TifToCsvConverter.call(original_file), T.nilable(CSV))
+        @csv_file ||= T.let(Apis::OpenTopo::Converters::TifToCsvSimpleConverter.call(original_file), T.nilable(CSV))
         @csv_file
       end
     end
