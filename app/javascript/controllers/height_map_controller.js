@@ -30,18 +30,18 @@ export default class extends Controller {
       })
       .then((data) => {
         const height_map = data.height_map;
-        const path_coords = data.path;
 
-        const heights = {
-          x: height_map.x,
-          y: height_map.y,
-          z: height_map.z,
-          type: "surface",
-          opacity: 0.5,
-        };
+        const heights = [
+          {
+            x: height_map.x,
+            y: height_map.y,
+            z: height_map.z,
+            type: "surface",
+          },
+        ];
 
         this.element.innerHTML = "";
-        Plotly.newPlot(this.element, [heights], layout, config);
+        Plotly.newPlot(this.element, heights, layout, config);
       })
       .catch((error) => {
         console.log("error while loading height map", error);

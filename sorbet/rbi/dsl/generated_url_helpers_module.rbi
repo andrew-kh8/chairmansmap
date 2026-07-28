@@ -193,6 +193,9 @@ module GeneratedUrlHelpersModule
   def village_agromonitoring_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def village_height_map_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def village_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

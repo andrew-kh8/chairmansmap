@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resource :agromonitoring, only: [:create, :destroy] do
       post :add_tiles, on: :member
     end
+    resource :height_map, only: [:create, :destroy]
   end
 
   namespace :side_panel do

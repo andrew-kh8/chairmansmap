@@ -14,7 +14,7 @@ module Geometry
 
     sig { void }
     def height_map
-      h_map = Geo::PolygonHeightMap.call
+      h_map = Geo::PolygonHeightMap.call(Village.find(params[:id]))
       render json: Geo::HeightMapSerializer.new.serialize(h_map)
     end
   end

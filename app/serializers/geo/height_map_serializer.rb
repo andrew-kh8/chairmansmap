@@ -4,11 +4,13 @@ module Geo
   class HeightMapSerializer < Panko::Serializer
     attributes :height_map
 
+    private
+
     def height_map
       {
-        x: object.x_coords,
-        y: object.y_coords,
-        z: object.z_coords
+        x: object.x,
+        y: object.y,
+        z: object.z_matrix
       }
     end
   end
