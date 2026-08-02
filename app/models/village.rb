@@ -1,6 +1,8 @@
 # typed: strict
 
 class Village < ApplicationRecord
+  T.unsafe(self).include CsvUploader::Attachment(:height_map)
+
   has_many :agromonitoring_tiles, dependent: :destroy
   has_many :plots, dependent: :destroy
 
@@ -17,6 +19,11 @@ class Village < ApplicationRecord
   sig { returns(T::Hash[Date, T::Array[AgromonitoringTile]]) }
   def agromonitoring_tiles_by_date
     agromonitoring_tiles.order(date: :desc).group_by { |t| t.date.to_date }
+  end
+
+  sig { returns(T::Boolean) }
+  def height_map?
+    height_map.present?
   end
 
   private

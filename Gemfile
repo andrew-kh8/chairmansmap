@@ -15,6 +15,7 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "mutex_m"
 gem "bootsnap", require: false
 gem "sidekiq"
+gem "csv"
 
 # turbo
 gem "stimulus-rails"
@@ -27,6 +28,8 @@ gem "tailwindcss-rails", "~> 2.0"
 gem "discard", "~> 1.4"
 gem "ffaker", "~> 2.25"
 gem "redis"
+gem "shrine", "~> 3.9"
+gem "aws-sdk-s3", "~> 1.14"
 
 # serializer
 gem "oj"
@@ -44,11 +47,14 @@ gem "rgeo", "~> 3.0"
 gem "rgeo-geojson"
 gem "rgeo-proj4"
 gem "open-weather-ruby-client"
+gem "ffi-gdal", "~> 1.1"
 
 # web
 gem "faraday"
 gem "faraday-http-cache"
 gem "faraday-retry"
+gem "faraday_middleware"
+gem "multi_xml"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

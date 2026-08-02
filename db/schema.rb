@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_25_150606) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_22_192748) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -94,6 +94,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_150606) do
     t.string "cadastral_number"
     t.datetime "created_at", null: false
     t.geometry "geom", limit: {:srid=>3857, :type=>"multi_polygon"}
+    t.jsonb "height_map_data"
     t.string "name", null: false
     t.datetime "updated_at", null: false
     t.index ["agromonitoring_id"], name: "index_villages_on_agromonitoring_id", unique: true

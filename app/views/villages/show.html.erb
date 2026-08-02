@@ -1,3 +1,7 @@
+<head>
+    <script src="https://cdn.plot.ly/plotly-3.4.0.min.js" charset="utf-8"></script>
+</head>
+
 <div class="flex h-full min-h-0" data-controller="village" data-village-id-value="<%= village.id %>">
     <div class="w-3/5 h-full min-h-0 p-4">
         <div class="w-full h-full rounded-xl" data-village-target="map"></div>
@@ -39,8 +43,20 @@
                       method: :delete,
                       form: {data: {turbo_confirm: "Нажмите 'OK' чтобы удалить интеграцию"}} %>
             <% else %>
-                <p class="text-default-color">Агромониторинг не интегрирован</p>
-                <%= button_to "Интегрировать агромониторинг", village_agromonitoring_path(village), class: "btn-primary py-2 px-4 rounded-lg" %>
+                <div class="flex justify-between">
+                    <p class="text-default-color">Агромониторинг не интегрирован</p>
+                    <%= button_to "Интегрировать агромониторинг", village_agromonitoring_path(village), class: "btn-primary py-2 px-4 rounded-lg" %>
+                </div>
+            <% end %>
+        </section>
+
+        <section class="card space-y-4 p-6 pr-3">
+            <% if village.height_map? %>
+                <h2 class="text-xl font-semibold text-default-color mb-4">Карта высот</h2>
+                <div data-controller="height-map" data-height-map-id-value="<%= village.id %>">Загрузка...</div>
+            <% else %>
+                <p class="text-default-color">Карта высот не интегрирована</p>
+                <%= button_to "Интегрировать карту высот", village_height_map_path(village), class: "btn-primary py-2 px-4 rounded-lg" %>
             <% end %>
         </section>
     </div>

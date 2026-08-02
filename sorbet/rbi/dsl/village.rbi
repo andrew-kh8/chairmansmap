@@ -720,6 +720,51 @@ class Village
     sig { void }
     def geom_will_change!; end
 
+    sig { returns(T.untyped) }
+    def height_map_data; end
+
+    sig { params(value: T.untyped).returns(T.untyped) }
+    def height_map_data=(value); end
+
+    sig { returns(T::Boolean) }
+    def height_map_data?; end
+
+    sig { returns(T.untyped) }
+    def height_map_data_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def height_map_data_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def height_map_data_came_from_user?; end
+
+    sig { returns(T.nilable([T.untyped, T.untyped])) }
+    def height_map_data_change; end
+
+    sig { returns(T.nilable([T.untyped, T.untyped])) }
+    def height_map_data_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def height_map_data_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.untyped) }
+    def height_map_data_in_database; end
+
+    sig { returns(T.nilable([T.untyped, T.untyped])) }
+    def height_map_data_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def height_map_data_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.untyped) }
+    def height_map_data_previously_was; end
+
+    sig { returns(T.untyped) }
+    def height_map_data_was; end
+
+    sig { void }
+    def height_map_data_will_change!; end
+
     sig { returns(::String) }
     def id; end
 
@@ -868,6 +913,9 @@ class Village
     def restore_geom!; end
 
     sig { void }
+    def restore_height_map_data!; end
+
+    sig { void }
     def restore_id!; end
 
     sig { void }
@@ -902,6 +950,12 @@ class Village
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_geom?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.untyped, T.untyped])) }
+    def saved_change_to_height_map_data; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_height_map_data?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([::String, ::String])) }
     def saved_change_to_id; end
@@ -983,6 +1037,9 @@ class Village
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_geom?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_height_map_data?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end

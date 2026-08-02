@@ -15,13 +15,6 @@ Rails + PostGIS (PostgreSQL) + Leaflet\
 Hotwire Turbo & Stimulus, Tailwind
 
 
-# Start
-
-```bash
-./bin/dev
-```
-
-
 # Setup
 ## install GEOS
 [rgeo doc](https://github.com/rgeo/rgeo/blob/main/doc/Installing-GEOS.md)
@@ -50,12 +43,25 @@ check [docs](./docs/postgis_hints.md#transform-unproject-coordinates) folder to 
 bundle exec rails generate strong_migrations:install
 ```
 
+## create s3 config
+```bash
+envsubst < s3.json.tpl > s3.json
+```
+
 
 # Configuration
 
+## ENV
 copy `.env.sample` to `.env` and fill the file
 
 if you wanna use other values in test environment copy `.env.sample` to `.env.test` and rewrite some variables
+
+# Start
+
+```bash
+docker compose up
+./bin/dev
+```
 
 
 # Testing
